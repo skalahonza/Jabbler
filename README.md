@@ -11,5 +11,3 @@ Android client for jabber communication protocol.
 * chatování
 * smajlíci v chatu
 * odhlášení užiatele
-[] test
-[x] test1
