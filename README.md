@@ -14,3 +14,6 @@ Android client for jabber communication protocol.
 ## Features (optional)
 * videokonference
 * posílání souborů
+ 
+## Used libraries/frameworks
+...
