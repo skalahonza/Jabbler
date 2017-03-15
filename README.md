@@ -1,6 +1,6 @@
 # Jabbler
 Android client for jabber communication protocol.
-[Server repo](https://gitlab.fel.cvut.cz/dashboard/projects)
+[Server repo](https://gitlab.fel.cvut.cz/skalaja7/JabblerServer)
 
 
 ## Features (planned)
