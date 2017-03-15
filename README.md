@@ -11,6 +11,4 @@ Android client for jabber communication protocol.
 * hovory
 * chatování
 * smajlíci v chatu
-* odhlášení užiatele
-* videokonference
-* posílání souborů
+* odhlášení uživatele
