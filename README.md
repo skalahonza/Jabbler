@@ -1,5 +1,7 @@
 # Jabbler
 Android client for jabber communication protocol.
+[Server repo](https://gitlab.fel.cvut.cz/dashboard/projects)
+
 
 ## Features (planned)
 * přihlášení uživatele (+ zapamatování přihlášení)
