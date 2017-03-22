@@ -10,7 +10,6 @@ Android client for jabber communication protocol.
 * history saving, locally and remotely
 * calls
 * chat
-* chat emoticons
 * user logout
 
 ## Used libraries/frameworks
