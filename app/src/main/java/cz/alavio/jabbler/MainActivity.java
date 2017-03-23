@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        //Select first - home item
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     @Override
@@ -84,17 +86,12 @@ public class MainActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_home:
-                toolbar.setTitle("Home");
-                // Handle the camera action
                 break;
             case R.id.nav_contacts:
-                toolbar.setTitle("Contacts");
                 break;
             case R.id.nav_settings:
-                toolbar.setTitle("Settings");
                 break;
             case R.id.nav_about:
-                toolbar.setTitle("About");
                 break;
         }
 
