@@ -15,12 +15,12 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -83,17 +83,18 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.nav_camera:
+            case R.id.nav_home:
+                toolbar.setTitle("Home");
                 // Handle the camera action
                 break;
-            case R.id.nav_gallery:
-
+            case R.id.nav_contacts:
+                toolbar.setTitle("Contacts");
                 break;
-            case R.id.nav_slideshow:
-
+            case R.id.nav_settings:
+                toolbar.setTitle("Settings");
                 break;
-            case R.id.nav_manage:
-
+            case R.id.nav_about:
+                toolbar.setTitle("About");
                 break;
         }
 
