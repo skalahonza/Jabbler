@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_settings:
                 break;
             case R.id.nav_about:
-                //fragment = new AboutFragment();
+                fragment = new AboutFragment();
                 break;
         }
 
