@@ -1,0 +1,65 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cz.alavio.jabbler.AboutFragment">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            style="@style/PageHeader"
+            android:text="About the app" />
+        <TextView
+            style="@style/PageContent"
+            android:text="Lorem ipsum dolor sit amet, nihil novus sub sole, inter arma silne musae." />
+        <TextView
+            style="@style/PageHeader"
+            android:text="Features" />
+        <CheckBox
+            style="@style/FeatureCheck"
+            android:text="Authentication"
+            android:checked="true"/>
+        <CheckBox
+            style="@style/FeatureCheck"
+            android:text="Hisory"
+            android:checked="true"/>
+        <CheckBox
+            style="@style/FeatureCheck"
+            android:text="Groups"
+            android:checked="false"/>
+        <CheckBox
+            style="@style/FeatureCheck"
+            android:text="Rooms"
+            android:checked="false"/>
+        <CheckBox
+            style="@style/FeatureCheck"
+            android:text="Encryption"
+            android:checked="false"/>
+        <CheckBox
+            style="@style/FeatureCheck"
+            android:text="Calls"
+            android:checked="false"/>
+        <CheckBox
+            style="@style/FeatureCheck"
+            android:text="Chat"
+            android:checked="false"/>
+        <TextView
+            style="@style/PageHeader"
+            android:text="Server" />
+        <TextView
+            style="@style/PageContent"
+            android:text="Alavio.eu" />
+        <TextView
+            style="@style/PageHeader"
+            android:text="Authors" />
+        <TextView
+            style="@style/PageContent"
+            android:text="© 2017 Michal Filo, Jan Skála, All rights reserved" />
+    </LinearLayout>
+    </ScrollView>
+</FrameLayout>
