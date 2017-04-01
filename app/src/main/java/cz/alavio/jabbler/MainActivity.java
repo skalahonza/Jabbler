@@ -2,7 +2,6 @@ package cz.alavio.jabbler;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -61,7 +60,11 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            //TODO open settings page
+            Fragment fragment = new SettingsScreen();
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
             return true;
         }
 
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_contacts:
                 break;
             case R.id.nav_settings:
+                fragment = new SettingsScreen();
                 break;
             case R.id.nav_about:
                 fragment = new AboutFragment();
