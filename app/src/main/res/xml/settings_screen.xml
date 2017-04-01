@@ -26,6 +26,9 @@
         android:key="notificationSound"
         android:title="Notification sound"
         android:summary="Choose sound for the chat notifications"
+        android:showSilent="true"
+        android:defaultValue="content://settings/system/notification_sound"
+        android:showDefault="true"
         android:ringtoneType="notification"/>
 
     <SwitchPreference
