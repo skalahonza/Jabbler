@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-        android:title="App settings">
-
         <SwitchPreference
             android:key="convertEmoticons"
             android:title="Convert Emoticons"
@@ -14,19 +11,21 @@
             android:key="backgroundNotifications"
             android:title="Background notifications"
             android:summary="Turn on, if you want to be notified about even when the app runs in abckground."
+            android:defaultValue="true"
             android:textOn="On"
             android:textOff="Off"/>
 
         <SwitchPreference
-            android:key="notificationVibration"
+            android:key="notificationVibrations"
             android:title="Notification vibration"
+            android:defaultValue="true"
             android:textOn="On"
             android:textOff="Off"/>
 
         <SwitchPreference
-            android:key="loginAutomatically"
+            android:key="logInAutomatically"
             android:title="Login automatically"
+            android:defaultValue="true"
             android:textOn="On"
             android:textOff="Off"/>
-    </PreferenceCategory>
 </PreferenceScreen>

@@ -5,58 +5,63 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 /**
- * Created by Jan Skála on 30.03.2017.
+ * Static settings helper for safe access to SharedPreferences
  */
-
 public final class SettingsHandler {
-    public static Boolean getConvertEmoticons() {
-        return convertEmoticons;
-    }
-
-    public static void setConvertEmoticons(Boolean convertEmoticons) {
-        SettingsHandler.convertEmoticons = convertEmoticons;
-    }
-
-    public static Boolean getLogInAutomatically() {
-        return logInAutomatically;
-    }
-
-    public static void setLogInAutomatically(Boolean logInAutomatically) {
-        SettingsHandler.logInAutomatically = logInAutomatically;
-    }
-
-    public static Boolean getBackgroundNotifications() {
-        return backgroundNotifications;
-    }
-
-    public static void setBackgroundNotifications(Boolean backgroundNotifications) {
-        SettingsHandler.backgroundNotifications = backgroundNotifications;
-    }
-
-    public static Boolean getNotificationVibrations() {
-        return notificationVibrations;
-    }
-
-    public static void setNotificationVibrations(Boolean notificationVibrations) {
-        SettingsHandler.notificationVibrations = notificationVibrations;
-    }
-
-    private static Boolean convertEmoticons;
-    private static Boolean logInAutomatically;
-    private static Boolean backgroundNotifications;
-    private static Boolean notificationVibrations;
-
-
     private static SharedPreferences sp;
+    private static SharedPreferences.Editor editor;
 
-    private static void initSettings(Context context){
+    public static Boolean getConvertEmoticons(Context context) {
+        initReader(context);
+        return sp.getBoolean("convertEmoticons",true);
+    }
+
+    public static void setConvertEmoticons(Boolean convertEmoticons, Context context) {
+        initWriter(context);
+        editor.putBoolean("convertEmoticons",convertEmoticons);
+        editor.commit();
+    }
+
+    public static Boolean getLogInAutomatically(Context context) {
+        initReader(context);
+        return sp.getBoolean("logInAutomatically",true);
+    }
+
+    public static void setLogInAutomatically(Boolean logInAutomatically, Context context) {
+        initWriter(context);
+        editor.putBoolean("logInAutomatically",logInAutomatically);
+        editor.commit();
+    }
+
+    public static Boolean getBackgroundNotifications(Context context) {
+        initReader(context);
+        return sp.getBoolean("backgroundNotifications",true);
+    }
+
+    public static void setBackgroundNotifications(Boolean backgroundNotifications, Context context) {
+        initWriter(context);
+        editor.putBoolean("backgroundNotifications",backgroundNotifications);
+        editor.commit();
+    }
+
+    public static Boolean getNotificationVibrations(Context context) {
+        initReader(context);
+        return sp.getBoolean("notificationVibrations",true);
+    }
+
+    public static void setNotificationVibrations(Boolean notificationVibrations, Context context) {
+        initWriter(context);
+        editor.putBoolean("notificationVibrations",notificationVibrations);
+        editor.commit();
+    }
+
+    private static void initReader(Context context){
         sp = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public static void setByKey(String key, Object data ,Context context){
-        initSettings(context);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString(key,data.toString());
-        editor.apply();
+    private static void initWriter(Context context){
+        sp = PreferenceManager.getDefaultSharedPreferences(context);
+        editor = sp.edit();
+
     }
 }
