@@ -1,7 +1,9 @@
 package cz.alavio.jabbler.Models;
 
+import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 
 /**
@@ -53,6 +55,11 @@ public final class SettingsHandler {
         initWriter(context);
         editor.putBoolean("notificationVibrations",notificationVibrations);
         editor.commit();
+    }
+
+    public static String getNotificationSound(Context context){
+        initReader(context);
+        return sp.getString("notificationSound", "DEFAULT_SOUND");
     }
 
     private static void initReader(Context context){
