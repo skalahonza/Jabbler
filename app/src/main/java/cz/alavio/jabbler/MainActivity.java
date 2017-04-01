@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
         }
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, fragment)
+                    .addToBackStack(null)
                     .commit();
             return true;
         }
@@ -74,7 +77,6 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        //TODO Implement navigation service
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment fragment = null;
@@ -95,6 +97,7 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
+                .addToBackStack(null)
                 .commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
