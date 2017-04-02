@@ -15,3 +15,4 @@ Android client for jabber communication protocol.
 ## Used libraries/frameworks
 * <a href="http://jakewharton.github.io/butterknife/" target="_blank">Butterknife</a>
 * <a href="https://developer.android.com/topic/libraries/data-binding/index.html" target="_blank">Data binding</a>
+* <a href="https://developer.android.com/design/material/index.html" target="_blank">Material design</a>
