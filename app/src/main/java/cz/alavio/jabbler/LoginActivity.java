@@ -3,6 +3,8 @@ package cz.alavio.jabbler;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -49,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
+            "foo@alavio.eu:hello", "bar@example.com:world"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -145,7 +147,7 @@ public class LoginActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password,this);
             mAuthTask.execute((Void) null);
         }
     }
@@ -186,6 +188,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    public void onRegisterClick(View v){
+        startActivity(new Intent(this,RegistrationActivity.class));
+    }
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -194,10 +199,12 @@ public class LoginActivity extends AppCompatActivity {
 
         private final String mEmail;
         private final String mPassword;
+        private final Context context;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, Context context) {
             mEmail = email;
             mPassword = password;
+            this.context = context;
         }
 
         @Override
@@ -233,6 +240,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if (success) {
                 //TODO User logged in
+                startActivity(new Intent(context,MainActivity.class));
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

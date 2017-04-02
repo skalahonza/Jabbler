@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:key="convertEmoticons"
+        android:summary="Convert emoticons in chat messages"
+        android:textOff="Off"
+        android:textOn="On"
+        android:title="Convert Emoticons" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="backgroundNotifications"
+        android:summary="Turn on, if you want to be notified about even when the app runs in abckground."
+        android:textOff="Off"
+        android:textOn="On"
+        android:title="Background notifications" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="notificationVibrations"
+        android:textOff="Off"
+        android:textOn="On"
+        android:title="Notification vibration" />
+
+    <RingtonePreference
+        android:key="notificationSound"
+        android:title="Notification sound"
+        android:summary="Choose sound for the chat notifications"
+        android:showSilent="true"
+        android:defaultValue="content://settings/system/notification_sound"
+        android:showDefault="true"
+        android:ringtoneType="notification"/>
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="logInAutomatically"
+        android:textOff="Off"
+        android:textOn="On"
+        android:title="Login automatically" />
+
+</PreferenceScreen>
