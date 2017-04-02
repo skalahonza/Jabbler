@@ -20,4 +20,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="login">Login</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="register">Register</string>
+    <string name="alavio_eu">\u0040alavio.eu</string>
 </resources>

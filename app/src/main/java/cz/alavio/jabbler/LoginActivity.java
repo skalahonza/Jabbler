@@ -188,6 +188,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    public void onRegisterClick(View v){
+        startActivity(new Intent(this,RegistrationActivity.class));
+    }
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
