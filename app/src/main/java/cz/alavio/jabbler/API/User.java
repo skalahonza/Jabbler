@@ -5,8 +5,26 @@ package cz.alavio.jabbler.API;
  */
 
 public class User {
+
+    public User(String username, String name, String surname) {
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+    }
+
     private String username;
     private String name;
     private String surname;
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
 }

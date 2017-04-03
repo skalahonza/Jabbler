@@ -3,9 +3,9 @@ package cz.alavio.jabbler.Models;
 import cz.alavio.jabbler.API.User;
 
 /**
- * Created by Jan Skála on 23.03.2017.
+ * Class that holds dta, that could reqeusted from any scope of the app
  */
 
 public final class AppContext {
-    private static User currentUser;
+    public static User currentUser = null;
 }
