@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         switch (id) {
             case R.id.nav_home:
+                fragment = new HomeFragment();
                 break;
             case R.id.nav_contacts:
                 break;
