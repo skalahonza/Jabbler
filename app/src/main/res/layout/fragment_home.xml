@@ -1,0 +1,35 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cz.alavio.jabbler.HomeFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/BlockHeader"
+            android:text="Chat feed" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/sports_array">
+        </ListView>
+
+        <android.support.design.widget.FloatingActionButton
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginTop="-40dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_expand_more_black_24dp" />
+
+        <TextView
+            style="@style/BlockHeader"
+            android:text="Favourite contacts" />
+    </LinearLayout>
+</FrameLayout>

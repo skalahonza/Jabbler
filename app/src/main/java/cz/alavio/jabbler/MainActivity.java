@@ -31,7 +31,12 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //Select first - home item
+
         navigationView.getMenu().getItem(0).setChecked(true);
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, new HomeFragment())
+                .commit();
     }
 
     @Override
@@ -82,6 +87,7 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         switch (id) {
             case R.id.nav_home:
+                fragment = new HomeFragment();
                 break;
             case R.id.nav_contacts:
                 break;
