@@ -30,6 +30,35 @@
         <item>Chess</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="sample_contacts">
+        <item>John Doe</item>
+        <item>Jane Doe</item>
+        <item>Vlad Vladimir</item>
+        <item>Freddy Kruger</item>
+    </string-array>
+
+    <string-array name="sample_contacts_more">
+        <item>Frank	Alsop</item>
+        <item>Gabrielle	Pullman</item>
+        <item>Irene	Paterson</item>
+        <item>Joanne	Langdon</item>
+        <item>Gordon	Campbell</item>
+        <item>Tracey	Burgess</item>
+        <item>Samantha	Forsyth</item>
+        <item>Joanne	Payne</item>
+        <item>Brandon	Marshall</item>
+        <item>Neil	Sharp</item>
+        <item>Peter	Forsyth</item>
+        <item>Oliver	Springer</item>
+        <item>Anthony	Morgan</item>
+        <item>Irene	MacDonald</item>
+        <item>Faith	Johnston</item>
+        <item>Ruth	Hughes</item>
+        <item>Tracey	Fisher</item>
+        <item>Una	Parr</item>
+        <item>Megan	Reid</item>
+        <item>Katherine	Wilson</item>
+    </string-array>
+
+
 </resources>

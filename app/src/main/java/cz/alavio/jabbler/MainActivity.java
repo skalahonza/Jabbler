@@ -98,6 +98,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_about:
                 fragment = new AboutFragment();
                 break;
+            case R.id.nav_contacts:
+                fragment = new ContactsFragment();
+                break;
             default:
                 return true;
         }
