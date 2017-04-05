@@ -1,3 +1,5 @@
+package cz.alavio.jabbler;
+
 import android.app.Application;
 import android.os.Environment;
 
@@ -10,7 +12,7 @@ import cz.alavio.jabbler.Models.AppContext;
  * Global app launcher handler
  */
 
-public class AppLauncher extends Application {
+public class Jabbler extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
