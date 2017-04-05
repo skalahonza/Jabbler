@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_home:
                 fragment = new HomeFragment();
                 break;
-            case R.id.nav_contacts:
+            case R.id.nav_history:
+                fragment = new HistoryFragment();
                 break;
             case R.id.nav_settings:
                 fragment = new SettingsScreen();
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_about:
                 fragment = new AboutFragment();
                 break;
+            default:
+                return true;
         }
 
         // Insert the fragment by replacing any existing fragment
