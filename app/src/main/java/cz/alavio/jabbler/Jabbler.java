@@ -2,6 +2,7 @@ package cz.alavio.jabbler;
 
 import android.app.Application;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,17 +37,19 @@ public class Jabbler extends Application {
             try{
                 //clearing -c
                 Process process = Runtime.getRuntime().exec("logcat -c");
-
                 process = Runtime.getRuntime().exec("logcat -f " + logFile + ":S MyActivity:D MyActivity2:D");
+                Log.d(this.getClass().getName(),"Logger is on.");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         else if(AppContext.isExternalStorageReadable()){
-            //TODO handle only readable
+            //Handle only readable
+            Log.e(this.getClass().getName(),"File system is read only,");
         }
         else{
-            //TODO handle not authorized
+            //Handle not authorized
+            Log.e(this.getClass().getName(),"Cannot access file system for reading or writting.");
         }
     }
 }
