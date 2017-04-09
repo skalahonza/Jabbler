@@ -22,6 +22,7 @@
     <string name="confirm_password">Confirm password</string>
     <string name="register">Register</string>
     <string name="alavio_eu">\u0040alavio.eu</string>
+    <string name="password_empty">Password is empty</string>
 
     <string-array name="sports_array">
         <item>Shuttle Badminton</item>

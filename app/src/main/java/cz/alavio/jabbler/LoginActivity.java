@@ -5,43 +5,21 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnEditorAction;
 import cz.alavio.jabbler.API.ApiHandler;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
@@ -53,10 +31,12 @@ public class LoginActivity extends AppCompatActivity {
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    @BindView(R.id.email) AutoCompleteTextView mEmailView;
-    @BindView(R.id.password) EditText mPasswordView;
-    @BindView(R.id.login_progress) ProgressBar mProgressView;
-    private Button mLoginButton;
+    @BindView(R.id.email)
+    AutoCompleteTextView mEmailView;
+    @BindView(R.id.password)
+    EditText mPasswordView;
+    @BindView(R.id.login_progress)
+    ProgressBar mProgressView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
      * errors are presented and no actual login attempt is made.
      */
     @OnClick(R.id.email_sign_in_button)
-     void attemptLogin() {
+    void attemptLogin() {
         if (mAuthTask != null) {
             return;
         }
@@ -95,8 +75,8 @@ public class LoginActivity extends AppCompatActivity {
         View focusView = null;
 
         //Check empty password
-        if(TextUtils.isEmpty(password)){
-            mPasswordView.setError("Password is empty");
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.password_empty));
             focusView = mPasswordView;
             cancel = true;
         }
@@ -120,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password,this);
+            mAuthTask = new UserLoginTask(email, password, this);
             mAuthTask.execute((Void) null);
         }
     }
@@ -138,33 +118,28 @@ public class LoginActivity extends AppCompatActivity {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-        }
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        mProgressView.animate().setDuration(shortAnimTime).alpha(
+                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
     @OnClick(R.id.register_button)
-    void onRegisterClick(){
-        startActivity(new Intent(this,RegistrationActivity.class));
+    void onRegisterClick() {
+        startActivity(new Intent(this, RegistrationActivity.class));
     }
+
     /**
-     * Represents an asynchronous login/registration task used to authenticate
+     * Represents an asynchronous login task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
         private final String mPassword;
@@ -181,10 +156,12 @@ public class LoginActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             // attempt authentication against a network service.
             ApiHandler handler = new ApiHandler();
-            return handler.login(mEmail,mPassword);
+            return handler.login(mEmail, mPassword);
         }
 
-        /** Result of the call
+        /**
+         * Handles the result of the call
+         *
          * @param success
          */
         @Override
@@ -193,14 +170,18 @@ public class LoginActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
-                //TODO User logged in
-                startActivity(new Intent(context,MainActivity.class));
+                //User logged in
+                startActivity(new Intent(context, MainActivity.class));
             } else {
+                //Wrong credentials
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
         }
 
+        /**
+         * Handles the task cancellation
+         */
         @Override
         protected void onCancelled() {
             mAuthTask = null;
