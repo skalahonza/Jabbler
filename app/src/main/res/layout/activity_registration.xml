@@ -46,7 +46,7 @@
             android:maxLines="1" />
 
         <EditText
-            android:id="@+id/passwordConfirm"
+            android:id="@+id/confirm_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/confirm_password"
@@ -56,8 +56,8 @@
             android:inputType="textPassword"
             android:maxLines="1" />
     <Button
+        android:id="@+id/register_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/register"
-        android:onClick="onRegisterClick"/>
+        android:text="@string/register" />
     </LinearLayout>
