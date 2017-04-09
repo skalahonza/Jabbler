@@ -15,6 +15,7 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,12 +65,10 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Fragment fragment = new SettingsScreen();
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .addToBackStack(null)
-                    .commit();
+            //if settings not already displayed
+            Fragment settings = new SettingsScreen();
+            if (!isFragmentDisplayed(settings))
+                navigate(settings, true);
             return true;
         }
 
@@ -90,7 +89,10 @@ public class MainActivity extends AppCompatActivity
                 fragment = new HistoryFragment();
                 break;
             case R.id.nav_settings:
-                fragment = new SettingsScreen();
+                //If settings already displayed, end method
+                Fragment settings = new SettingsScreen();
+                if (!isFragmentDisplayed(settings))
+                    fragment = settings;
                 break;
             case R.id.nav_about:
                 fragment = new AboutFragment();
@@ -98,19 +100,18 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_contacts:
                 fragment = new ContactsFragment();
                 break;
-            default:
-                return true;
         }
 
-        navigate(fragment,true);
+        if (fragment != null)
+            navigate(fragment, true);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    private void navigate(Fragment fragment){
-        navigate(fragment,false);
+    private void navigate(Fragment fragment) {
+        navigate(fragment, false);
     }
 
     private void navigate(Fragment fragment, boolean saveInBackStack) {
@@ -121,11 +122,15 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.content_frame, fragment)
                     .addToBackStack(null)
                     .commit();
-        }
-        else{
+        } else {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, fragment)
                     .commit();
         }
+    }
+
+    private boolean isFragmentDisplayed(Fragment fragment) {
+        Fragment f = getFragmentManager().findFragmentById(R.id.content_frame);
+        return f.getClass() == fragment.getClass();
     }
 }
