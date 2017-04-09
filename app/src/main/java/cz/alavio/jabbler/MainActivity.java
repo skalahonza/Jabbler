@@ -12,31 +12,32 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.drawer_layout) DrawerLayout drawer;
+    @BindView(R.id.nav_view) NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //Select first - home item
-
         navigationView.getMenu().getItem(0).setChecked(true);
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, new HomeFragment())
-                .commit();
+        navigate(new HomeFragment());
     }
 
     @Override
@@ -67,12 +68,10 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Fragment fragment = new SettingsScreen();
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .addToBackStack(null)
-                    .commit();
+            //if settings not already displayed
+            Fragment settings = new SettingsScreen();
+            if (!isFragmentDisplayed(settings))
+                navigate(settings, true);
             return true;
         }
 
@@ -93,7 +92,10 @@ public class MainActivity extends AppCompatActivity
                 fragment = new HistoryFragment();
                 break;
             case R.id.nav_settings:
-                fragment = new SettingsScreen();
+                //If settings already displayed, end method
+                Fragment settings = new SettingsScreen();
+                if (!isFragmentDisplayed(settings))
+                    fragment = settings;
                 break;
             case R.id.nav_about:
                 fragment = new AboutFragment();
@@ -101,19 +103,37 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_contacts:
                 fragment = new ContactsFragment();
                 break;
-            default:
-                return true;
         }
 
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .addToBackStack(null)
-                .commit();
+        if (fragment != null)
+            navigate(fragment, true);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void navigate(Fragment fragment) {
+        navigate(fragment, false);
+    }
+
+    private void navigate(Fragment fragment, boolean saveInBackStack) {
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getFragmentManager();
+        if (saveInBackStack) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
+        }
+    }
+
+    private boolean isFragmentDisplayed(Fragment fragment) {
+        Fragment f = getFragmentManager().findFragmentById(R.id.content_frame);
+        return f.getClass() == fragment.getClass();
     }
 }
