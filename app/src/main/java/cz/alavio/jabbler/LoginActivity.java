@@ -38,6 +38,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnEditorAction;
 import cz.alavio.jabbler.API.ApiHandler;
 
 import static android.Manifest.permission.READ_CONTACTS;
