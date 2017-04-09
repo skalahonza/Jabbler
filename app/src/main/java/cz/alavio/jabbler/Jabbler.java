@@ -35,7 +35,7 @@ public class Jabbler extends Application {
 
             //clear previous and write a new one
             try{
-                //clearing -c
+                //clearing -cgit
                 Process process = Runtime.getRuntime().exec("logcat -c");
                 process = Runtime.getRuntime().exec("logcat -f " + logFile + ":S MyActivity:D MyActivity2:D");
                 Log.d(this.getClass().getName(),"Logger is on.");
