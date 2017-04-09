@@ -33,10 +33,7 @@ public class MainActivity extends AppCompatActivity
         //Select first - home item
 
         navigationView.getMenu().getItem(0).setChecked(true);
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, new HomeFragment())
-                .commit();
+        navigate(new HomeFragment());
     }
 
     @Override
@@ -105,15 +102,30 @@ public class MainActivity extends AppCompatActivity
                 return true;
         }
 
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .addToBackStack(null)
-                .commit();
+        navigate(fragment,true);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void navigate(Fragment fragment){
+        navigate(fragment,false);
+    }
+
+    private void navigate(Fragment fragment, boolean saveInBackStack) {
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getFragmentManager();
+        if (saveInBackStack) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+        else{
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
+        }
     }
 }
