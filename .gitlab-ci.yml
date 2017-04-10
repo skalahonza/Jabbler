@@ -1,16 +1,21 @@
-image: registry.gitlab.com/showcheap/android-ci:latest
+image: jangrewe/gitlab-ci-android
+
+stages:
+- build
+
 before_script:
-    - export GRADLE_USER_HOME=`pwd`/.gradle
-    - chmod +x ./gradlew
+- export GRADLE_USER_HOME=$(pwd)/.gradle
+- chmod +x ./gradlew
+
 cache:
+  key: ${CI_PROJECT_ID}
   paths:
-     - .gradle/wrapper
-     - .gradle/caches
+  - .gradle/
+
 build:
   stage: build
   script:
-     - ./gradlew assemble --debug
-test:
-  stage: test
-  script:
-     - ./gradlew check
+  - ./gradlew assembleDebug
+  artifacts:
+    paths:
+    - app/build/outputs/apk/app-debug.apk
