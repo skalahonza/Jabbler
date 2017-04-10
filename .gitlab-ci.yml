@@ -15,7 +15,7 @@ cache:
 build:
   stage: build
   script:
-  - ./gradlew assembleDebug
+  - ./gradlew assembleDebug --stacktrace --debug
   artifacts:
     paths:
     - app/build/outputs/apk/app-debug.apk
