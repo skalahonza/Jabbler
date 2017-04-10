@@ -9,7 +9,7 @@ cache:
 build:
   stage: build
   script:
-     - ./gradlew assemble
+     - ./gradlew assemble --debug
 test:
   stage: test
   script:
