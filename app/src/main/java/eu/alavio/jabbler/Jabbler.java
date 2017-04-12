@@ -17,7 +17,6 @@ public class Jabbler extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        initXMPP();
         initLogger();
     }
 
@@ -56,9 +55,5 @@ public class Jabbler extends Application {
             //Handle not authorized
             Log.e(this.getClass().getName(),"Cannot access file system for reading or writting.");
         }
-    }
-
-    private void initXMPP(){
-
     }
 }

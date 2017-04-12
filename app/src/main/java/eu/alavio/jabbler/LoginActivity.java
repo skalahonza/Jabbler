@@ -155,8 +155,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             // attempt authentication against a network service.
-            ApiHandler handler = new ApiHandler();
-            return handler.login(mEmail, mPassword);
+            return ApiHandler.login(mEmail, mPassword);
         }
 
         /**

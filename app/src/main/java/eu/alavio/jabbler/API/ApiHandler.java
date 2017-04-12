@@ -6,7 +6,7 @@ import eu.alavio.jabbler.Models.AppContext;
  * Secures the communication with the server
  */
 
-public class ApiHandler {
+public final class ApiHandler {
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -21,12 +21,12 @@ public class ApiHandler {
      * @param password user password, non encrypted, will be encrypted in the function
      * @return true if the login was successful, false if the credentials are wrong
      */
-    public boolean login(String username, String password){
+    public static boolean login(String username, String password){
 
         return mockupLofin(username,password);
     }
 
-    public boolean mockupLofin(String username, String password){
+    public static boolean mockupLofin(String username, String password){
         //mockup login
         try {
             Thread.sleep(2000);
@@ -40,7 +40,7 @@ public class ApiHandler {
                 // Account exists, return true if the password matches.
                 boolean result = pieces[1].equals(password);
                 if(result){
-                    AppContext.currentUser = new User(username,"John","Doe");
+                    //User logged in
                 }
                 return result;
             }
