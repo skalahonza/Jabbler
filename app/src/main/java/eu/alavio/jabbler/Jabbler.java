@@ -1,4 +1,4 @@
-package cz.alavio.jabbler;
+package eu.alavio.jabbler;
 
 import android.app.Application;
 import android.os.Environment;
@@ -7,7 +7,7 @@ import android.util.Log;
 import java.io.File;
 import java.io.IOException;
 
-import cz.alavio.jabbler.Models.AppContext;
+import eu.alavio.jabbler.Models.AppContext;
 
 /**
  * Global app launcher handler

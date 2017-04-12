@@ -1,4 +1,4 @@
-package cz.alavio.jabbler;
+package eu.alavio.jabbler;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -19,7 +19,7 @@ import android.widget.ProgressBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cz.alavio.jabbler.API.ApiHandler;
+import eu.alavio.jabbler.API.ApiHandler;
 
 /**
  * A login screen that offers login via email/password.

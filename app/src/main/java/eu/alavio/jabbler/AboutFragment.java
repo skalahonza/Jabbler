@@ -1,4 +1,4 @@
-package cz.alavio.jabbler;
+package eu.alavio.jabbler;
 
 
 import android.app.Fragment;
@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryFragment extends Fragment {
+public class AboutFragment extends Fragment {
 
 
-    public HistoryFragment() {
+    public AboutFragment() {
         // Required empty public constructor
     }
 
@@ -23,7 +23,7 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false);
+        return inflater.inflate(R.layout.fragment_about, container, false);
     }
 
 }

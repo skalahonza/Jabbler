@@ -1,8 +1,8 @@
-package cz.alavio.jabbler.Models;
+package eu.alavio.jabbler.Models;
 
 import android.os.Environment;
 
-import cz.alavio.jabbler.API.User;
+import eu.alavio.jabbler.API.User;
 
 /**
  * Class that holds dta, that could reqeusted from any scope of the app

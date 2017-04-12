@@ -1,4 +1,4 @@
-package cz.alavio.jabbler;
+package eu.alavio.jabbler;
 
 import org.junit.Test;
 

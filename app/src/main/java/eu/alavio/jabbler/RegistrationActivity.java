@@ -1,4 +1,4 @@
-package cz.alavio.jabbler;
+package eu.alavio.jabbler;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

@@ -1,6 +1,6 @@
-package cz.alavio.jabbler.API;
+package eu.alavio.jabbler.API;
 
-import cz.alavio.jabbler.Models.AppContext;
+import eu.alavio.jabbler.Models.AppContext;
 
 /**
  * Secures the communication with the server
@@ -12,8 +12,10 @@ public class ApiHandler {
      * A dummy authentication store containing known user names and passwords.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@alavio.eu:hello", "bar@example.com:world"
+            "test@alavio.eu:Test12345", "bar@example.com:world"
     };
+
+
 
     /** Perfroms login task communicating with the jabber server
      * @param username username ending wth @server_doman.example
@@ -21,6 +23,11 @@ public class ApiHandler {
      * @return true if the login was successful, false if the credentials are wrong
      */
     public  boolean login(String username, String password){
+
+        return mockupLofin(username,password);
+    }
+
+    public boolean mockupLofin(String username, String password){
         //mockup login
         try {
             Thread.sleep(2000);
