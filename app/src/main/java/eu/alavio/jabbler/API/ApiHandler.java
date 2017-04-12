@@ -1,7 +1,12 @@
 package eu.alavio.jabbler.API;
 
+import android.util.Log;
+
+import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.tcp.XMPPTCPConnection;
+import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 
 import java.io.IOException;
 
@@ -20,6 +25,31 @@ public final class ApiHandler {
             "test@alavio.eu:Test12345", "bar@example.com:world"
     };
 
+    private static final String DOMAIN = "alavio.eu";
+    private static final String HOST = "alavio.eu";
+    private static final int PORT = 5222;
+
+    private static XMPPTCPConnection connection;
+
+    private static boolean initConnection(String username, String password) throws IOException, XMPPException, SmackException {
+        try {
+            XMPPTCPConnectionConfiguration.Builder configBuilder = XMPPTCPConnectionConfiguration.builder();
+            configBuilder.setUsernameAndPassword(username, password);
+            configBuilder.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
+            configBuilder.setResource("Android");
+            configBuilder.setServiceName(DOMAIN);
+            configBuilder.setHost(HOST);
+            configBuilder.setPort(PORT);
+            //configBuilder.setDebuggerEnabled(true);
+            connection = new XMPPTCPConnection(configBuilder.build());
+            connection.connect();
+            return true;
+        } catch (Exception ex) {
+            //Log exception and pass it
+            Log.e("XMPP","Creating connection failed.",ex);
+            throw ex;
+        }
+    }
 
     /**
      * Perfroms login task communicating with the jabber server
@@ -30,11 +60,12 @@ public final class ApiHandler {
      */
     public static boolean login(String username, String password) {
         try {
-            if (AppContext.initConnection(username, password))
-                AppContext.getConnection().login(username, password);
+            if (initConnection(username, password))
+                connection.login(username, password);
             return true;
         } catch (XMPPException e) {
-            e.printStackTrace();
+            //Not authorized
+            Log.i("XMPP","Login, not authorized.",e);
         } catch (SmackException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -45,7 +76,7 @@ public final class ApiHandler {
         return false;
     }
 
-    public static boolean mockupLofin(String username, String password) {
+    public static boolean mockupLogin(String username, String password) {
         //mockup login
         try {
             Thread.sleep(2000);
