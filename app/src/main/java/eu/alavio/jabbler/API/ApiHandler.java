@@ -17,20 +17,22 @@ import eu.alavio.jabbler.Models.AppContext;
  */
 
 public final class ApiHandler {
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "test@alavio.eu:Test12345", "bar@example.com:world"
-    };
-
     private static final String DOMAIN = "alavio.eu";
     private static final String HOST = "alavio.eu";
     private static final int PORT = 5222;
 
     private static XMPPTCPConnection connection;
 
+    /**
+     * Initialize connection, used for loggin and other functions of XMPP
+     *
+     * @param username with domain - example: test@domain.com
+     * @param password pure text (non encrypted)
+     * @return true if initialization is successful
+     * @throws IOException    Can occur during internet connection problems
+     * @throws XMPPException  XMPP Specific exception
+     * @throws SmackException Library specific exception
+     */
     private static boolean initConnection(String username, String password) throws IOException, XMPPException, SmackException {
         try {
             XMPPTCPConnectionConfiguration.Builder configBuilder = XMPPTCPConnectionConfiguration.builder();
@@ -46,7 +48,7 @@ public final class ApiHandler {
             return true;
         } catch (Exception ex) {
             //Log exception and pass it
-            Log.e("XMPP","Creating connection failed.",ex);
+            Log.e("XMPP", "Creating connection failed.", ex);
             throw ex;
         }
     }
@@ -60,41 +62,21 @@ public final class ApiHandler {
      */
     public static boolean login(String username, String password) {
         try {
+            Log.i("XMPP","Initialising onnection...");
             if (initConnection(username, password))
-                connection.login(username, password);
-            return true;
+                return true;
         } catch (XMPPException e) {
             //Not authorized
-            Log.i("XMPP","Login, not authorized.",e);
+            Log.i("XMPP", "Login, not authorized.", e);
         } catch (SmackException e) {
-            e.printStackTrace();
+            Log.e("XMPP","Library exception.",e);
+            return false;
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("XMPP","Connection exception.",e);
+            return false;
         }
 
-        //wrong login
-        return false;
-    }
-
-    public static boolean mockupLogin(String username, String password) {
-        //mockup login
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        for (String credential : DUMMY_CREDENTIALS) {
-            String[] pieces = credential.split(":");
-            if (pieces[0].equals(username)) {
-                // Account exists, return true if the password matches.
-                boolean result = pieces[1].equals(password);
-                if (result) {
-                    //User logged in
-                }
-                return result;
-            }
-        }
+        // credentials rejected
         return false;
     }
 }
