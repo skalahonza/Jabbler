@@ -17,6 +17,11 @@ public class Jabbler extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        initXMPP();
+        initLogger();
+    }
+
+    private void initLogger() {
         if (AppContext.isExternalStorageWritable()) {
             //On app creation
             File appDirectory = new File(Environment.getExternalStorageDirectory() + "/Jabbler");
@@ -51,5 +56,9 @@ public class Jabbler extends Application {
             //Handle not authorized
             Log.e(this.getClass().getName(),"Cannot access file system for reading or writting.");
         }
+    }
+
+    private void initXMPP(){
+
     }
 }

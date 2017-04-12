@@ -16,13 +16,12 @@ public class ApiHandler {
     };
 
 
-
     /** Perfroms login task communicating with the jabber server
      * @param username username ending wth @server_doman.example
      * @param password user password, non encrypted, will be encrypted in the function
      * @return true if the login was successful, false if the credentials are wrong
      */
-    public  boolean login(String username, String password){
+    public boolean login(String username, String password){
 
         return mockupLofin(username,password);
     }
