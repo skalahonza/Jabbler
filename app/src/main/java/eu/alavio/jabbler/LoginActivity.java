@@ -1,4 +1,4 @@
-package cz.alavio.jabbler;
+package eu.alavio.jabbler;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -16,10 +16,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cz.alavio.jabbler.API.ApiHandler;
+import eu.alavio.jabbler.API.ApiHandler;
+import eu.alavio.jabbler.Models.Helper;
 
 /**
  * A login screen that offers login via email/password.
@@ -86,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
+        } else if (!Helper.validateEmail(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
@@ -104,12 +108,6 @@ public class LoginActivity extends AppCompatActivity {
             mAuthTask.execute((Void) null);
         }
     }
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@alavio");
-    }
-
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -155,8 +153,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             // attempt authentication against a network service.
-            ApiHandler handler = new ApiHandler();
-            return handler.login(mEmail, mPassword);
+            return ApiHandler.login(mEmail, mPassword);
         }
 
         /**

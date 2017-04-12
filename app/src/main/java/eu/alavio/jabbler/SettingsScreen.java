@@ -1,4 +1,4 @@
-package cz.alavio.jabbler;
+package eu.alavio.jabbler;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;

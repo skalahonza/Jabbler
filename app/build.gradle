@@ -7,7 +7,7 @@ android {
         jackOptions {
             enabled true
         }
-        applicationId "cz.alavio.jabbler"
+        applicationId "eu.alavio.jabbler"
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
@@ -27,6 +27,9 @@ android {
 }
 
 repositories {
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
     mavenCentral()
 }
 
@@ -35,8 +38,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile group: 'rocks.xmpp', name: 'xmpp-core-client', version: '0.7.4'
-    compile group: 'rocks.xmpp', name: 'xmpp-extensions-client', version: '0.7.4'
+    compile "org.igniterealtime.smack:smack-android-extensions:4.1.0"
+    compile "org.igniterealtime.smack:smack-tcp:4.1.0"
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.android.support:appcompat-v7:25.3.0'

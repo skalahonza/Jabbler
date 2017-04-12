@@ -1,4 +1,4 @@
-package cz.alavio.jabbler.API;
+package eu.alavio.jabbler.API;
 
 /**
  * Created by Jan Skála on 23.03.2017.

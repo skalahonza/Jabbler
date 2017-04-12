@@ -1,4 +1,4 @@
-package cz.alavio.jabbler.Models;
+package eu.alavio.jabbler.Models;
 
 import android.app.Notification;
 import android.content.Context;
