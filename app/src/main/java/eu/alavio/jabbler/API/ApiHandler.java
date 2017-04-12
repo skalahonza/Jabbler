@@ -38,7 +38,7 @@ public final class ApiHandler {
             XMPPTCPConnectionConfiguration.Builder configBuilder = XMPPTCPConnectionConfiguration.builder();
             configBuilder.setUsernameAndPassword(username, password);
             configBuilder.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
-            configBuilder.setResource("Android");
+            //configBuilder.setResource("Android");
             configBuilder.setServiceName(source);
             configBuilder.setHost(source);
             configBuilder.setPort(PORT);
@@ -54,7 +54,7 @@ public final class ApiHandler {
     }
 
     private static boolean initConnection(String username, String password) throws IOException, XMPPException, SmackException {
-        return initConnection(username,password,DOMAIN);
+        return initConnection(username, password, DOMAIN);
     }
 
     /**
@@ -88,6 +88,22 @@ public final class ApiHandler {
 
         // credentials rejected
         return false;
+    }
+
+    /** Tries to logout from the current XMPP session
+     * @return True if the logout was succesful
+     */
+    public static boolean logout() {
+        if(connection == null)
+            return false;
+        try {
+            connection.disconnect();
+            String user = connection.getUser();
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
     }
 }
 

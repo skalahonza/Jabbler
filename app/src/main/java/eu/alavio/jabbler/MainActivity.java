@@ -2,6 +2,7 @@ package eu.alavio.jabbler;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,12 +15,16 @@ import android.view.MenuItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import eu.alavio.jabbler.Models.Dialogs;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.drawer_layout) DrawerLayout drawer;
-    @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +53,7 @@ public class MainActivity extends AppCompatActivity
         } else if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
         } else {
-            super.onBackPressed();
+            Dialogs.logoutDialog(this, super::onBackPressed);
         }
     }
 
@@ -67,15 +72,32 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            //if settings not already displayed
-            Fragment settings = new SettingsScreen();
-            if (!isFragmentDisplayed(settings))
-                navigate(settings, true);
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                //if settings not already displayed
+                Fragment settings = new SettingsScreen();
+                if (!isFragmentDisplayed(settings))
+                    navigate(settings, true);
+                return true;
+            case R.id.Logout:
+                logout();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    /**
+     * Pops up dialog, if user press yes, he will be logged out.
+     */
+    private void logout() {
+        Dialogs.logoutDialog(this, () -> {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        });
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -113,10 +135,21 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Performs navigation to a fragment, without saving him to backstack
+     *
+     * @param fragment Fragment to be navigated to
+     */
     private void navigate(Fragment fragment) {
         navigate(fragment, false);
     }
 
+    /**
+     * Performs navigation to a frame.
+     *
+     * @param fragment        Fragment to be navigated to
+     * @param saveInBackStack True - saves current fragment in backstack; false - current fragment won't be saved
+     */
     private void navigate(Fragment fragment, boolean saveInBackStack) {
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getFragmentManager();
@@ -132,6 +165,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Check if any instance of given fragment is now displayed
+     *
+     * @param fragment Examined fragment
+     * @return True if the fragment is displayed
+     */
     private boolean isFragmentDisplayed(Fragment fragment) {
         Fragment f = getFragmentManager().findFragmentById(R.id.content_frame);
         return f.getClass() == fragment.getClass();
