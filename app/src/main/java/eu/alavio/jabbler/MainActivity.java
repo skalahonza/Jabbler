@@ -8,7 +8,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,7 +15,6 @@ import android.view.MenuItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import eu.alavio.jabbler.API.ApiHandler;
 import eu.alavio.jabbler.Models.Dialogs;
 
 public class MainActivity extends AppCompatActivity
@@ -55,7 +53,7 @@ public class MainActivity extends AppCompatActivity
         } else if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
         } else {
-            super.onBackPressed();
+            Dialogs.logoutDialog(this, super::onBackPressed);
         }
     }
 
@@ -95,7 +93,10 @@ public class MainActivity extends AppCompatActivity
      */
     private void logout() {
         Dialogs.logoutDialog(this, () -> {
-            startActivity(new Intent(this, LoginActivity.class));
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
         });
     }
 
@@ -134,15 +135,19 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    /** Performs navigation to a fragment, without saving him to backstack
+    /**
+     * Performs navigation to a fragment, without saving him to backstack
+     *
      * @param fragment Fragment to be navigated to
      */
     private void navigate(Fragment fragment) {
         navigate(fragment, false);
     }
 
-    /** Performs navigation to a frame.
-     * @param fragment Fragment to be navigated to
+    /**
+     * Performs navigation to a frame.
+     *
+     * @param fragment        Fragment to be navigated to
      * @param saveInBackStack True - saves current fragment in backstack; false - current fragment won't be saved
      */
     private void navigate(Fragment fragment, boolean saveInBackStack) {
@@ -160,7 +165,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /** Check if any instance of given fragment is now displayed
+    /**
+     * Check if any instance of given fragment is now displayed
+     *
      * @param fragment Examined fragment
      * @return True if the fragment is displayed
      */

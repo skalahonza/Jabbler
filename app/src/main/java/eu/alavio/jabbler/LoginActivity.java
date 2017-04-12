@@ -16,9 +16,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -168,7 +165,8 @@ public class LoginActivity extends AppCompatActivity {
 
             if (success) {
                 //User logged in
-                startActivity(new Intent(context, MainActivity.class));
+                Intent intent = new Intent(context, MainActivity.class);
+                startActivity(intent);
             } else {
                 //Wrong credentials
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
