@@ -3,8 +3,13 @@ package eu.alavio.jabbler.Models;
 import android.os.Environment;
 import android.util.Log;
 
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+
+import java.io.IOException;
 
 import eu.alavio.jabbler.API.User;
 
@@ -13,8 +18,10 @@ import eu.alavio.jabbler.API.User;
  */
 
 public final class AppContext {
-    private static final String MAIN_URL = "http://alavio.eu:5222";
-    private static User currentUser = null;
+    private static final String DOMAIN = "alavio.eu";
+    private static final String HOST = "alavio.eu";
+    private static final int PORT = 5222;
+
     private static XMPPTCPConnection connection;
 
     /**
@@ -34,21 +41,25 @@ public final class AppContext {
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
 
-    public boolean initConnection(String username, String password, String server) {
+    public static boolean initConnection(String username, String password) throws IOException, XMPPException, SmackException {
         try {
-            connection = new XMPPTCPConnection(username, password, MAIN_URL);
+            XMPPTCPConnectionConfiguration.Builder configBuilder = XMPPTCPConnectionConfiguration.builder();
+            configBuilder.setUsernameAndPassword(username, password);
+            configBuilder.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
+            configBuilder.setResource("Android");
+            configBuilder.setServiceName(DOMAIN);
+            configBuilder.setHost(HOST);
+            configBuilder.setPort(PORT);
+            //configBuilder.setDebuggerEnabled(true);
+            connection = new XMPPTCPConnection(configBuilder.build());
             connection.connect();
             return true;
         } catch (Exception ex) {
-            Log.e(this.getClass().getName(),"Creating connection failed.",ex);
-            return false;
+            //Log exception and pass it
+            Log.e("XMPP","Creating connection failed.",ex);
+            throw ex;
         }
     }
-
-    public static User getCurrentUser() {
-        return currentUser;
-    }
-
     public static XMPPTCPConnection getConnection() {
         return connection;
     }
