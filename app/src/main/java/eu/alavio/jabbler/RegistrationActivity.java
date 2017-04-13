@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.jivesoftware.smack.SmackException;
@@ -37,6 +38,8 @@ public class RegistrationActivity extends AppCompatActivity {
     EditText vPassword;
     @BindView(R.id.confirm_password)
     EditText vConfirm_password;
+    @BindView(R.id.register_progress)
+    ProgressBar vProgress;
 
     RegisterTask registerTask = null;
 
@@ -96,6 +99,7 @@ public class RegistrationActivity extends AppCompatActivity {
         vConfirm_password.setError(null);
 
         registerTask = new RegisterTask(username, password, email, fullName, this);
+        Dialogs.operateProgressView(true, vProgress);
         registerTask.execute();
     }
 
@@ -106,6 +110,8 @@ public class RegistrationActivity extends AppCompatActivity {
         private String email;
         private String fullName;
         private Context context;
+
+        private String status = "";
 
         //Empty required
         public RegisterTask() {
@@ -123,13 +129,9 @@ public class RegistrationActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             try {
                 return ApiHandler.register(username, password, email, fullName);
-            } catch (XMPPException e) {
-                //Sever error or XMPP error
+            } catch (XMPPException | IOException | SmackException e) {
                 Log.e("XMPP", "Error occured during registration.", e);
-            } catch (IOException e) {
-                //Connection error
-            } catch (SmackException e) {
-                //Server rejected
+                status = e.getLocalizedMessage();
             }
             return false;
         }
@@ -137,14 +139,22 @@ public class RegistrationActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean success) {
             registerTask = null;
+            Dialogs.operateProgressView(false, vProgress);
             if (success) {
                 //Registered
                 Dialogs.userCreatedDialog(context, RegistrationActivity.this::onBackPressed);
             } else {
-                //Not register
-                Dialogs.userNotCreatedDialog(context, "Don't know", () -> {
-                });
+                Dialogs.userNotCreatedDialog(context, status);
             }
+        }
+
+        /**
+         * Handles the task cancellation
+         */
+        @Override
+        protected void onCancelled() {
+            registerTask = null;
+            Dialogs.operateProgressView(false, vPassword);
         }
     }
 }

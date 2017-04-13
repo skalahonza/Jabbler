@@ -1,7 +1,10 @@
 package eu.alavio.jabbler.Models;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
 
 import eu.alavio.jabbler.API.ApiHandler;
 import eu.alavio.jabbler.R;
@@ -52,5 +55,31 @@ public final class Dialogs {
             ApiHandler.logout();
         });
         builder.show();
+    }
+
+    public static void userNotCreatedDialog(Context context, String reason) {
+        userNotCreatedDialog(context,reason,() -> {});
+    }
+
+    /** Shows or hides the in progress view.
+     * @param show true to show false to hide
+     * @param view View used for displaying the progress
+     */
+    public static void operateProgressView(final boolean show, View view){
+        {
+            // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+            // for very easy animations. If available, use these APIs to fade-in
+            // the progress spinner.
+            int shortAnimTime = 200;
+
+            view.setVisibility(show ? View.VISIBLE : View.GONE);
+            view.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    view.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        }
     }
 }
