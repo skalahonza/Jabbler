@@ -19,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import eu.alavio.jabbler.API.ApiHandler;
+import eu.alavio.jabbler.Models.Dialogs;
 import eu.alavio.jabbler.Models.Helper;
 
 import static eu.alavio.jabbler.R.id.email;
@@ -94,7 +95,7 @@ public class RegistrationActivity extends AppCompatActivity {
         vPassword.setError(null);
         vConfirm_password.setError(null);
 
-        registerTask = new RegisterTask(username, password, email, fullName,this);
+        registerTask = new RegisterTask(username, password, email, fullName, this);
         registerTask.execute();
     }
 
@@ -138,10 +139,11 @@ public class RegistrationActivity extends AppCompatActivity {
             registerTask = null;
             if (success) {
                 //Registered
-                Toast.makeText(context,"Registered",Toast.LENGTH_LONG).show();
+                Dialogs.userCreatedDialog(context, RegistrationActivity.this::onBackPressed);
             } else {
                 //Not register
-                Toast.makeText(context,"NOT Registered",Toast.LENGTH_LONG).show();
+                Dialogs.userNotCreatedDialog(context, "Don't know", () -> {
+                });
             }
         }
     }

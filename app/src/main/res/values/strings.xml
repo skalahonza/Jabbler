@@ -30,6 +30,8 @@
     <string name="full_name">Full name</string>
     <string name="password_mismatch">Password mismatch!</string>
     <string name="invalid_username">Invalid username, forbidden characters typed.</string>
+    <string name="ok">OK</string>
+    <string name="user_registered">User registered.</string>
 
     <string-array name="sports_array">
         <item>Shuttle Badminton</item>
