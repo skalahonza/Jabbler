@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import eu.alavio.jabbler.Models.AppContext;
-
 /**
  * Secures the communication with the server
  */

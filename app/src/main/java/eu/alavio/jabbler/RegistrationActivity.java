@@ -2,13 +2,11 @@ package eu.alavio.jabbler;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
@@ -112,10 +110,6 @@ public class RegistrationActivity extends AppCompatActivity {
         private Context context;
 
         private String status = "";
-
-        //Empty required
-        public RegisterTask() {
-        }
 
         public RegisterTask(String username, String password, String email, String fullName, Context context) {
             this.username = username;
