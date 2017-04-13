@@ -18,6 +18,9 @@ public class User {
         this.email = email;
     }
 
+    /** Deserialize user object from dictionary
+     * @param atributes Hashmap returned by AccountManager
+     */
     public User(Map<String, String> atributes) {
         username = atributes.get("username");
         name = atributes.get("name");
