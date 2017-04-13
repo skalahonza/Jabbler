@@ -40,7 +40,7 @@ public final class ApiHandler {
     private static boolean initConnection(String username, String password, String source) throws IOException, XMPPException, SmackException {
         try {
             XMPPTCPConnectionConfiguration.Builder configBuilder = XMPPTCPConnectionConfiguration.builder();
-            configBuilder.setUsernameAndPassword(username, password);
+            //configBuilder.setUsernameAndPassword(username, password);
             configBuilder.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
             //configBuilder.setResource("Android");
             configBuilder.setServiceName(source);
@@ -85,7 +85,7 @@ public final class ApiHandler {
         try {
             Log.i("XMPP", "Initialising onnection...");
             if (initConnection(username, password, source)) {
-                connection.login();
+                connection.login(username,password);
                 return true;
             }
         } catch (XMPPException e) {

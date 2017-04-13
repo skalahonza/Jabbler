@@ -138,10 +138,10 @@ public class RegistrationActivity extends AppCompatActivity {
             registerTask = null;
             if (success) {
                 //Registered
-                Toast.makeText(context,"Registered",Toast.LENGTH_LONG);
+                Toast.makeText(context,"Registered",Toast.LENGTH_LONG).show();
             } else {
                 //Not register
-                Toast.makeText(context,"NOT Registered",Toast.LENGTH_LONG);
+                Toast.makeText(context,"NOT Registered",Toast.LENGTH_LONG).show();
             }
         }
     }
