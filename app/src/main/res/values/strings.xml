@@ -36,7 +36,8 @@
     <string name="user_reg_failed">User registration failed</string>
     <string name="login_failed">Login failed</string>
     <string name="unknown_host">Unknown host name.</string>
-    <string name="unknown_app_error">Unknown application exception.</string>
+    <string name="unknown_app_error">Unknown application error occurred.</string>
+    <string name="username_exists">Username already exists.</string>
 
     <string-array name="sports_array">
         <item>Shuttle Badminton</item>

@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.XMPPError;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -109,9 +110,9 @@ public class RegistrationActivity extends AppCompatActivity {
         private String fullName;
         private Context context;
 
-        private String status = "";
+        private String status = String.valueOf(R.string.unknown_app_error);
 
-        public RegisterTask(String username, String password, String email, String fullName, Context context) {
+        RegisterTask(String username, String password, String email, String fullName, Context context) {
             this.username = username;
             this.password = password;
             this.email = email;
@@ -123,9 +124,21 @@ public class RegistrationActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             try {
                 return ApiHandler.register(username, password, email, fullName);
+            } catch (XMPPException.XMPPErrorException e) {
+                switch (e.getXMPPError().getCondition()) {
+                    case conflict:
+                        //User already exists
+                        status = getString(R.string.username_exists);
+                        break;
+                    case remote_server_timeout:
+                        //Connection problem
+                        status = String.valueOf(R.string.check_internet_connection);
+                        break;
+                    default:
+                        break;
+                }
             } catch (XMPPException | IOException | SmackException e) {
                 Log.e("XMPP", "Error occured during registration.", e);
-                status = e.getLocalizedMessage();
             }
             return false;
         }
