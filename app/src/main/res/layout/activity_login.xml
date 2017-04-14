@@ -22,7 +22,7 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
-                    android:text="test@alavio.eu"
+                    android:text="tester@alavio.eu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:text="Test12345"
+                    android:text="tester"
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

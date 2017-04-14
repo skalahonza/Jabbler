@@ -10,6 +10,7 @@ import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.jivesoftware.smackx.iqregister.AccountManager;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,30 +77,26 @@ public final class ApiHandler {
      * @param password user password, non encrypted, will be encrypted in the function
      * @return true if the login was successful, false if the credentials are wrong
      */
-    public static boolean login(String username, String password) {
+    public static boolean login(String username, String password) throws XMPPException, IOException, SmackException {
         String[] tmp = username.split("@");
         String source = tmp[1];
         username = tmp[0];
         try {
             Log.i("XMPP", "Initialising onnection...");
-            if (initConnection(username, password, source)) {
-                connection.login(username,password);
-                return true;
-            }
-        } catch (XMPPException e) {
-            //Not authorized
-            Log.i("XMPP", "Login, not authorized.", e);
-            return false;
-        } catch (SmackException e) {
-            Log.e("XMPP", "Library exception.", e);
-            return false;
-        } catch (IOException e) {
-            Log.e("XMPP", "Connection exception.", e);
-            return false;
-        }
+            initConnection(username, password, source);
+            connection.login(username, password);
+            return true;
 
-        // credentials rejected
-        return false;
+        } catch (XMPPException | IOException | SmackException e) {
+            //Not authorized
+            Log.i("XMPP", "Error during login.", e);
+
+            //unable to resolve host
+            if(e.getMessage().toLowerCase().contains("java.net.unknownhostexception"))
+                throw new UnknownHostException();
+
+            throw e;
+        }
     }
 
     /**

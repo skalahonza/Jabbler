@@ -32,6 +32,11 @@
     <string name="invalid_username">Invalid username, forbidden characters typed.</string>
     <string name="ok">OK</string>
     <string name="user_registered">User registered.</string>
+    <string name="check_internet_connection">Cannot contact the server, check your internet connection.</string>
+    <string name="user_reg_failed">User registration failed</string>
+    <string name="login_failed">Login failed</string>
+    <string name="unknown_host">Unknown host name.</string>
+    <string name="unknown_app_error">Unknown application exception.</string>
 
     <string-array name="sports_array">
         <item>Shuttle Badminton</item>

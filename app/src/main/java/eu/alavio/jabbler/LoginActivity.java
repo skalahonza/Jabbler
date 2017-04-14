@@ -14,6 +14,13 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.sasl.SASLErrorException;
+
+import java.io.IOException;
+import java.net.UnknownHostException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -128,6 +135,9 @@ public class LoginActivity extends AppCompatActivity {
         private final String mPassword;
         private final Context context;
 
+        private String reason = getString(R.string.unknown_app_error);
+        private boolean errorOccurred = false;
+
         UserLoginTask(String email, String password, Context context) {
             //get data from UI
             mEmail = email;
@@ -138,7 +148,27 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             // attempt authentication against a network service.
-            return ApiHandler.login(mEmail, mPassword);
+            try {
+                return ApiHandler.login(mEmail, mPassword);
+            } catch (SASLErrorException e) {
+                //Not authorized
+                return false;
+            }
+            catch (UnknownHostException e){
+                errorOccurred = true;
+                reason = getString(R.string.unknown_host);
+                return false;
+            }
+            catch (XMPPException | SmackException e) {
+                errorOccurred = true;
+                reason = e.getMessage();
+                return false;
+            } catch (IOException e) {
+                errorOccurred = true;
+                //Connection problem or other problem
+                reason = !Helper.isInternetAccessible(context) ? getString(R.string.check_internet_connection) : e.getLocalizedMessage();
+                return false;
+            }
         }
 
         /**
@@ -157,8 +187,14 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             } else {
                 //Wrong credentials
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                if (!errorOccurred) {
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
+                //Other problem
+                else {
+                    Dialogs.loginFailed(context, reason);
+                }
             }
         }
 
