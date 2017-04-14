@@ -45,9 +45,9 @@ public final class Dialogs {
         builder.show();
     }
 
-    public static void userNotCreatedDialog(Context context, String reason ,Runnable okPressed) {
+    private static void operationErrorDialog(Context context, String title, String reason, Runnable okPressed) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("User registration failed");
+        builder.setTitle(title);
         builder.setMessage(reason);
         builder.setNeutralButton(R.string.ok, (dialog, which) -> {
             dialog.dismiss();
@@ -58,14 +58,22 @@ public final class Dialogs {
     }
 
     public static void userNotCreatedDialog(Context context, String reason) {
-        userNotCreatedDialog(context,reason,() -> {});
+        operationErrorDialog(context, context.getString(R.string.user_reg_failed), reason, () -> {
+        });
     }
 
-    /** Shows or hides the in progress view.
+    public static void loginFailed(Context context, String reason) {
+        operationErrorDialog(context, context.getString(R.string.login_failed), reason, () -> {
+        });
+    }
+
+    /**
+     * Shows or hides the in progress view.
+     *
      * @param show true to show false to hide
      * @param view View used for displaying the progress
      */
-    public static void operateProgressView(final boolean show, View view){
+    public static void operateProgressView(final boolean show, View view) {
         {
             // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
             // for very easy animations. If available, use these APIs to fade-in

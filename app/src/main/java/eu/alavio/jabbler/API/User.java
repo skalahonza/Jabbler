@@ -1,30 +1,41 @@
 package eu.alavio.jabbler.API;
 
+import java.util.Map;
+
 /**
- * Created by Jan Skála on 23.03.2017.
+ * Object for storing the information about the user.
  */
 
 public class User {
 
-    public User(String username, String name, String surname) {
-        this.username = username;
-        this.name = name;
-        this.surname = surname;
-    }
-
     private String username;
     private String name;
-    private String surname;
+    private String email;
+
+    public User(String username, String name, String email) {
+        this.username = username;
+        this.name = name;
+        this.email = email;
+    }
+
+    /** Deserialize user object from dictionary
+     * @param atributes Hashmap returned by AccountManager
+     */
+    public User(Map<String, String> atributes) {
+        username = atributes.get("username");
+        name = atributes.get("name");
+        email = atributes.get("email");
+    }
 
     public String getUsername() {
         return username;
     }
 
-    public String getName() {
+    public String getFullName() {
         return name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getEmail() {
+        return email;
     }
 }
