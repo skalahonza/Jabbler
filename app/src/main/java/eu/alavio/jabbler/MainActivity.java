@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity
 
             View headerLayout = navigationView.getHeaderView(0);
             //navigationView.inflateHeaderView(R.layout.nav_header_main);
-            TextView vFullName = ButterKnife.findById(headerLayout, R.id.textView2);
-            TextView vUserName = ButterKnife.findById(headerLayout, R.id.textView);
+            TextView vFullName = ButterKnife.findById(headerLayout, R.id.full_name);
+            TextView vUserName = ButterKnife.findById(headerLayout, R.id.userName);
 
             if (user != null) {
                 vFullName.setText(user.getFullName());
@@ -125,7 +125,6 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.

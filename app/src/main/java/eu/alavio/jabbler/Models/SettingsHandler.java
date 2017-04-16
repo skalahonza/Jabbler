@@ -1,9 +1,7 @@
 package eu.alavio.jabbler.Models;
 
-import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 
 /**

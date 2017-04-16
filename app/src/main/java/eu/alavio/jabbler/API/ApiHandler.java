@@ -4,18 +4,15 @@ import android.util.Log;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.jivesoftware.smackx.iqregister.AccountManager;
-import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Secures the communication with the server
@@ -23,7 +20,6 @@ import java.util.Set;
 
 public final class ApiHandler {
     private static final String DOMAIN = "alavio.eu";
-    private static final String HOST = "alavio.eu";
     private static final int PORT = 5222;
 
     private static XMPPTCPConnection connection;
