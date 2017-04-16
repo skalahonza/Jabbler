@@ -144,7 +144,7 @@ public final class ApiHandler {
         String name, email, username;
         name = accountManager.getAccountAttribute("name");
         email = accountManager.getAccountAttribute("email");
-        username = accountManager.getAccountAttribute("username");
+        username = accountManager.getAccountAttribute("username") + "@" + connection.getHost();
         return new User(username,name,email);
     }
 }
