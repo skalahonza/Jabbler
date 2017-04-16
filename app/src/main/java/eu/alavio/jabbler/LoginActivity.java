@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // UI references.
     @BindView(R.id.email)
-    AutoCompleteTextView mEmailView;
+    EditText mEmailView;
     @BindView(R.id.password)
     EditText mPasswordView;
     @BindView(R.id.login_progress)
