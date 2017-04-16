@@ -4,15 +4,18 @@ import android.util.Log;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.jivesoftware.smackx.iqregister.AccountManager;
+import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Secures the communication with the server
@@ -26,27 +29,31 @@ public final class ApiHandler {
     private static XMPPTCPConnection connection;
 
     /**
+     * Creates and instance of a connection to a given hostname on port 5222
+     * @param source Target host e.g. alavio.eu*/
+    private static XMPPTCPConnection connect(String source) {
+        XMPPTCPConnectionConfiguration.Builder configBuilder = XMPPTCPConnectionConfiguration.builder();
+        configBuilder.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
+        //configBuilder.setResource("Android");
+        configBuilder.setServiceName(source);
+        configBuilder.setHost(source);
+        configBuilder.setPort(PORT);
+        configBuilder.setDebuggerEnabled(true);
+        return new XMPPTCPConnection(configBuilder.build());
+    }
+
+    /**
      * Initialize connection, used for loggin and other functions of XMPP
      *
-     * @param username with domain - example: test@domain.com
-     * @param password pure text (non encrypted)
-     * @param source   Hostname, typically alavio.eu
+     * @param source Hostname, typically alavio.eu
      * @return true if initialization is successful
      * @throws IOException    Can occur during internet connection problems
      * @throws XMPPException  XMPP Specific exception
      * @throws SmackException Library specific exception
      */
-    private static boolean initConnection(String username, String password, String source) throws IOException, XMPPException, SmackException {
+    private static boolean initConnection(String source) throws IOException, XMPPException, SmackException {
         try {
-            XMPPTCPConnectionConfiguration.Builder configBuilder = XMPPTCPConnectionConfiguration.builder();
-            //configBuilder.setUsernameAndPassword(username, password);
-            configBuilder.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
-            //configBuilder.setResource("Android");
-            configBuilder.setServiceName(source);
-            configBuilder.setHost(source);
-            configBuilder.setPort(PORT);
-            //configBuilder.setDebuggerEnabled(true);
-            connection = new XMPPTCPConnection(configBuilder.build());
+            connection = connect(source);
             connection.connect();
             return true;
         } catch (Exception ex) {
@@ -57,17 +64,15 @@ public final class ApiHandler {
     }
 
     /**
-     * Initialize connection on host alavio.eu, used for loggin and other functions of XMPP
+     * Initialize connection on host alavio.eu, used for registration and other functions of app related to this particular server.
      *
-     * @param username with domain - example: test@domain.com
-     * @param password pure text (non encrypted)
      * @return true if initialization is successful
      * @throws IOException    Can occur during internet connection problems
      * @throws XMPPException  XMPP Specific exception
      * @throws SmackException Library specific exception
      */
-    private static boolean initConnection(String username, String password) throws IOException, XMPPException, SmackException {
-        return initConnection(username, password, DOMAIN);
+    private static boolean initConnection() throws IOException, XMPPException, SmackException {
+        return initConnection(DOMAIN);
     }
 
     /**
@@ -83,7 +88,7 @@ public final class ApiHandler {
         username = tmp[0];
         try {
             Log.i("XMPP", "Initialising onnection...");
-            initConnection(username, password, source);
+            initConnection(source);
             connection.login(username, password);
             return true;
 
@@ -92,7 +97,7 @@ public final class ApiHandler {
             Log.i("XMPP", "Error during login.", e);
 
             //unable to resolve host
-            if(e.getMessage().toLowerCase().contains("java.net.unknownhostexception"))
+            if (e.getMessage().toLowerCase().contains("java.net.unknownhostexception"))
                 throw new UnknownHostException();
 
             throw e;
@@ -119,7 +124,7 @@ public final class ApiHandler {
     public static boolean register(String username, String password, String email, String fullName) throws XMPPException, IOException, SmackException {
         //If no connection, create a new one
         if (connection == null || !connection.isConnected())
-            initConnection(username, password);
+            initConnection();
 
         AccountManager accountManager = AccountManager.getInstance(connection);
         //creation not supported
@@ -132,6 +137,19 @@ public final class ApiHandler {
         attributes.put("email", email);
         accountManager.createAccount(username, password, attributes);
         return true;
+    }
+
+    public static User getCUrrentUser() throws SmackException.NotConnectedException, XMPPException.XMPPErrorException, SmackException.NoResponseException {
+        //If no connection
+        if (connection == null || !connection.isConnected())
+            return null;
+
+        AccountManager accountManager = AccountManager.getInstance(connection);
+        String name, email, username;
+        name = accountManager.getAccountAttribute("name");
+        email = accountManager.getAccountAttribute("email");
+        username = accountManager.getAccountAttribute("username");
+        return new User(username,name,email);
     }
 }
 
