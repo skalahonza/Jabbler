@@ -1,7 +1,5 @@
 package eu.alavio.jabbler.API;
 
-import java.util.Map;
-
 /**
  * Object for storing the information about the user.
  */
@@ -16,15 +14,6 @@ public class User {
         this.username = username;
         this.name = name;
         this.email = email;
-    }
-
-    /** Deserialize user object from dictionary
-     * @param atributes Hashmap returned by AccountManager
-     */
-    public User(Map<String, String> atributes) {
-        username = atributes.get("username");
-        name = atributes.get("name");
-        email = atributes.get("email");
     }
 
     public String getUsername() {
