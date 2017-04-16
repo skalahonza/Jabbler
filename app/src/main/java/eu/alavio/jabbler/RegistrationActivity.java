@@ -10,7 +10,6 @@ import android.widget.ProgressBar;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.packet.XMPPError;
 
 import java.io.IOException;
 import java.util.Objects;

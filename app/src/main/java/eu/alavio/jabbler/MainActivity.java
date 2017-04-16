@@ -12,9 +12,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import eu.alavio.jabbler.API.ApiHandler;
+import eu.alavio.jabbler.API.User;
 import eu.alavio.jabbler.Models.Dialogs;
 
 public class MainActivity extends AppCompatActivity
@@ -38,6 +45,24 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        //Fill in user info
+        try {
+            User user = ApiHandler.getCUrrentUser();
+
+            View headerLayout = navigationView.getHeaderView(0);
+            //navigationView.inflateHeaderView(R.layout.nav_header_main);
+            TextView vFullName = ButterKnife.findById(headerLayout, R.id.full_name);
+            TextView vUserName = ButterKnife.findById(headerLayout, R.id.userName);
+
+            if (user != null) {
+                vFullName.setText(user.getFullName());
+                vUserName.setText(user.getUsername());
+            }
+        } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
+            e.printStackTrace();
+        }
+
 
         navigationView.setNavigationItemSelectedListener(this);
         //Select first - home item
@@ -100,7 +125,6 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
