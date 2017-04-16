@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
@@ -24,6 +25,7 @@ import java.net.UnknownHostException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnEditorAction;
 import eu.alavio.jabbler.API.ApiHandler;
 import eu.alavio.jabbler.Models.Dialogs;
 import eu.alavio.jabbler.Models.Helper;
@@ -50,13 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> {
-            if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                attemptLogin();
-                return true;
-            }
-            return false;
-        });
     }
 
     /**
@@ -125,6 +120,24 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(this, RegistrationActivity.class));
     }
 
+    @OnEditorAction(R.id.password)
+    boolean emailEditorAction(int id) {
+        if (id == EditorInfo.IME_NULL) {
+            attemptLogin();
+            return true;
+        }
+        return false;
+    }
+
+    @OnEditorAction(R.id.email)
+    boolean passwordEditorAction(int id) {
+        if (id == EditorInfo.IME_NULL) {
+            mPasswordView.requestFocus();
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Represents an asynchronous login task used to authenticate
      * the user.
@@ -153,13 +166,11 @@ public class LoginActivity extends AppCompatActivity {
             } catch (SASLErrorException e) {
                 //Not authorized
                 return false;
-            }
-            catch (UnknownHostException e){
+            } catch (UnknownHostException e) {
                 errorOccurred = true;
                 reason = getString(R.string.unknown_host);
                 return false;
-            }
-            catch (XMPPException | SmackException e) {
+            } catch (XMPPException | SmackException e) {
                 errorOccurred = true;
                 reason = e.getMessage();
                 return false;
