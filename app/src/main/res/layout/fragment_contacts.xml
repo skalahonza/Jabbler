@@ -1,48 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TabHost android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tabHost"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <TabWidget
+        android:id="@android:id/tabs"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@android:id/tabs"/>
+        android:layout_height="wrap_content" />
 
     <FrameLayout
+        android:id="@android:id/tabcontent"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="55dp"
-        android:id="@android:id/tabcontent">
+        android:layout_marginTop="55dp">
 
         <LinearLayout
+            android:id="@+id/tab1"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:id="@+id/tab1"
             android:orientation="vertical"
             android:paddingTop="60px">
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="100px"
-                android:text="This is tab1"
-                android:id="@+id/txt1"/>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/sample_contacts" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/tab2"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/tab2"
             android:orientation="vertical"
             android:paddingTop="60px">
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="100px"
-                android:text="This is tab 2"
-                android:id="@+id/txt2"/>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/sample_contacts_more" />
+
+            <android.support.design.widget.FloatingActionButton
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom|right"
+                android:layout_marginTop="-60dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_add_black_24dp" />
 
         </LinearLayout>
     </FrameLayout>
