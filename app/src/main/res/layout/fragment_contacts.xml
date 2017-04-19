@@ -44,6 +44,7 @@
 
             <android.support.design.widget.FloatingActionButton
                 style="@style/Widget.AppCompat.Button.Colored"
+                android:id="@+id/add_contact"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="bottom|right"

@@ -3,6 +3,7 @@ package eu.alavio.jabbler;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TabHost;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -19,6 +21,8 @@ public class ContactsFragment extends Fragment {
 
     @BindView(R.id.tabHost)
     TabHost tabHost;
+    @BindView(R.id.add_contact)
+    FloatingActionButton vAddContact;
 
     public ContactsFragment() {
         // Required empty public constructor
@@ -45,5 +49,14 @@ public class ContactsFragment extends Fragment {
         tabHost.addTab(spec1);
         tabHost.addTab(spec2);
         return view;
+    }
+
+    @OnClick(R.id.add_contact)
+    void addContact(){
+
+    }
+
+    private void loadContacts(){
+
     }
 }
