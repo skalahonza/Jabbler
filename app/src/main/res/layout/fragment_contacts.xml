@@ -1,32 +1,48 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="eu.alavio.jabbler.ContactsFragment">
+<?xml version="1.0" encoding="utf-8"?>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TextView
-            style="@style/BlockHeader"
-            android:text="Favourite"/>
-        <ListView
-            android:layout_width="match_parent"
+<TabHost android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/tabHost"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TabWidget
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@android:id/tabs"/>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@android:id/tabcontent">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/sample_contacts">
-        </ListView>
+            android:id="@+id/tab1"
+            android:orientation="vertical"
+            android:paddingTop="60px">
 
-        <TextView
-            style="@style/BlockHeader"
-            android:text="All"/>
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/sample_contacts_more">
-        </ListView>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="100px"
+                android:text="This is tab1"
+                android:id="@+id/txt1"/>
 
-    </LinearLayout>
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/tab2"
+            android:orientation="vertical"
+            android:paddingTop="60px">
 
-</FrameLayout>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="100px"
+                android:text="This is tab 2"
+                android:id="@+id/txt2"/>
+
+        </LinearLayout>
+    </FrameLayout>
+</TabHost>
