@@ -3,15 +3,25 @@ package eu.alavio.jabbler;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
+import android.widget.Toast;
+
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.roster.RosterEntry;
+
+import java.util.Collection;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import eu.alavio.jabbler.API.ApiHandler;
+import eu.alavio.jabbler.API.Friend;
 
 
 /**
@@ -51,12 +61,34 @@ public class ContactsFragment extends Fragment {
         return view;
     }
 
-    @OnClick(R.id.add_contact)
-    void addContact(){
-
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
-    private void loadContacts(){
+    @OnClick(R.id.add_contact)
+    void addContact() {
+        try {
+            ApiHandler.addContact("johny@alavio.eu","Test",null);
+        } catch (SmackException.NotLoggedInException e) {
+            e.printStackTrace();
+        } catch (XMPPException.XMPPErrorException e) {
+            e.printStackTrace();
+        } catch (SmackException.NotConnectedException e) {
+            e.printStackTrace();
+        } catch (SmackException.NoResponseException e) {
+            e.printStackTrace();
+        }
+        loadContacts();
+    }
 
+    private void loadContacts() {
+        try {
+            Collection<Friend> test = ApiHandler.getMyContacts();
+        } catch (SmackException.NotLoggedInException e) {
+            e.printStackTrace();
+        } catch (SmackException.NotConnectedException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -5,12 +5,17 @@ import android.util.Log;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.roster.Roster;
+import org.jivesoftware.smack.roster.RosterEntry;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.jivesoftware.smackx.iqregister.AccountManager;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +31,9 @@ public final class ApiHandler {
 
     /**
      * Creates and instance of a connection to a given hostname on port 5222
-     * @param source Target host e.g. alavio.eu*/
+     *
+     * @param source Target host e.g. alavio.eu
+     */
     private static XMPPTCPConnection connect(String source) {
         XMPPTCPConnectionConfiguration.Builder configBuilder = XMPPTCPConnectionConfiguration.builder();
         configBuilder.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
@@ -145,7 +152,26 @@ public final class ApiHandler {
         name = accountManager.getAccountAttribute("name");
         email = accountManager.getAccountAttribute("email");
         username = accountManager.getAccountAttribute("username") + "@" + connection.getHost();
-        return new User(username,name,email);
+        return new User(username, name, email);
+    }
+
+    public static Collection<Friend> getMyContacts() throws SmackException.NotLoggedInException, SmackException.NotConnectedException {
+        if (connection == null) throw new SmackException.NotConnectedException();
+
+        Roster roster = Roster.getInstanceFor(connection);
+        if (!roster.isLoaded())
+            roster.reloadAndWait();
+        Collection<RosterEntry> entries = roster.getEntries();
+
+        //TODO RESOLVE EMPTY ROSTER
+        return null;
+    }
+
+    public static void addContact(String jid, String nickname, String[] groups) throws SmackException.NotLoggedInException, XMPPException.XMPPErrorException, SmackException.NotConnectedException, SmackException.NoResponseException {
+        if (connection == null) return;
+        Roster roster = Roster.getInstanceFor(connection);
+        roster.createEntry(jid, nickname, groups);
+        //TODO Resolve contact already added
     }
 }
 
