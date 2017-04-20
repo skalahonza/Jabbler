@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity
 
         //Fill in user info
         try {
-            User user = ApiHandler.getCUrrentUser();
+            User user = ApiHandler.getCurrentUser();
 
             View headerLayout = navigationView.getHeaderView(0);
             //navigationView.inflateHeaderView(R.layout.nav_header_main);
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity
 
             if (user != null) {
                 vFullName.setText(user.getFullName());
-                vUserName.setText(user.getUsername());
+                vUserName.setText(user.getJid());
             }
         } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
             e.printStackTrace();
