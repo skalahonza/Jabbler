@@ -78,8 +78,7 @@ public class ContactsFragment extends Fragment {
 
     @OnClick(R.id.add_contact)
     void addContact() {
-        Popups.addContactDialog(getActivity());
-        loadContacts();
+        Popups.addContactDialog(getActivity(), this::loadContacts);
     }
 
     private void loadContacts() {

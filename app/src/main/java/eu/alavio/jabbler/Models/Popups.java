@@ -18,7 +18,7 @@ import eu.alavio.jabbler.R;
 
 public final class Popups {
 
-    public static void addContactDialog(Context context) {
+    public static void addContactDialog(Context context, Runnable onSuccess) {
         final Dialog dialog = new Dialog(context);
 
         dialog.setContentView(R.layout.add_contat_dialog);
@@ -34,14 +34,15 @@ public final class Popups {
             try {
                 ApiHandler.addContact(String.valueOf(jid.getText()), String.valueOf(nickname.getText()), null);
                 dialog.dismiss();
+                onSuccess.run();
             } catch (SmackException.NotLoggedInException e) {
                 e.printStackTrace();
             } catch (XMPPException.XMPPErrorException e) {
-                Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG);
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG);
             } catch (SmackException.NotConnectedException e) {
-                Toast.makeText(context,"Adding contact failed, connection problem.",Toast.LENGTH_LONG);
+                Toast.makeText(context, "Adding contact failed, connection problem.", Toast.LENGTH_LONG);
             } catch (SmackException.NoResponseException e) {
-                Toast.makeText(context,"Adding contact failed, no response from server.",Toast.LENGTH_LONG);
+                Toast.makeText(context, "Adding contact failed, no response from server.", Toast.LENGTH_LONG);
             }
         });
 
