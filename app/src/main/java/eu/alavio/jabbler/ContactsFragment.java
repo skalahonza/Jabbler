@@ -16,6 +16,7 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.roster.RosterEntry;
 
 import java.util.Collection;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,6 +64,7 @@ public class ContactsFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        loadContacts();
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -84,10 +86,15 @@ public class ContactsFragment extends Fragment {
 
     private void loadContacts() {
         try {
-            Collection<Friend> test = ApiHandler.getMyContacts();
+            List<Friend> contacts = ApiHandler.getMyContacts();
+            return;
         } catch (SmackException.NotLoggedInException e) {
             e.printStackTrace();
         } catch (SmackException.NotConnectedException e) {
+            e.printStackTrace();
+        } catch (XMPPException.XMPPErrorException e) {
+            e.printStackTrace();
+        } catch (SmackException.NoResponseException e) {
             e.printStackTrace();
         }
     }
