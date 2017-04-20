@@ -11,28 +11,28 @@ import java.util.List;
 
 public class Friend {
 
-    private final String user;
-    private final String name;
+    private final String jid;
+    private final String nickname;
     private final List<RosterGroup> groups;
     private VCard vCard;
 
-    public Friend(String user, String name, List<RosterGroup> groups) {
-        this.user = user;
-        this.name = name;
+    public Friend(String jid, String nickname, List<RosterGroup> groups) {
+        this.jid = jid;
+        this.nickname = nickname;
         this.groups = groups;
     }
 
-    public Friend(String user, String name, List<RosterGroup> groups, VCard vcard) {
-        this(user, name, groups);
+    public Friend(String jid, String nickname, List<RosterGroup> groups, VCard vcard) {
+        this(jid, nickname, groups);
         this.vCard = vcard;
     }
 
-    public String getUser() {
-        return user;
+    public String getJid() {
+        return jid;
     }
 
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
     public List<RosterGroup> getGroups() {
