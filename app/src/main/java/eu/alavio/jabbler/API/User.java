@@ -1,6 +1,9 @@
 package eu.alavio.jabbler.API;
 
-import org.jivesoftware.smackx.vcardtemp.packet.VCard;
+import org.jivesoftware.smack.roster.RosterGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Object for storing the information about the user.
@@ -8,24 +11,24 @@ import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 
 public class User {
 
-    private String username;
+    private String jid;
     private String name;
     private String email;
-    private String[] groups;
+    private List<RosterGroup> groups;
 
-    public User(String username, String name, String email, String[] groups) {
-        this.username = username;
+    public User(String jid, String name, String email, List<RosterGroup> groups) {
+        this.jid = jid;
         this.name = name;
         this.email = email;
         this.groups = groups;
     }
 
-    public User(String username, String name, String email) {
-        this(username, name, email, new String[]{});
+    public User(String jid, String name, String email) {
+        this(jid, name, email, new ArrayList<>());
     }
 
-    public String getUsername() {
-        return username;
+    public String getJid() {
+        return jid;
     }
 
     public String getFullName() {
@@ -36,7 +39,7 @@ public class User {
         return email;
     }
 
-    public String[] getGroups() {
+    public List<RosterGroup> getGroups() {
         return groups;
     }
 }
