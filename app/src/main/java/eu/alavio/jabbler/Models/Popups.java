@@ -3,7 +3,6 @@ package eu.alavio.jabbler.Models;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -14,7 +13,7 @@ import eu.alavio.jabbler.API.ApiHandler;
 import eu.alavio.jabbler.R;
 
 /**
- * Wrapper for common in app popups
+ * Wrapper (async) for common in app popups
  */
 
 public final class Popups {

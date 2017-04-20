@@ -8,14 +8,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TabHost;
-import android.widget.Toast;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.roster.RosterEntry;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import eu.alavio.jabbler.API.ApiHandler;
 import eu.alavio.jabbler.API.Friend;
+import eu.alavio.jabbler.Models.Adapters.ContactAdapter;
 import eu.alavio.jabbler.Models.Popups;
 
 
@@ -35,6 +35,11 @@ public class ContactsFragment extends Fragment {
     TabHost tabHost;
     @BindView(R.id.add_contact)
     FloatingActionButton vAddContact;
+    @BindView(R.id.all_contacts)
+    ListView vAllContacts;
+
+    List<Friend> allContacts = new ArrayList<>();
+    ContactAdapter adapter;
 
     public ContactsFragment() {
         // Required empty public constructor
@@ -66,6 +71,8 @@ public class ContactsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        adapter = new ContactAdapter(getActivity(), allContacts);
+        vAllContacts.setAdapter(adapter);
         loadContacts();
     }
 
@@ -77,8 +84,9 @@ public class ContactsFragment extends Fragment {
 
     private void loadContacts() {
         try {
-            List<Friend> contacts = ApiHandler.getMyContacts();
-            return;
+            adapter.clear();
+            allContacts = ApiHandler.getMyContacts();
+            adapter.addAll(allContacts);
         } catch (SmackException.NotLoggedInException e) {
             e.printStackTrace();
         } catch (SmackException.NotConnectedException e) {

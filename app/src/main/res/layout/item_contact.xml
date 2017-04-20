@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <TextView
-        android:id="@+id/nickname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/nickname"/>
+        android:layout_marginLeft="10dp"
+        android:hint="@string/nickname"
+        android:labelFor="@+id/nickname" />
+
+    <TextView
+        android:id="@+id/nickname"
+        style="@style/PageContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lorem Ipsu Dolor sit amet" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:hint="@string/username"
+        android:labelFor="@+id/username" />
 
     <TextView
         android:id="@+id/username"
+        style="@style/PageContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/username"/>
+        android:hint="@string/username" />
 </LinearLayout>
