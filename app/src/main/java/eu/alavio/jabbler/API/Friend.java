@@ -1,18 +1,41 @@
 package eu.alavio.jabbler.API;
 
+import org.jivesoftware.smack.roster.RosterGroup;
+import org.jivesoftware.smackx.vcardtemp.packet.VCard;
+
+import java.util.List;
+
 /**
- * Created by Jan Skála on 19.04.2017.
+ * Object wrapper for a contact
  */
 
-public class Friend extends User {
-    private String nickname;
+public class Friend {
 
-    public Friend(String username, String name, String email, String nickname) {
-        super(username, name, email);
-        this.nickname = nickname;
+    private final String user;
+    private final String name;
+    private final List<RosterGroup> groups;
+    private VCard vCard;
+
+    public Friend(String user, String name, List<RosterGroup> groups) {
+        this.user = user;
+        this.name = name;
+        this.groups = groups;
     }
 
-    public String getNickname() {
-        return nickname;
+    public Friend(String user, String name, List<RosterGroup> groups, VCard vcard) {
+        this(user, name, groups);
+        this.vCard = vcard;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<RosterGroup> getGroups() {
+        return groups;
     }
 }
