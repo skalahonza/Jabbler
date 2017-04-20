@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import eu.alavio.jabbler.API.ApiHandler;
 import eu.alavio.jabbler.API.Friend;
+import eu.alavio.jabbler.Models.Popups;
 
 
 /**
@@ -64,23 +65,13 @@ public class ContactsFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        loadContacts();
         super.onViewCreated(view, savedInstanceState);
+        loadContacts();
     }
 
     @OnClick(R.id.add_contact)
     void addContact() {
-        try {
-            ApiHandler.addContact("johny@alavio.eu","Test",null);
-        } catch (SmackException.NotLoggedInException e) {
-            e.printStackTrace();
-        } catch (XMPPException.XMPPErrorException e) {
-            e.printStackTrace();
-        } catch (SmackException.NotConnectedException e) {
-            e.printStackTrace();
-        } catch (SmackException.NoResponseException e) {
-            e.printStackTrace();
-        }
+        Popups.addContactDialog(getActivity());
         loadContacts();
     }
 
