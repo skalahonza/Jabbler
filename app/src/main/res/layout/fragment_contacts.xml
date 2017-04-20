@@ -38,6 +38,7 @@
             android:paddingTop="60px">
 
             <ListView
+                android:id="@+id/all_contacts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:entries="@array/sample_contacts_more" />
