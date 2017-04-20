@@ -1,22 +1,25 @@
 package eu.alavio.jabbler.API;
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.roster.RosterEntry;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 import org.jivesoftware.smackx.iqregister.AccountManager;
+import org.jivesoftware.smackx.vcardtemp.VCardManager;
+import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -142,10 +145,10 @@ public final class ApiHandler {
         return true;
     }
 
-    public static User getCUrrentUser() throws SmackException.NotConnectedException, XMPPException.XMPPErrorException, SmackException.NoResponseException {
+    public static User getCurrentUser() throws SmackException.NotConnectedException, XMPPException.XMPPErrorException, SmackException.NoResponseException {
         //If no connection
         if (connection == null || !connection.isConnected())
-            return null;
+            throw new SmackException.NotConnectedException();
 
         AccountManager accountManager = AccountManager.getInstance(connection);
         String name, email, username;
@@ -155,16 +158,22 @@ public final class ApiHandler {
         return new User(username, name, email);
     }
 
-    public static Collection<Friend> getMyContacts() throws SmackException.NotLoggedInException, SmackException.NotConnectedException {
+    public static List<Friend> getMyContacts() throws SmackException.NotLoggedInException, SmackException.NotConnectedException, XMPPException.XMPPErrorException, SmackException.NoResponseException {
         if (connection == null) throw new SmackException.NotConnectedException();
 
         Roster roster = Roster.getInstanceFor(connection);
         if (!roster.isLoaded())
             roster.reloadAndWait();
-        Collection<RosterEntry> entries = roster.getEntries();
 
-        //TODO RESOLVE EMPTY ROSTER
-        return null;
+        List<Friend> contacts = new ArrayList<>();
+        VCardManager vCardManager = VCardManager.getInstanceFor(connection);
+
+        for (RosterEntry entry : roster.getEntries()) {
+            VCard vCard = vCardManager.loadVCard(entry.getUser());
+            contacts.add(new Friend(entry.getUser(), entry.getName(), entry.getGroups(), vCard));
+        }
+
+        return contacts;
     }
 
     public static void addContact(String jid, String nickname, String[] groups) throws SmackException.NotLoggedInException, XMPPException.XMPPErrorException, SmackException.NotConnectedException, SmackException.NoResponseException {
