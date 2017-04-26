@@ -182,5 +182,20 @@ public final class ApiHandler {
         roster.createEntry(jid, nickname, groups);
         //TODO Resolve contact already added
     }
+
+    /** Removes contact from current user's roster (contact list)
+     * @param jid User jid to be deleted
+     * @throws SmackException.NotLoggedInException
+     * @throws XMPPException.XMPPErrorException
+     * @throws SmackException.NotConnectedException
+     * @throws SmackException.NoResponseException
+     */
+    public static void removeContact(String jid) throws SmackException.NotLoggedInException, XMPPException.XMPPErrorException, SmackException.NotConnectedException, SmackException.NoResponseException {
+        if (connection == null) return;
+        Roster roster = Roster.getInstanceFor(connection);
+        RosterEntry contact = roster.getEntry(jid);
+        if (contact != null)
+            roster.removeEntry(contact);
+    }
 }
 
