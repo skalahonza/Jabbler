@@ -40,6 +40,10 @@
     <string name="username_exists">Username already exists.</string>
     <string name="nickname">Nickname</string>
     <string name="username">Username</string>
+    <string name="delete">Delete</string>
+    <string name="error_contact_delete">Error while deleting the contact</string>
+    <string name="remove">Remove</string>
+    <string name="are_you_sure_delete_contact">Are you sure you want to delete this contact ?</string>
 
     <string-array name="sports_array">
         <item>Shuttle Badminton</item>

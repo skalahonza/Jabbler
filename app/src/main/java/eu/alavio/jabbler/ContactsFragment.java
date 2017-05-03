@@ -5,9 +5,14 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TabHost;
 
@@ -23,6 +28,7 @@ import butterknife.OnClick;
 import eu.alavio.jabbler.API.ApiHandler;
 import eu.alavio.jabbler.API.Friend;
 import eu.alavio.jabbler.Models.Adapters.ContactAdapter;
+import eu.alavio.jabbler.Models.Dialogs;
 import eu.alavio.jabbler.Models.Popups;
 
 
@@ -72,8 +78,42 @@ public class ContactsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         adapter = new ContactAdapter(getActivity(), allContacts);
+        registerForContextMenu(vAllContacts);
         vAllContacts.setAdapter(adapter);
         loadContacts();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        //All contacts menu
+        if (v.getId() == R.id.all_contacts) {
+            MenuInflater inflater = getActivity().getMenuInflater();
+            inflater.inflate(R.menu.all_contacts_menu, menu);
+        }
+
+        //Favourite contacts menu
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        switch (item.getItemId()){
+            //Delete pressed from all contacts
+            case R.id.remove:
+                Friend contact = adapter.getItem(info.position);
+                Dialogs.reallyDeleteContact(getActivity(), contact, () -> {
+                    try {
+                        ApiHandler.removeContact(contact);
+                        loadContacts();
+                    } catch (SmackException.NotLoggedInException | XMPPException.XMPPErrorException | SmackException.NotConnectedException | SmackException.NoResponseException e) {
+                        Log.e(getActivity().getClass().getName(), getString(R.string.error_contact_delete), e);
+                        Dialogs.deletingContactFailed(getActivity(), e.getLocalizedMessage());
+                    }
+                });
+                break;
+        }
+        return true;
     }
 
     @OnClick(R.id.add_contact)
@@ -86,14 +126,8 @@ public class ContactsFragment extends Fragment {
             adapter.clear();
             allContacts = ApiHandler.getMyContacts();
             adapter.addAll(allContacts);
-        } catch (SmackException.NotLoggedInException e) {
-            e.printStackTrace();
-        } catch (SmackException.NotConnectedException e) {
-            e.printStackTrace();
-        } catch (XMPPException.XMPPErrorException e) {
-            e.printStackTrace();
-        } catch (SmackException.NoResponseException e) {
-            e.printStackTrace();
+        } catch (SmackException.NotLoggedInException | SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
+            Log.e(getActivity().getClass().getName(), "Error loading contacts", e);
         }
     }
 }
