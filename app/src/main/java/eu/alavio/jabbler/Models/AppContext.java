@@ -7,7 +7,6 @@ import android.os.Environment;
  */
 
 public final class AppContext {
-
     /**
      * Checks if external storage is available for read and write
      */

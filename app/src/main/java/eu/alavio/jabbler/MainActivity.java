@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 import eu.alavio.jabbler.API.ApiHandler;
 import eu.alavio.jabbler.API.User;
 import eu.alavio.jabbler.Models.Dialogs;
+import eu.alavio.jabbler.Models.NavigationService;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -67,6 +68,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         //Select first - home item
         navigationView.getMenu().getItem(0).setChecked(true);
+
+        NavigationService.getInstance().setMainNavigationView(R.id.content_frame);
         navigate(new HomeFragment());
     }
 
@@ -176,17 +179,7 @@ public class MainActivity extends AppCompatActivity
      */
     private void navigate(Fragment fragment, boolean saveInBackStack) {
         // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        if (saveInBackStack) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .addToBackStack(null)
-                    .commit();
-        } else {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame, fragment)
-                    .commit();
-        }
+        NavigationService.getInstance().Navigate(fragment, saveInBackStack, getFragmentManager());
     }
 
     /**
