@@ -5,13 +5,6 @@
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:hint="@string/nickname"
-        android:labelFor="@+id/nickname" />
-
-    <TextView
         android:id="@+id/nickname"
         style="@style/PageContent"
         android:layout_width="match_parent"
@@ -19,16 +12,10 @@
         android:text="Lorem Ipsu Dolor sit amet" />
 
     <TextView
+        android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:hint="@string/username"
-        android:labelFor="@+id/username" />
-
-    <TextView
-        android:id="@+id/username"
-        style="@style/PageContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/username" />
+        android:hint="@string/nickname"
+        android:labelFor="@+id/nickname" />
 </LinearLayout>
