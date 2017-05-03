@@ -38,7 +38,7 @@
     <string name="unknown_host">Unknown host name.</string>
     <string name="unknown_app_error">Unknown application error occurred.</string>
     <string name="username_exists">Username already exists.</string>
-    <string name="nickname">Nickname</string>
+    <string name="name">Nickname</string>
     <string name="username">Username</string>
     <string name="delete">Delete</string>
     <string name="error_contact_delete">Error while deleting the contact</string>
@@ -81,6 +81,10 @@
         <item>Megan	Reid</item>
         <item>Katherine	Wilson</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="detail">Detail</string>
 
 
 </resources>

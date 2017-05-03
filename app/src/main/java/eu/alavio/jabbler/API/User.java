@@ -9,10 +9,8 @@ import java.util.List;
  * Object for storing the information about the user.
  */
 
-public class User {
+public class User extends Contact {
 
-    private String jid;
-    private String name;
     private String email;
     private List<RosterGroup> groups;
 
@@ -27,19 +25,8 @@ public class User {
         this(jid, name, email, new ArrayList<>());
     }
 
-    public String getJid() {
-        return jid;
-    }
-
-    public String getFullName() {
-        return name;
-    }
-
     public String getEmail() {
         return email;
     }
 
-    public List<RosterGroup> getGroups() {
-        return groups;
-    }
 }

@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity
             TextView vUserName = ButterKnife.findById(headerLayout, R.id.userName);
 
             if (user != null) {
-                vFullName.setText(user.getFullName());
+                vFullName.setText(user.getName());
                 vUserName.setText(user.getJid());
             }
         } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {

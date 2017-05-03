@@ -34,11 +34,11 @@ public class ContactAdapter extends ArrayAdapter<Friend> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_contact, parent, false);
         }
 
-        TextView vNickname = ButterKnife.findById(convertView, R.id.nickname);
+        TextView vNickname = ButterKnife.findById(convertView, R.id.name);
         TextView vUsername = ButterKnife.findById(convertView, R.id.username);
 
         if (contact != null) {
-            vNickname.setText(contact.getNickname());
+            vNickname.setText(contact.getName());
             vUsername.setText(contact.getJid());
         }
         return convertView;

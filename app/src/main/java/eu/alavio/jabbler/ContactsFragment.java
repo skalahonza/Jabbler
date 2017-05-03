@@ -2,6 +2,7 @@ package eu.alavio.jabbler;
 
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -59,18 +60,17 @@ public class ContactsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
         ButterKnife.bind(this, view);
 
+        //Tabs on top menu (Favourite,All)
         tabHost.setup();
-
         TabHost.TabSpec spec1 = tabHost.newTabSpec("Favourite");
         spec1.setContent(R.id.tab1);
         spec1.setIndicator("Favourite");
-
         TabHost.TabSpec spec2 = tabHost.newTabSpec("All");
         spec2.setIndicator("All");
         spec2.setContent(R.id.tab2);
-
         tabHost.addTab(spec1);
         tabHost.addTab(spec2);
+
         return view;
     }
 
@@ -98,9 +98,9 @@ public class ContactsFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             //Delete pressed from all contacts
-            case R.id.remove:
+            case R.id.remove: {
                 Friend contact = adapter.getItem(info.position);
                 Dialogs.reallyDeleteContact(getActivity(), contact, () -> {
                     try {
@@ -112,6 +112,15 @@ public class ContactsFragment extends Fragment {
                     }
                 });
                 break;
+            }
+            //View detail
+            case R.id.detail: {
+                Friend contact = adapter.getItem(info.position);
+                ContactDetailFragment fragment = ContactDetailFragment.getInstance(contact.getJid());
+
+                //TODO navigate to fragment
+                break;
+            }
         }
         return true;
     }

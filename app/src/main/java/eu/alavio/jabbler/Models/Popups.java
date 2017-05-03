@@ -25,7 +25,7 @@ public final class Popups {
         dialog.setTitle("Custom Alert Dialog");
 
         EditText jid = (EditText) dialog.findViewById(R.id.jid);
-        EditText nickname = (EditText) dialog.findViewById(R.id.nickname);
+        EditText nickname = (EditText) dialog.findViewById(R.id.name);
         FloatingActionButton accept = (FloatingActionButton) dialog.findViewById(R.id.accept);
         FloatingActionButton cancel = (FloatingActionButton) dialog.findViewById(R.id.cancel);
 

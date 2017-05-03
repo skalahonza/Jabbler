@@ -176,6 +176,15 @@ public final class ApiHandler {
         return contacts;
     }
 
+    public static Friend getContact(String jid) throws SmackException.NotConnectedException, XMPPException.XMPPErrorException, SmackException.NoResponseException {
+        if (connection == null) throw new SmackException.NotConnectedException();
+        Roster roster = Roster.getInstanceFor(connection);
+        RosterEntry entry = roster.getEntry(jid);
+        VCardManager vCardManager = VCardManager.getInstanceFor(connection);
+        VCard vCard = vCardManager.loadVCard(entry.getUser());
+        return new Friend(entry.getUser(), entry.getName(), entry.getGroups(), vCard);
+    }
+
     public static void addContact(String jid, String nickname, String[] groups) throws SmackException.NotLoggedInException, XMPPException.XMPPErrorException, SmackException.NotConnectedException, SmackException.NoResponseException {
         if (connection == null) return;
         Roster roster = Roster.getInstanceFor(connection);
@@ -183,7 +192,9 @@ public final class ApiHandler {
         //TODO Resolve contact already added
     }
 
-    /** Removes contact from current user's roster (contact list)
+    /**
+     * Removes contact from current user's roster (contact list)
+     *
      * @param contact Contact/Friend to be deleted
      * @throws SmackException.NotLoggedInException
      * @throws XMPPException.XMPPErrorException
