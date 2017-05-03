@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import eu.alavio.jabbler.API.ApiHandler;
+import eu.alavio.jabbler.API.Friend;
 import eu.alavio.jabbler.R;
 
 /**
@@ -67,6 +68,11 @@ public final class Dialogs {
         });
     }
 
+    public static void deletingContactFailed(Context context, String reason) {
+        operationErrorDialog(context, context.getString(R.string.error_contact_delete), reason, () -> {
+        });
+    }
+
     /**
      * Shows or hides the in progress view.
      *
@@ -89,5 +95,16 @@ public final class Dialogs {
                 }
             });
         }
+    }
+
+    public static void reallyDeleteContact(Context context, Friend contact, Runnable confirmed) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(R.string.are_you_sure_delete_contact);
+        builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+            confirmed.run();
+            dialog.dismiss();
+        });
+        builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
+        builder.show();
     }
 }
