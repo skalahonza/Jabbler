@@ -14,6 +14,5 @@ Android client for jabber communication protocol.
 
 ## Used libraries/frameworks
 * <a href="http://jakewharton.github.io/butterknife/" target="_blank">Butterknife</a>
-* <a href="https://developer.android.com/topic/libraries/data-binding/index.html" target="_blank">Data binding</a>
-* <a href="https://bitbucket.org/sco0ter/babbler/" target="_blank">Babbler - XMPP library</a>
+* <a href="https://www.igniterealtime.org/projects/smack/" target="_blank">Smack - XMPP library, works best with Openfire</a>
 * <a href="https://developer.android.com/design/material/index.html" target="_blank">Material design</a>
