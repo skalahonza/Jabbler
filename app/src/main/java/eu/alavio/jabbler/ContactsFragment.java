@@ -25,6 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
 import eu.alavio.jabbler.API.ApiHandler;
 import eu.alavio.jabbler.API.Friend;
 import eu.alavio.jabbler.Models.Adapters.ContactAdapter;
@@ -45,8 +46,9 @@ public class ContactsFragment extends Fragment {
     @BindView(R.id.all_contacts)
     ListView vAllContacts;
 
+    //used as a base for filtering
     List<Friend> allContacts = new ArrayList<>();
-    ContactAdapter adapter;
+    ContactAdapter allContactsAdapter;
 
     public ContactsFragment() {
         // Required empty public constructor
@@ -77,9 +79,9 @@ public class ContactsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        adapter = new ContactAdapter(getActivity(), allContacts);
+        allContactsAdapter = new ContactAdapter(getActivity(), allContacts);
         registerForContextMenu(vAllContacts);
-        vAllContacts.setAdapter(adapter);
+        vAllContacts.setAdapter(allContactsAdapter);
         loadContacts();
     }
 
@@ -101,7 +103,7 @@ public class ContactsFragment extends Fragment {
         switch (item.getItemId()) {
             //Delete pressed from all contacts
             case R.id.remove: {
-                Friend contact = adapter.getItem(info.position);
+                Friend contact = allContactsAdapter.getItem(info.position);
                 Dialogs.reallyDeleteContact(getActivity(), () -> {
                     try {
                         ApiHandler.removeContact(contact);
@@ -115,9 +117,7 @@ public class ContactsFragment extends Fragment {
             }
             //View detail
             case R.id.detail: {
-                Friend contact = adapter.getItem(info.position);
-                ContactDetailFragment fragment = ContactDetailFragment.getInstance(contact.getJid());
-                NavigationService.getInstance().Navigate(fragment, true, getFragmentManager());
+                displayContactDetail(allContactsAdapter.getItem(info.position));
                 break;
             }
         }
@@ -129,13 +129,23 @@ public class ContactsFragment extends Fragment {
         Popups.addContactDialog(getActivity(), this::loadContacts);
     }
 
+    @OnItemClick(R.id.all_contacts)
+    void onItemSelected(int position) {
+        displayContactDetail(allContactsAdapter.getItem(position));
+    }
+
     private void loadContacts() {
         try {
-            adapter.clear();
+            allContactsAdapter.clear();
             allContacts = ApiHandler.getMyContacts();
-            adapter.addAll(allContacts);
+            allContactsAdapter.addAll(allContacts);
         } catch (SmackException.NotLoggedInException | SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
             Log.e(getActivity().getClass().getName(), "Error loading contacts", e);
         }
+    }
+
+    private void displayContactDetail(Friend contact) {
+        ContactDetailFragment fragment = ContactDetailFragment.getInstance(contact.getJid());
+        NavigationService.getInstance().Navigate(fragment, true, getFragmentManager());
     }
 }
