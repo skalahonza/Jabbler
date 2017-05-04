@@ -80,8 +80,10 @@ public final class NavigationService {
         this.mainNavigationFrameId = mainNavigationFrameId;
     }
 
-    /** Navigates to given fragment, and present it on default navigation view.
-     * @param fragment Fragment to be dispalyed
+    /**
+     * Navigates to given fragment, and present it on default navigation view.
+     *
+     * @param fragment        Fragment to be dispalyed
      * @param saveInBackstack Save current fragment into backstack before navigating
      * @param fragmentManager Provide current fragment manager, calling getFragmentManager()
      * @return True if the navigation was successful
@@ -90,11 +92,13 @@ public final class NavigationService {
         return Navigate(fragment, saveInBackstack, fragmentManager, mainNavigationFrameId);
     }
 
-    /** Navigates to given fragment, and present it on given navigation view.
-     * @param fragment Fragment to be dispalyed
+    /**
+     * Navigates to given fragment, and present it on given navigation view.
+     *
+     * @param fragment        Fragment to be dispalyed
      * @param saveInBackstack Save current fragment into backstack before navigating
      * @param fragmentManager Provide current fragment manager, calling getFragmentManager()
-     * @param frameId Navigation view that will be used as a fragment presenter
+     * @param frameId         Navigation view that will be used as a fragment presenter
      * @return True if the navigation was successful
      */
     public boolean Navigate(Fragment fragment, boolean saveInBackstack, FragmentManager fragmentManager, int frameId) {
@@ -117,10 +121,12 @@ public final class NavigationService {
         }
     }
 
-    /** Checks if the fragment is displayed on a given navigation view
-     * @param fragment Fragment to be checked
+    /**
+     * Checks if the fragment is displayed on a given navigation view
+     *
+     * @param fragment        Fragment to be checked
      * @param fragmentManager Provide current fragment manager, calling getFragmentManager()
-     * @param frameId Navigation view id that will be observed
+     * @param frameId         Navigation view id that will be observed
      * @return True fi the fragment is displayed
      */
     public boolean isFragmentDisplayed(Fragment fragment, FragmentManager fragmentManager, int frameId) {
@@ -138,12 +144,36 @@ public final class NavigationService {
         return Navigate(page, saveInBackstack, fragmentManager, mainNavigationFrameId);
     }
 
-    /** Checks if the fragment is displayed on a default navigation view
-     * @param fragment Fragment to be checked
+    /**
+     * Checks if the fragment is displayed on a default navigation view
+     *
+     * @param fragment        Fragment to be checked
      * @param fragmentManager Provide current fragment manager, calling getFragmentManager()
      * @return True fi the fragment is displayed
      */
     public boolean isFragmentDisplayed(Fragment fragment, FragmentManager fragmentManager) {
         return isFragmentDisplayed(fragment, fragmentManager, mainNavigationFrameId);
+    }
+
+    /**
+     * Checks if back navigation can be performed
+     *
+     * @param fragmentManager Provide current fragment manager, calling getFragmentManager()
+     * @return True if back navigation is possible (backstack not empty)
+     */
+    public boolean canGoBack(FragmentManager fragmentManager) {
+        return fragmentManager.getBackStackEntryCount() > 0;
+    }
+
+    /**
+     * Checks if back navigation can be performed and if so, it navigates back
+     *
+     * @param fragmentManager Provide current fragment manager, calling getFragmentManager()
+     * @return True if back navigation is possible (backstack not empty)
+     */
+    public boolean goBack(FragmentManager fragmentManager) {
+        if (!canGoBack(fragmentManager)) return false;
+        fragmentManager.popBackStack();
+        return true;
     }
 }

@@ -102,7 +102,7 @@ public class ContactsFragment extends Fragment {
             //Delete pressed from all contacts
             case R.id.remove: {
                 Friend contact = adapter.getItem(info.position);
-                Dialogs.reallyDeleteContact(getActivity(), contact, () -> {
+                Dialogs.reallyDeleteContact(getActivity(), () -> {
                     try {
                         ApiHandler.removeContact(contact);
                         loadContacts();

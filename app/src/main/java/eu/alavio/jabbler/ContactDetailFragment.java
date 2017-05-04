@@ -8,14 +8,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import eu.alavio.jabbler.API.ApiHandler;
 import eu.alavio.jabbler.API.Friend;
+import eu.alavio.jabbler.Models.Dialogs;
+import eu.alavio.jabbler.Models.NavigationService;
 
 
 /**
@@ -23,8 +26,7 @@ import eu.alavio.jabbler.API.Friend;
  */
 public class ContactDetailFragment extends Fragment {
 
-    TextView vFullName;
-    TextView vJid;
+    EditText vFullName, vJid;
     View view;
 
     Friend contact;
@@ -59,7 +61,6 @@ public class ContactDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         vFullName = ButterKnife.findById(view, R.id.full_name);
-        //@BindView(R.id.jid_box)
         vJid = ButterKnife.findById(view, R.id.jid_box);
 
         //Get contact to be displayed
@@ -73,5 +74,18 @@ public class ContactDetailFragment extends Fragment {
         //Fill in UI
         vFullName.setText(contact.getName());
         vJid.setText(contact.getJid());
+    }
+
+    @OnClick(R.id.delete_button)
+    void deleteContact() {
+        Dialogs.reallyDeleteContact(getActivity(), () -> {
+            try {
+                ApiHandler.removeContact(contact);
+                NavigationService.getInstance().goBack(getFragmentManager());
+            } catch (SmackException.NotLoggedInException | XMPPException.XMPPErrorException | SmackException.NotConnectedException | SmackException.NoResponseException e) {
+                Log.e(getActivity().getClass().getName(), "Removing contact failed", e);
+                Dialogs.deletingContactFailed(getActivity(), e.getLocalizedMessage());
+            }
+        });
     }
 }

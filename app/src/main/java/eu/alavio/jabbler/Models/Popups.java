@@ -3,6 +3,7 @@ package eu.alavio.jabbler.Models;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -35,14 +36,9 @@ public final class Popups {
                 ApiHandler.addContact(String.valueOf(jid.getText()), String.valueOf(nickname.getText()), null);
                 dialog.dismiss();
                 onSuccess.run();
-            } catch (SmackException.NotLoggedInException e) {
-                e.printStackTrace();
-            } catch (XMPPException.XMPPErrorException e) {
-                Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG);
-            } catch (SmackException.NotConnectedException e) {
-                Toast.makeText(context, "Adding contact failed, connection problem.", Toast.LENGTH_LONG);
-            } catch (SmackException.NoResponseException e) {
-                Toast.makeText(context, "Adding contact failed, no response from server.", Toast.LENGTH_LONG);
+            } catch (SmackException.NotLoggedInException | XMPPException.XMPPErrorException | SmackException.NotConnectedException | SmackException.NoResponseException e) {
+                Log.e(context.getClass().getName(), "Add contact dialog failed.", e);
+                Toast.makeText(context, "Cannot add contact: " + e.getMessage(), Toast.LENGTH_LONG);
             }
         });
 
