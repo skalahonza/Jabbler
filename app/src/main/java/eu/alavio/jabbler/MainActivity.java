@@ -1,7 +1,6 @@
 package eu.alavio.jabbler;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -69,7 +68,8 @@ public class MainActivity extends AppCompatActivity
         //Select first - home item
         navigationView.getMenu().getItem(0).setChecked(true);
 
-        NavigationService.getInstance().setMainNavigationView(R.id.content_frame);
+        NavigationService.getInstance().setMainNavigationFrameId(R.id.content_frame);
+        NavigationService.getInstance().setMainNavigationView(navigationView);
         navigate(new HomeFragment());
     }
 
@@ -102,10 +102,11 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.action_settings:
-                //if settings not already displayed
+                //If settings already displayed, end method
                 Fragment settings = new SettingsScreen();
-                if (!isFragmentDisplayed(settings))
-                    navigate(settings, true);
+                if (!NavigationService.getInstance().isFragmentDisplayed(settings, getFragmentManager()))
+                    NavigationService.getInstance().Navigate(NavigationService.MainPages.SETTINGS,
+                            false, getFragmentManager());
                 return true;
             case R.id.Logout:
                 logout();
@@ -132,30 +133,31 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Fragment fragment = null;
         switch (id) {
             case R.id.nav_home:
-                fragment = new HomeFragment();
+                NavigationService.getInstance().Navigate(NavigationService.MainPages.HOME,
+                        false, getFragmentManager());
                 break;
             case R.id.nav_history:
-                fragment = new HistoryFragment();
+                NavigationService.getInstance().Navigate(NavigationService.MainPages.HISTORY,
+                        false, getFragmentManager());
                 break;
             case R.id.nav_settings:
                 //If settings already displayed, end method
                 Fragment settings = new SettingsScreen();
-                if (!isFragmentDisplayed(settings))
-                    fragment = settings;
+                if (!NavigationService.getInstance().isFragmentDisplayed(settings, getFragmentManager()))
+                    NavigationService.getInstance().Navigate(NavigationService.MainPages.SETTINGS,
+                            false, getFragmentManager());
                 break;
             case R.id.nav_about:
-                fragment = new AboutFragment();
+                NavigationService.getInstance().Navigate(NavigationService.MainPages.ABOUT,
+                        false, getFragmentManager());
                 break;
             case R.id.nav_contacts:
-                fragment = new ContactsFragment();
+                NavigationService.getInstance().Navigate(NavigationService.MainPages.CONTACTS,
+                        false, getFragmentManager());
                 break;
         }
-
-        if (fragment != null)
-            navigate(fragment, true);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -180,16 +182,5 @@ public class MainActivity extends AppCompatActivity
     private void navigate(Fragment fragment, boolean saveInBackStack) {
         // Insert the fragment by replacing any existing fragment
         NavigationService.getInstance().Navigate(fragment, saveInBackStack, getFragmentManager());
-    }
-
-    /**
-     * Check if any instance of given fragment is now displayed
-     *
-     * @param fragment Examined fragment
-     * @return True if the fragment is displayed
-     */
-    private boolean isFragmentDisplayed(Fragment fragment) {
-        Fragment f = getFragmentManager().findFragmentById(R.id.content_frame);
-        return f.getClass() == fragment.getClass();
     }
 }
