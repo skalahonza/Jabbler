@@ -2,7 +2,6 @@ package eu.alavio.jabbler;
 
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -30,6 +29,7 @@ import eu.alavio.jabbler.API.ApiHandler;
 import eu.alavio.jabbler.API.Friend;
 import eu.alavio.jabbler.Models.Adapters.ContactAdapter;
 import eu.alavio.jabbler.Models.Dialogs;
+import eu.alavio.jabbler.Models.NavigationService;
 import eu.alavio.jabbler.Models.Popups;
 
 
@@ -117,8 +117,7 @@ public class ContactsFragment extends Fragment {
             case R.id.detail: {
                 Friend contact = adapter.getItem(info.position);
                 ContactDetailFragment fragment = ContactDetailFragment.getInstance(contact.getJid());
-
-                //TODO navigate to fragment
+                NavigationService.getInstance().Navigate(fragment, true, getFragmentManager());
                 break;
             }
         }

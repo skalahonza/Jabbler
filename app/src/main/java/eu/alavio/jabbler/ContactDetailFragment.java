@@ -13,7 +13,6 @@ import android.widget.TextView;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import eu.alavio.jabbler.API.ApiHandler;
 import eu.alavio.jabbler.API.Friend;
@@ -23,10 +22,10 @@ import eu.alavio.jabbler.API.Friend;
  * A simple {@link Fragment} subclass.
  */
 public class ContactDetailFragment extends Fragment {
-    @BindView(R.id.fullName)
+
     TextView vFullName;
-    @BindView(R.id.jid_box)
     TextView vJid;
+    View view;
 
     Friend contact;
 
@@ -35,14 +34,6 @@ public class ContactDetailFragment extends Fragment {
      */
     public ContactDetailFragment() {
         // Required empty public constructor
-
-        //Get contact to be displayed
-        Bundle bundle = getArguments();
-        try {
-            contact = ApiHandler.getContact(bundle.getString("jid"));
-        } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
-            Log.e(getActivity().getClass().getName(), "Displaying contact error", e);
-        }
     }
 
     public static ContactDetailFragment getInstance(String jid) {
@@ -58,7 +49,7 @@ public class ContactDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_contact_detail, container, false);
+        view = inflater.inflate(R.layout.fragment_contact_detail, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -66,6 +57,18 @@ public class ContactDetailFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        vFullName = ButterKnife.findById(view, R.id.full_name);
+        //@BindView(R.id.jid_box)
+        vJid = ButterKnife.findById(view, R.id.jid_box);
+
+        //Get contact to be displayed
+        Bundle bundle = getArguments();
+        try {
+            contact = ApiHandler.getContact(bundle.getString("jid"));
+        } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
+            Log.e(getActivity().getClass().getName(), "Displaying contact error", e);
+        }
 
         //Fill in UI
         vFullName.setText(contact.getName());
