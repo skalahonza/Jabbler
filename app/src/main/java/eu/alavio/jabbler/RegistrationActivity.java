@@ -109,7 +109,7 @@ public class RegistrationActivity extends AppCompatActivity {
         private String fullName;
         private Context context;
 
-        private String status = String.valueOf(R.string.unknown_app_error);
+        private String status = getString(R.string.unknown_app_error);
 
         RegisterTask(String username, String password, String email, String fullName, Context context) {
             this.username = username;
@@ -131,13 +131,14 @@ public class RegistrationActivity extends AppCompatActivity {
                         break;
                     case remote_server_timeout:
                         //Connection problem
-                        status = String.valueOf(R.string.check_internet_connection);
+                        status = getString(R.string.check_internet_connection);
                         break;
                     default:
                         break;
                 }
             } catch (XMPPException | IOException | SmackException e) {
                 Log.e("XMPP", "Error occured during registration.", e);
+                status = e.getMessage();
             }
             return false;
         }
