@@ -1,6 +1,5 @@
 package eu.alavio.jabbler.API;
 
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
@@ -17,7 +16,6 @@ import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,7 +98,7 @@ public final class ApiHandler {
 
         } catch (XMPPException | IOException | SmackException e) {
             //Not authorized
-            Log.i("XMPP", "Error during login.", e);
+            Log.e("XMPP", "Error during login.", e);
 
             //unable to resolve host
             if (e.getMessage().toLowerCase().contains("java.net.unknownhostexception"))
@@ -127,6 +125,18 @@ public final class ApiHandler {
         }
     }
 
+    /**
+     * Register new user into alavio.eu server
+     *
+     * @param username Username - without domain
+     * @param password user password
+     * @param email    user contact email, different rom username and domain, e.g. sample@alavio.eu is not different email
+     * @param fullName Name to be displayed in a profile and so on
+     * @return True if success
+     * @throws XMPPException
+     * @throws IOException
+     * @throws SmackException
+     */
     public static boolean register(String username, String password, String email, String fullName) throws XMPPException, IOException, SmackException {
         //If no connection, create a new one
         if (connection == null || !connection.isConnected())
@@ -145,6 +155,12 @@ public final class ApiHandler {
         return true;
     }
 
+    /** Get logged in user's data
+     * @return Current user data Wrapped in User class
+     * @throws SmackException.NotConnectedException
+     * @throws XMPPException.XMPPErrorException
+     * @throws SmackException.NoResponseException
+     */
     public static User getCurrentUser() throws SmackException.NotConnectedException, XMPPException.XMPPErrorException, SmackException.NoResponseException {
         //If no connection
         if (connection == null || !connection.isConnected())
@@ -158,6 +174,13 @@ public final class ApiHandler {
         return new User(username, name, email);
     }
 
+    /** Iterates through roster of current user and returns wrapped contacts
+     * @return List of Friend objects (contacts from roster)
+     * @throws SmackException.NotLoggedInException
+     * @throws SmackException.NotConnectedException
+     * @throws XMPPException.XMPPErrorException
+     * @throws SmackException.NoResponseException
+     */
     public static List<Friend> getMyContacts() throws SmackException.NotLoggedInException, SmackException.NotConnectedException, XMPPException.XMPPErrorException, SmackException.NoResponseException {
         if (connection == null) throw new SmackException.NotConnectedException();
 
@@ -176,6 +199,13 @@ public final class ApiHandler {
         return contacts;
     }
 
+    /** Searches roster for given jabber id and returns wrapped contact if found
+     * @param jid Jabber id of the contact
+     * @return Wrapped roster contact in Frien class
+     * @throws SmackException.NotConnectedException
+     * @throws XMPPException.XMPPErrorException
+     * @throws SmackException.NoResponseException
+     */
     public static Friend getContact(String jid) throws SmackException.NotConnectedException, XMPPException.XMPPErrorException, SmackException.NoResponseException {
         if (connection == null) throw new SmackException.NotConnectedException();
         Roster roster = Roster.getInstanceFor(connection);
@@ -185,6 +215,15 @@ public final class ApiHandler {
         return new Friend(entry.getUser(), entry.getName(), entry.getGroups(), vCard);
     }
 
+    /** Adds contact to roster of current User
+     * @param jid Jabber id of contact
+     * @param nickname Nickname to be displayed in contact list
+     * @param groups Groups the user is registered in
+     * @throws SmackException.NotLoggedInException
+     * @throws XMPPException.XMPPErrorException
+     * @throws SmackException.NotConnectedException
+     * @throws SmackException.NoResponseException
+     */
     public static void addContact(String jid, String nickname, String[] groups) throws SmackException.NotLoggedInException, XMPPException.XMPPErrorException, SmackException.NotConnectedException, SmackException.NoResponseException {
         if (connection == null) return;
         Roster roster = Roster.getInstanceFor(connection);
