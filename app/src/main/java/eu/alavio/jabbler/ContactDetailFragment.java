@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
@@ -87,5 +88,11 @@ public class ContactDetailFragment extends Fragment {
                 Dialogs.deletingContactFailed(getActivity(), e.getLocalizedMessage());
             }
         });
+    }
+
+    @OnClick(R.id.chat_button)
+    void initiateChat() {
+        //TODO Implement this
+        Toast.makeText(getActivity(), "Start chat", Toast.LENGTH_LONG).show();
     }
 }

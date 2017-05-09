@@ -87,6 +87,7 @@
     <string name="detail">Detail</string>
     <string name="favourite">Favourite</string>
     <string name="not_favourite">Not favourite</string>
+    <string name="chat">Chat</string>
 
 
 </resources>
