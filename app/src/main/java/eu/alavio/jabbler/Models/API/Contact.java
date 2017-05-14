@@ -1,4 +1,4 @@
-package eu.alavio.jabbler.API;
+package eu.alavio.jabbler.Models.API;
 
 import org.jivesoftware.smack.roster.RosterGroup;
 

@@ -1,4 +1,4 @@
-package eu.alavio.jabbler;
+package eu.alavio.jabbler.Activities;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -19,10 +19,13 @@ import org.jivesoftware.smack.XMPPException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import eu.alavio.jabbler.API.ApiHandler;
-import eu.alavio.jabbler.API.User;
-import eu.alavio.jabbler.Models.Dialogs;
-import eu.alavio.jabbler.Models.NavigationService;
+import eu.alavio.jabbler.Fragments.HomeFragment;
+import eu.alavio.jabbler.Fragments.SettingsScreen;
+import eu.alavio.jabbler.Models.API.ApiHandler;
+import eu.alavio.jabbler.Models.API.User;
+import eu.alavio.jabbler.Models.Helpers.Dialogs;
+import eu.alavio.jabbler.Models.Helpers.NavigationService;
+import eu.alavio.jabbler.R;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

@@ -1,4 +1,4 @@
-package eu.alavio.jabbler.Models;
+package eu.alavio.jabbler.Models.Helpers;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -6,7 +6,7 @@ import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
-import eu.alavio.jabbler.API.ApiHandler;
+import eu.alavio.jabbler.Models.API.ApiHandler;
 import eu.alavio.jabbler.R;
 
 /**

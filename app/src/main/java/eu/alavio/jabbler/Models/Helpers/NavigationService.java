@@ -1,15 +1,15 @@
-package eu.alavio.jabbler.Models;
+package eu.alavio.jabbler.Models.Helpers;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.design.widget.NavigationView;
 import android.util.Log;
 
-import eu.alavio.jabbler.AboutFragment;
-import eu.alavio.jabbler.ContactsFragment;
-import eu.alavio.jabbler.HistoryFragment;
-import eu.alavio.jabbler.HomeFragment;
-import eu.alavio.jabbler.SettingsScreen;
+import eu.alavio.jabbler.Fragments.AboutFragment;
+import eu.alavio.jabbler.Fragments.ContactsFragment;
+import eu.alavio.jabbler.Fragments.HistoryFragment;
+import eu.alavio.jabbler.Fragments.HomeFragment;
+import eu.alavio.jabbler.Fragments.SettingsScreen;
 
 /**
  * Wrapper for android activity/fragment navigation

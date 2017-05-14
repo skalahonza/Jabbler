@@ -7,10 +7,10 @@ import android.util.Log;
 import java.io.File;
 import java.io.IOException;
 
-import eu.alavio.jabbler.Models.AppContext;
+import eu.alavio.jabbler.Models.Helpers.AppContext;
 
 /**
- * Global app launcher handler
+ * Global app launcher handler/launcher
  */
 
 public class Jabbler extends Application {

@@ -1,4 +1,4 @@
-package eu.alavio.jabbler;
+package eu.alavio.jabbler.Fragments;
 
 
 import android.app.Fragment;
@@ -16,10 +16,11 @@ import org.jivesoftware.smack.XMPPException;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import eu.alavio.jabbler.API.ApiHandler;
-import eu.alavio.jabbler.API.Friend;
-import eu.alavio.jabbler.Models.Dialogs;
-import eu.alavio.jabbler.Models.NavigationService;
+import eu.alavio.jabbler.Models.API.ApiHandler;
+import eu.alavio.jabbler.Models.API.Friend;
+import eu.alavio.jabbler.Models.Helpers.Dialogs;
+import eu.alavio.jabbler.Models.Helpers.NavigationService;
+import eu.alavio.jabbler.R;
 
 
 /**

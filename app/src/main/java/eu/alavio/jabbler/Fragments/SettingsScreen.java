@@ -1,8 +1,10 @@
-package eu.alavio.jabbler;
+package eu.alavio.jabbler.Fragments;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
+
+import eu.alavio.jabbler.R;
 
 /**
  * Created by Jan Skála on 01.04.2017.

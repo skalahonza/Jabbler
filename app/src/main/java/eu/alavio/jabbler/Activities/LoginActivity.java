@@ -1,4 +1,4 @@
-package eu.alavio.jabbler;
+package eu.alavio.jabbler.Activities;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -8,10 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
@@ -26,9 +24,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
-import eu.alavio.jabbler.API.ApiHandler;
-import eu.alavio.jabbler.Models.Dialogs;
-import eu.alavio.jabbler.Models.Helper;
+import eu.alavio.jabbler.Models.API.ApiHandler;
+import eu.alavio.jabbler.Models.Helpers.Dialogs;
+import eu.alavio.jabbler.Models.Helpers.Helper;
+import eu.alavio.jabbler.R;
 
 /**
  * A login screen that offers login via email/password.

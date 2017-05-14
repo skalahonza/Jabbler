@@ -1,4 +1,4 @@
-package eu.alavio.jabbler;
+package eu.alavio.jabbler.Activities;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -17,9 +17,10 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import eu.alavio.jabbler.API.ApiHandler;
-import eu.alavio.jabbler.Models.Dialogs;
-import eu.alavio.jabbler.Models.Helper;
+import eu.alavio.jabbler.Models.API.ApiHandler;
+import eu.alavio.jabbler.Models.Helpers.Dialogs;
+import eu.alavio.jabbler.Models.Helpers.Helper;
+import eu.alavio.jabbler.R;
 
 import static eu.alavio.jabbler.R.id.email;
 

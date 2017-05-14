@@ -1,4 +1,4 @@
-package eu.alavio.jabbler;
+package eu.alavio.jabbler.Fragments;
 
 
 import android.app.Fragment;
@@ -26,12 +26,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
-import eu.alavio.jabbler.API.ApiHandler;
-import eu.alavio.jabbler.API.Friend;
+import eu.alavio.jabbler.Models.API.ApiHandler;
+import eu.alavio.jabbler.Models.API.Friend;
 import eu.alavio.jabbler.Models.Adapters.ContactAdapter;
-import eu.alavio.jabbler.Models.Dialogs;
-import eu.alavio.jabbler.Models.NavigationService;
-import eu.alavio.jabbler.Models.Popups;
+import eu.alavio.jabbler.Models.Helpers.Dialogs;
+import eu.alavio.jabbler.Models.Helpers.NavigationService;
+import eu.alavio.jabbler.Models.Helpers.Popups;
+import eu.alavio.jabbler.R;
 
 
 /**
