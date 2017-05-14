@@ -65,6 +65,11 @@ public final class NavigationService {
             }
         };
 
+        /**
+         * Get activity class for Intent navigation
+         *
+         * @return Activity inheriting object used for new Intent navigation
+         */
         public abstract Class<? extends Activity> getActivityClass();
     }
 
@@ -153,9 +158,9 @@ public final class NavigationService {
     }
 
     /**
-     * Navigates to activity specified in enum
+     * Navigates to activity specified by enum
      *
-     * @param activity Required dactivity
+     * @param activity Required activity from enum class
      * @param context  Current context, can be obtained by getActivityClass(), or you can pass this when in Activity scope
      * @return True if success
      */
