@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import eu.alavio.jabbler.API.Friend;
+import eu.alavio.jabbler.Models.API.Friend;
 import eu.alavio.jabbler.R;
 
 /**

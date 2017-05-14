@@ -1,4 +1,4 @@
-package eu.alavio.jabbler.Models;
+package eu.alavio.jabbler.Models.Helpers;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 
-import eu.alavio.jabbler.API.ApiHandler;
+import eu.alavio.jabbler.Models.API.ApiHandler;
 import eu.alavio.jabbler.R;
 
 /**

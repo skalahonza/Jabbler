@@ -16,21 +16,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="eu.alavio.jabbler.LoginActivity">
+        <activity android:name="eu.alavio.jabbler.Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="eu.alavio.jabbler.MainActivity"
+            android:name="eu.alavio.jabbler.Activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name="eu.alavio.jabbler.RegistrationActivity"></activity>
+        <activity android:name="eu.alavio.jabbler.Activities.RegistrationActivity"></activity>
     </application>
 
 </manifest>

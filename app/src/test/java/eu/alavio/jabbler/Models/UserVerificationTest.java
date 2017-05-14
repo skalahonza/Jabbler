@@ -7,6 +7,8 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.Collection;
 
+import eu.alavio.jabbler.Models.Helpers.Helper;
+
 import static org.junit.Assert.assertEquals;
 
 /**

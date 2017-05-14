@@ -1,4 +1,4 @@
-package eu.alavio.jabbler;
+package eu.alavio.jabbler.Fragments;
 
 
 import android.app.Fragment;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import eu.alavio.jabbler.R;
 
 
 /**

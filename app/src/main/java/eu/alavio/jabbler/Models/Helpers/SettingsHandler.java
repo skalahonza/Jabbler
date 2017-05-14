@@ -1,4 +1,4 @@
-package eu.alavio.jabbler.Models;
+package eu.alavio.jabbler.Models.Helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
