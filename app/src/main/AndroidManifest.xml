@@ -31,6 +31,9 @@
             </intent-filter>
         </activity>
         <activity android:name="eu.alavio.jabbler.Activities.RegistrationActivity"></activity>
+        <activity
+            android:name="eu.alavio.jabbler.Activities.SettingsScreen"
+            android:label="@string/settings"></activity>
     </application>
 
 </manifest>
