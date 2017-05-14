@@ -1,5 +1,6 @@
 package eu.alavio.jabbler.Models.Helpers;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -59,12 +60,12 @@ public final class NavigationService {
     public enum MainActivities {
         SETTINGS {
             @Override
-            public void navigate(Context context) {
-                context.startActivity(new Intent(context, SettingsScreen.class));
+            public Class<? extends Activity> getActivityClass() {
+                return SettingsScreen.class;
             }
         };
 
-        public abstract void navigate(Context context);
+        public abstract Class<? extends Activity> getActivityClass();
     }
 
     public static NavigationService getInstance() {
@@ -160,7 +161,7 @@ public final class NavigationService {
      */
     public boolean Navigate(MainActivities activity, Context context) {
         try {
-            activity.navigate(context);
+            context.startActivity(new Intent(context, activity.getActivityClass()));
             return true;
         } catch (Exception ex) {
             Log.e("Navigation", "Activity navigation error", ex);
