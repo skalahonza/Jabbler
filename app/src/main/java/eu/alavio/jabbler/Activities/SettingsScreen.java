@@ -1,16 +1,16 @@
-package eu.alavio.jabbler.Fragments;
+package eu.alavio.jabbler.Activities;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
+import android.preference.PreferenceActivity;
 import android.support.annotation.Nullable;
 
 import eu.alavio.jabbler.R;
 
 /**
- * Created by Jan Skála on 01.04.2017.
+ * Fragment holding settings view
  */
 
-public class SettingsScreen extends PreferenceFragment {
+public class SettingsScreen extends PreferenceActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

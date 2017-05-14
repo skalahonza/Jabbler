@@ -20,7 +20,6 @@ import org.jivesoftware.smack.XMPPException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eu.alavio.jabbler.Fragments.HomeFragment;
-import eu.alavio.jabbler.Fragments.SettingsScreen;
 import eu.alavio.jabbler.Models.API.ApiHandler;
 import eu.alavio.jabbler.Models.API.User;
 import eu.alavio.jabbler.Models.Helpers.Dialogs;
@@ -105,11 +104,7 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.action_settings:
-                //If settings already displayed, end method
-                Fragment settings = new SettingsScreen();
-                if (!NavigationService.getInstance().isFragmentDisplayed(settings, getFragmentManager()))
-                    NavigationService.getInstance().Navigate(NavigationService.MainPages.SETTINGS,
-                            false, getFragmentManager());
+                NavigationService.getInstance().Navigate(NavigationService.MainActivities.SETTINGS, this);
                 return true;
             case R.id.Logout:
                 logout();
@@ -144,13 +139,6 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_history:
                 NavigationService.getInstance().Navigate(NavigationService.MainPages.HISTORY,
                         false, getFragmentManager());
-                break;
-            case R.id.nav_settings:
-                //If settings already displayed, end method
-                Fragment settings = new SettingsScreen();
-                if (!NavigationService.getInstance().isFragmentDisplayed(settings, getFragmentManager()))
-                    NavigationService.getInstance().Navigate(NavigationService.MainPages.SETTINGS,
-                            false, getFragmentManager());
                 break;
             case R.id.nav_about:
                 NavigationService.getInstance().Navigate(NavigationService.MainPages.ABOUT,

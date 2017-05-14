@@ -1,15 +1,18 @@
 package eu.alavio.jabbler.Models.Helpers;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.util.Log;
 
+import eu.alavio.jabbler.Activities.SettingsScreen;
 import eu.alavio.jabbler.Fragments.AboutFragment;
 import eu.alavio.jabbler.Fragments.ContactsFragment;
 import eu.alavio.jabbler.Fragments.HistoryFragment;
 import eu.alavio.jabbler.Fragments.HomeFragment;
-import eu.alavio.jabbler.Fragments.SettingsScreen;
 
 /**
  * Wrapper for android activity/fragment navigation
@@ -28,36 +31,46 @@ public final class NavigationService {
     public enum MainPages {
         HOME {
             @Override
-            public Fragment GetDefaultFragment() {
+            public Fragment getFragment() {
                 return new HomeFragment();
             }
         },
         HISTORY {
             @Override
-            public Fragment GetDefaultFragment() {
+            public Fragment getFragment() {
                 return new HistoryFragment();
             }
         },
         CONTACTS {
             @Override
-            public Fragment GetDefaultFragment() {
+            public Fragment getFragment() {
                 return new ContactsFragment();
-            }
-        },
-        SETTINGS {
-            @Override
-            public Fragment GetDefaultFragment() {
-                return new SettingsScreen();
             }
         },
         ABOUT {
             @Override
-            public Fragment GetDefaultFragment() {
+            public Fragment getFragment() {
                 return new AboutFragment();
             }
         };
 
-        public abstract Fragment GetDefaultFragment();
+        public abstract Fragment getFragment();
+    }
+
+    public enum MainActivities {
+        SETTINGS {
+            @Override
+            public Class<? extends Activity> getActivityClass() {
+                return SettingsScreen.class;
+            }
+        };
+
+        /**
+         * Get activity class for Intent navigation
+         *
+         * @return Activity inheriting object used for new Intent navigation
+         */
+        public abstract Class<? extends Activity> getActivityClass();
     }
 
     public static NavigationService getInstance() {
@@ -137,11 +150,28 @@ public final class NavigationService {
     public boolean Navigate(MainPages page, boolean saveInBackstack, FragmentManager fragmentManager, int frameId) {
         //Select item in a menu
         mainNavigationView.getMenu().getItem(page.ordinal()).setChecked(true);
-        return Navigate(page.GetDefaultFragment(), saveInBackstack, fragmentManager, frameId);
+        return Navigate(page.getFragment(), saveInBackstack, fragmentManager, frameId);
     }
 
     public boolean Navigate(MainPages page, boolean saveInBackstack, FragmentManager fragmentManager) {
         return Navigate(page, saveInBackstack, fragmentManager, mainNavigationFrameId);
+    }
+
+    /**
+     * Navigates to activity specified by enum
+     *
+     * @param activity Required activity from enum class
+     * @param context  Current context, can be obtained by getActivityClass(), or you can pass this when in Activity scope
+     * @return True if success
+     */
+    public boolean Navigate(MainActivities activity, Context context) {
+        try {
+            context.startActivity(new Intent(context, activity.getActivityClass()));
+            return true;
+        } catch (Exception ex) {
+            Log.e("Navigation", "Activity navigation error", ex);
+            return false;
+        }
     }
 
     /**

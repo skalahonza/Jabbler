@@ -78,6 +78,7 @@
     <string name="detail">Detail</string>
     <string name="favourite">Favourite</string>
     <string name="chat">Chat</string>
+    <string name="settings">Settings</string>
 
 
 </resources>
