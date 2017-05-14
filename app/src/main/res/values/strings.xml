@@ -38,6 +38,12 @@
     <string name="unknown_host">Unknown host name.</string>
     <string name="unknown_app_error">Unknown application error occurred.</string>
     <string name="username_exists">Username already exists.</string>
+    <string name="name">Nickname</string>
+    <string name="username">Username</string>
+    <string name="delete">Delete</string>
+    <string name="error_contact_delete">Error while deleting the contact</string>
+    <string name="remove">Remove</string>
+    <string name="are_you_sure_delete_contact">Are you sure you want to delete this contact ?</string>
 
     <string-array name="sports_array">
         <item>Shuttle Badminton</item>
@@ -75,6 +81,13 @@
         <item>Megan	Reid</item>
         <item>Katherine	Wilson</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="detail">Detail</string>
+    <string name="favourite">Favourite</string>
+    <string name="not_favourite">Not favourite</string>
+    <string name="chat">Chat</string>
 
 
 </resources>

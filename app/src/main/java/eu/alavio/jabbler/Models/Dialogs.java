@@ -67,6 +67,11 @@ public final class Dialogs {
         });
     }
 
+    public static void deletingContactFailed(Context context, String reason) {
+        operationErrorDialog(context, context.getString(R.string.error_contact_delete), reason, () -> {
+        });
+    }
+
     /**
      * Shows or hides the in progress view.
      *
@@ -89,5 +94,16 @@ public final class Dialogs {
                 }
             });
         }
+    }
+
+    public static void reallyDeleteContact(Context context, Runnable confirmed) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(R.string.are_you_sure_delete_contact);
+        builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+            confirmed.run();
+            dialog.dismiss();
+        });
+        builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
+        builder.show();
     }
 }
