@@ -4,6 +4,13 @@
     android:background="#efefef"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ChatHeader"
+        android:id="@+id/chat_partner_name"
+        android:text="Lorem Ipsum" />
+
     <ListView
         android:id="@+id/msgview"
         android:layout_width="fill_parent"
@@ -22,6 +29,7 @@
 
         <EditText
             android:id="@+id/msg"
+            android:hint="@string/type_a_message"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
