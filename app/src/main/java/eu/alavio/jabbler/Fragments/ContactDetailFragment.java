@@ -93,6 +93,6 @@ public class ContactDetailFragment extends Fragment {
     @OnClick(R.id.chat_button)
     void initiateChat() {
         Fragment chat = ChatFragment.newInstance(contact);
-        NavigationService.getInstance().Navigate(chat, false, getFragmentManager());
+        NavigationService.getInstance().Navigate(chat, true, getFragmentManager());
     }
 }

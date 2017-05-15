@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
 import eu.alavio.jabbler.Models.API.ChatMessage;
 import eu.alavio.jabbler.R;
 
@@ -47,7 +48,8 @@ public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
         } else {
             row = inflater.inflate(R.layout.left, parent, false);
         }
-        chatText = (TextView) row.findViewById(R.id.msgr);
+        //chatText = (TextView) row.findViewById(R.id.msgr);
+        chatText = ButterKnife.findById(row, R.id.msgr);
         chatText.setText(chatMessageObj.getMessage());
         return row;
     }
