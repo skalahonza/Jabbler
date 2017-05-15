@@ -21,19 +21,19 @@ public class ChatMessage {
     }
 
     public static ChatMessage ReceivedMessage(Message message) {
-        return new ChatMessage(message, true);
+        return new ChatMessage(message, false);
     }
 
     public static ChatMessage ReceivedMessage(String message) {
-        return new ChatMessage(message, true);
+        return new ChatMessage(message, false);
     }
 
     public static ChatMessage ToBeSendMessage(Message message) {
-        return new ChatMessage(message, false);
+        return new ChatMessage(message, true);
     }
 
     public static ChatMessage ToBeSendMessage(String message) {
-        return new ChatMessage(message, false);
+        return new ChatMessage(message, true);
     }
 
     public boolean isLeft() {

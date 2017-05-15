@@ -13,7 +13,7 @@ import java.util.List;
 import eu.alavio.jabbler.Models.API.ChatMessage;
 import eu.alavio.jabbler.R;
 
-class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
+public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
 
     private TextView chatText;
     private List<ChatMessage> chatMessageList = new ArrayList<ChatMessage>();
