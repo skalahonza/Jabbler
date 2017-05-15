@@ -74,14 +74,8 @@
         <item>Katherine	Wilson</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="detail">Detail</string>
     <string name="favourite">Favourite</string>
     <string name="chat">Chat</string>
     <string name="settings">Settings</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
 </resources>
