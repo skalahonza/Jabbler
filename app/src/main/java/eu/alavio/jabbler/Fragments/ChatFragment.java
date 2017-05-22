@@ -2,7 +2,13 @@ package eu.alavio.jabbler.Fragments;
 
 
 import android.app.Fragment;
+import android.content.SharedPreferences;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -15,6 +21,7 @@ import android.widget.TextView;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.chat.Chat;
 
 import butterknife.ButterKnife;
 import eu.alavio.jabbler.Models.API.ApiHandler;
@@ -39,6 +46,7 @@ public class ChatFragment extends Fragment {
     ListView vMessagesListView;
     TextView vChatHeader;
     private ChatArrayAdapter chatArrayAdapter;
+    private Chat chat;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -83,9 +91,20 @@ public class ChatFragment extends Fragment {
 
         //Adapter init
         chatArrayAdapter = new ChatArrayAdapter(getActivity(), R.layout.right);
+        chatArrayAdapter.setNotifyOnChange(true);
         vMessagesListView.setAdapter(chatArrayAdapter);
 
-        //TODO INIT CHAT
+        //INIT CHAT
+        chat = ApiHandler.initChat(chatPartner);
+        Handler handler = new Handler();
+        if (chat != null)
+            chat.addMessageListener((chat1, message) -> {
+
+                //Call on UI thread
+                handler.post(() -> {
+                    receivedMessage(ChatMessage.ReceivedMessage(message));
+                });
+            });
     }
 
     @Override
@@ -100,8 +119,18 @@ public class ChatFragment extends Fragment {
     void sendMessage() {
         if (!String.valueOf(vChatMessageBox.getText()).isEmpty()) {
             chatArrayAdapter.add(ChatMessage.ToBeSendMessage(String.valueOf(vChatMessageBox.getText())));
-            chatArrayAdapter.add(ChatMessage.ReceivedMessage(String.valueOf(vChatMessageBox.getText())));
             vChatMessageBox.setText("");
         }
+    }
+
+    private void receivedMessage(ChatMessage message) {
+        chatArrayAdapter.add(message);
+        chatArrayAdapter.notifyDataSetChanged();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String ringtonePreference = prefs.getString("notificationSound", "DEFAULT_NOTIFICATION_URI ");
+        Uri ringtoneuri = Uri.parse(ringtonePreference);
+        Ringtone r = RingtoneManager.getRingtone(getActivity(), ringtoneuri);
+        r.play();
     }
 }

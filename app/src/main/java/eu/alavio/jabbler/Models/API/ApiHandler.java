@@ -206,7 +206,7 @@ public final class ApiHandler {
     }
 
     /**
-     * Searches roster for given jabber id and returns wrapped contact if found
+     * Searches roster for given jabber id and returns wrapped contact if found, used in android navigation
      *
      * @param jid Jabber id of the contact
      * @return Wrapped roster contact in Frien class
@@ -258,6 +258,12 @@ public final class ApiHandler {
             roster.removeEntry(tmp);
     }
 
+    /**
+     * Inits chat with a given contact
+     *
+     * @param partner Friend to begin chat wit
+     * @return Chat wrapper object
+     */
     public static Chat initChat(Friend partner) {
         if (connection.isAuthenticated()) {
             Log.i("Chat init", "Authenticated, creating chat with: " + partner.getJid());
