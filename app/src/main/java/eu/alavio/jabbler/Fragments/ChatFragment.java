@@ -18,10 +18,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.chat.Chat;
+import org.jivesoftware.smack.packet.Message;
 
 import butterknife.ButterKnife;
 import eu.alavio.jabbler.Models.API.ApiHandler;
@@ -118,7 +120,23 @@ public class ChatFragment extends Fragment {
 
     void sendMessage() {
         if (!String.valueOf(vChatMessageBox.getText()).isEmpty()) {
-            chatArrayAdapter.add(ChatMessage.ToBeSendMessage(String.valueOf(vChatMessageBox.getText())));
+            Message message = new Message(chatPartner.getJid());
+            message.setBody(String.valueOf(vChatMessageBox.getText()));
+            try {
+                message.setFrom(ApiHandler.getCurrentUser().getJid());
+            } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
+                Log.e(ChatFragment.class.getName(), "Error getting current user info", e);
+                e.printStackTrace();
+            }
+            try {
+                chat.sendMessage(message);
+
+            } catch (SmackException.NotConnectedException e) {
+                Log.e(ChatFragment.class.getName(), "Connection lost during sending of a message", e);
+                Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+            chatArrayAdapter.add(ChatMessage.ToBeSendMessage(message));
             vChatMessageBox.setText("");
         }
     }
