@@ -5,6 +5,8 @@ import android.util.Log;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.chat.Chat;
+import org.jivesoftware.smack.chat.ChatManager;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.roster.RosterEntry;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
@@ -155,7 +157,9 @@ public final class ApiHandler {
         return true;
     }
 
-    /** Get logged in user's data
+    /**
+     * Get logged in user's data
+     *
      * @return Current user data Wrapped in User class
      * @throws SmackException.NotConnectedException
      * @throws XMPPException.XMPPErrorException
@@ -174,7 +178,9 @@ public final class ApiHandler {
         return new User(username, name, email);
     }
 
-    /** Iterates through roster of current user and returns wrapped contacts
+    /**
+     * Iterates through roster of current user and returns wrapped contacts
+     *
      * @return List of Friend objects (contacts from roster)
      * @throws SmackException.NotLoggedInException
      * @throws SmackException.NotConnectedException
@@ -199,7 +205,9 @@ public final class ApiHandler {
         return contacts;
     }
 
-    /** Searches roster for given jabber id and returns wrapped contact if found
+    /**
+     * Searches roster for given jabber id and returns wrapped contact if found, used in android navigation
+     *
      * @param jid Jabber id of the contact
      * @return Wrapped roster contact in Frien class
      * @throws SmackException.NotConnectedException
@@ -215,10 +223,12 @@ public final class ApiHandler {
         return new Friend(entry.getUser(), entry.getName(), entry.getGroups(), vCard);
     }
 
-    /** Adds contact to roster of current User
-     * @param jid Jabber id of contact
+    /**
+     * Adds contact to roster of current User
+     *
+     * @param jid      Jabber id of contact
      * @param nickname Nickname to be displayed in contact list
-     * @param groups Groups the user is registered in
+     * @param groups   Groups the user is registered in
      * @throws SmackException.NotLoggedInException
      * @throws XMPPException.XMPPErrorException
      * @throws SmackException.NotConnectedException
@@ -246,6 +256,23 @@ public final class ApiHandler {
         RosterEntry tmp = roster.getEntry(contact.getJid());
         if (tmp != null)
             roster.removeEntry(tmp);
+    }
+
+    /**
+     * Inits chat with a given contact
+     *
+     * @param partner Friend to begin chat wit
+     * @return Chat wrapper object
+     */
+    public static Chat initChat(Friend partner) {
+        if (connection.isAuthenticated()) {
+            Log.i("Chat init", "Authenticated, creating chat with: " + partner.getJid());
+            ChatManager chatManager = ChatManager.getInstanceFor(connection);
+            return chatManager.createChat(partner.getJid());
+        } else {
+            Log.e("Chat init", "Chat init failed due to missing authentication.");
+            return null;
+        }
     }
 }
 
