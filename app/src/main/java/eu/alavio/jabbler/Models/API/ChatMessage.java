@@ -8,23 +8,14 @@ import org.jivesoftware.smack.packet.Message;
 
 public class ChatMessage {
     private boolean left;
-    private String message;
+    private Message message;
 
     protected ChatMessage(Message message, boolean left) {
         this.left = left;
-        this.message = message != null ? message.getBody() : "Empty message";
-    }
-
-    protected ChatMessage(String message, boolean left) {
-        this.left = left;
-        this.message = message != null ? message : "Empty message";
+        this.message = message;
     }
 
     public static ChatMessage ReceivedMessage(Message message) {
-        return new ChatMessage(message, false);
-    }
-
-    public static ChatMessage ReceivedMessage(String message) {
         return new ChatMessage(message, false);
     }
 
@@ -32,15 +23,11 @@ public class ChatMessage {
         return new ChatMessage(message, true);
     }
 
-    public static ChatMessage ToBeSendMessage(String message) {
-        return new ChatMessage(message, true);
-    }
-
     public boolean isLeft() {
         return left;
     }
 
-    public String getMessage() {
+    public Message getMessage() {
         return message;
     }
 }

@@ -50,7 +50,7 @@ public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
         }
         //chatText = (TextView) row.findViewById(R.id.msgr);
         chatText = ButterKnife.findById(row, R.id.msgr);
-        chatText.setText(chatMessageObj.getMessage());
+        chatText.setText(chatMessageObj.getMessage().getBody());
         return row;
     }
 }
