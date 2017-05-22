@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
     private TextView chatText;
     private List<ChatMessage> chatMessageList = new ArrayList<ChatMessage>();
     private Context context;
+    private TextView timeBox;
 
     @Override
     public void add(ChatMessage object) {
@@ -48,9 +50,12 @@ public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
         } else {
             row = inflater.inflate(R.layout.left, parent, false);
         }
-        //chatText = (TextView) row.findViewById(R.id.msgr);
         chatText = ButterKnife.findById(row, R.id.msgr);
-        chatText.setText(chatMessageObj.getMessage());
+        timeBox = ButterKnife.findById(row, R.id.time_box);
+        chatText.setText(chatMessageObj.getMessage().getBody());
+
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        timeBox.setText(df.format(chatMessageObj.getTimestamp()));
         return row;
     }
 }
