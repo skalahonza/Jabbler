@@ -92,13 +92,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Retrieve all communication that happened between current user and chat partner
+     *
      * @param partner Chat partner JID
      * @param host    Current logged in user JID
      * @return
      */
     public Cursor getMessagesFrom(String partner, String host) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + HOST + " = '" + host + "' AND " + PARTNER + " ='" + partner + "'";
+        //String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + HOST + " = '" + host + "' AND " + PARTNER + " ='" + partner + "'";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + HOST + " = '" + host + "' AND " + PARTNER + " LIKE '%" + partner + "%'";
         return db.rawQuery(query, null);
     }
 
