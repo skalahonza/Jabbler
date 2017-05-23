@@ -25,6 +25,8 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.packet.Message;
 
+import java.util.List;
+
 import butterknife.ButterKnife;
 import eu.alavio.jabbler.Models.API.ApiHandler;
 import eu.alavio.jabbler.Models.API.ChatHistoryManager;
@@ -74,12 +76,7 @@ public class ChatFragment extends Fragment {
             } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
                 Log.e(ChatFragment.class.getName(), "Error getting contact by jid", e);
             }
-            try {
-                historyManager = new ChatHistoryManager(ApiHandler.getCurrentUser());
-            } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
-                Log.e(ChatFragment.class.getName(), "Error getting current user.", e);
-                e.printStackTrace();
-            }
+            historyManager = new ChatHistoryManager(getActivity());
         }
     }
 
@@ -103,11 +100,12 @@ public class ChatFragment extends Fragment {
         //Adapter init
         chatArrayAdapter = new ChatArrayAdapter(getActivity(), R.layout.right);
 
-        //load old messages
-        chatArrayAdapter.addAll(historyManager.getMessagesFrom(chatPartner));
-
         chatArrayAdapter.setNotifyOnChange(true);
         vMessagesListView.setAdapter(chatArrayAdapter);
+
+        //load old messages
+        List<ChatMessage> messages = historyManager.getMessagesWith(chatPartner);
+        messages.forEach(message -> chatArrayAdapter.add(message));
 
         //INIT CHAT
         chat = ApiHandler.initChat(chatPartner);
@@ -159,6 +157,10 @@ public class ChatFragment extends Fragment {
     private void receivedMessage(ChatMessage message) {
         chatArrayAdapter.add(message);
         chatArrayAdapter.notifyDataSetChanged();
+        historyManager.saveMessage(message);
+
+        //TODO REMOVE THIS
+        List<ChatMessage> test = historyManager.getMessagesWith(chatPartner);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String ringtonePreference = prefs.getString("notificationSound", "DEFAULT_NOTIFICATION_URI ");

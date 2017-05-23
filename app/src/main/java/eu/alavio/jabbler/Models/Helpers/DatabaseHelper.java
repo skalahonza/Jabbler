@@ -39,9 +39,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 HOST + " TEXT, " +
-                HOST + " TEXT, " +
                 PARTNER + " DATETIME DEFAULT CURRENT_DATE, " +
-                MESSAGE + " TEXT, " +
+                MESSAGE + " TEXT" +
                 ")";
         db.execSQL(createTable);
     }

@@ -52,7 +52,7 @@ public class ChatHistoryManager {
      * @param contact Chat partner
      * @return null, if error
      */
-    public List<ChatMessage> getMessagesFrom(Friend contact) {
+    public List<ChatMessage> getMessagesWith(Friend contact) {
         try {
             Cursor data = db.getMessagesFrom(contact.getJid(), ApiHandler.getCurrentUser().getJid());
             Gson gson = new Gson();
