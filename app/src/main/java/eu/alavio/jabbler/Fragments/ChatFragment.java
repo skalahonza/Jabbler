@@ -25,8 +25,11 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.packet.Message;
 
+import java.util.List;
+
 import butterknife.ButterKnife;
 import eu.alavio.jabbler.Models.API.ApiHandler;
+import eu.alavio.jabbler.Models.API.ChatHistoryManager;
 import eu.alavio.jabbler.Models.API.ChatMessage;
 import eu.alavio.jabbler.Models.API.Friend;
 import eu.alavio.jabbler.Models.Adapters.ChatArrayAdapter;
@@ -49,6 +52,7 @@ public class ChatFragment extends Fragment {
     TextView vChatHeader;
     private ChatArrayAdapter chatArrayAdapter;
     private Chat chat;
+    private ChatHistoryManager historyManager;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -68,9 +72,11 @@ public class ChatFragment extends Fragment {
         if (getArguments() != null) {
             try {
                 chatPartner = ApiHandler.getContact(getArguments().getString(ARG_PARAM));
+
             } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
                 Log.e(ChatFragment.class.getName(), "Error getting contact by jid", e);
             }
+            historyManager = new ChatHistoryManager(getActivity());
         }
     }
 
@@ -93,8 +99,13 @@ public class ChatFragment extends Fragment {
 
         //Adapter init
         chatArrayAdapter = new ChatArrayAdapter(getActivity(), R.layout.right);
+
         chatArrayAdapter.setNotifyOnChange(true);
         vMessagesListView.setAdapter(chatArrayAdapter);
+
+        //load old messages
+        List<ChatMessage> messages = historyManager.getMessagesWith(chatPartner);
+        messages.forEach(message -> chatArrayAdapter.add(message));
 
         //INIT CHAT
         chat = ApiHandler.initChat(chatPartner);
@@ -128,15 +139,17 @@ public class ChatFragment extends Fragment {
                 Log.e(ChatFragment.class.getName(), "Error getting current user info", e);
                 e.printStackTrace();
             }
+            ChatMessage chatMessage = ChatMessage.ToBeSendMessage(message);
             try {
                 chat.sendMessage(message);
+                historyManager.saveMessage(chatMessage);
 
             } catch (SmackException.NotConnectedException e) {
                 Log.e(ChatFragment.class.getName(), "Connection lost during sending of a message", e);
                 Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
-            chatArrayAdapter.add(ChatMessage.ToBeSendMessage(message));
+            chatArrayAdapter.add(chatMessage);
             vChatMessageBox.setText("");
         }
     }
@@ -144,6 +157,10 @@ public class ChatFragment extends Fragment {
     private void receivedMessage(ChatMessage message) {
         chatArrayAdapter.add(message);
         chatArrayAdapter.notifyDataSetChanged();
+        historyManager.saveMessage(message);
+
+        //TODO REMOVE THIS
+        List<ChatMessage> test = historyManager.getMessagesWith(chatPartner);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String ringtonePreference = prefs.getString("notificationSound", "DEFAULT_NOTIFICATION_URI ");
