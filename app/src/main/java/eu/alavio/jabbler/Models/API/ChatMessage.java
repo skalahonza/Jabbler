@@ -9,26 +9,30 @@ import java.util.Date;
  */
 
 public class ChatMessage {
-    private boolean left;
+    private boolean received;
     private Message message;
     private Date timestamp;
+    private String partner_JID;
 
-    protected ChatMessage(Message message, boolean left) {
-        this.left = left;
+    protected ChatMessage(Message message, boolean received, String partner_jid) {
+        this.received = received;
         this.message = message;
+        partner_JID = partner_jid;
         timestamp = new Date();
     }
 
     public static ChatMessage ReceivedMessage(Message message) {
-        return new ChatMessage(message, false);
+        String partner_JID = message.getFrom();
+        return new ChatMessage(message, false, partner_JID);
     }
 
     public static ChatMessage ToBeSendMessage(Message message) {
-        return new ChatMessage(message, true);
+        String partner_JID = message.getTo();
+        return new ChatMessage(message, true, partner_JID);
     }
 
-    public boolean isLeft() {
-        return left;
+    public boolean isReceived() {
+        return received;
     }
 
     public Message getMessage() {
@@ -37,5 +41,9 @@ public class ChatMessage {
 
     public Date getTimestamp() {
         return timestamp;
+    }
+
+    public String getPartner_JID() {
+        return partner_JID;
     }
 }
