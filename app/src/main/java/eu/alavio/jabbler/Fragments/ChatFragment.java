@@ -27,6 +27,7 @@ import org.jivesoftware.smack.packet.Message;
 
 import butterknife.ButterKnife;
 import eu.alavio.jabbler.Models.API.ApiHandler;
+import eu.alavio.jabbler.Models.API.ChatHistoryManager;
 import eu.alavio.jabbler.Models.API.ChatMessage;
 import eu.alavio.jabbler.Models.API.Friend;
 import eu.alavio.jabbler.Models.Adapters.ChatArrayAdapter;
@@ -49,6 +50,7 @@ public class ChatFragment extends Fragment {
     TextView vChatHeader;
     private ChatArrayAdapter chatArrayAdapter;
     private Chat chat;
+    private ChatHistoryManager historyManager;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -68,8 +70,15 @@ public class ChatFragment extends Fragment {
         if (getArguments() != null) {
             try {
                 chatPartner = ApiHandler.getContact(getArguments().getString(ARG_PARAM));
+
             } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
                 Log.e(ChatFragment.class.getName(), "Error getting contact by jid", e);
+            }
+            try {
+                historyManager = new ChatHistoryManager(ApiHandler.getCurrentUser());
+            } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
+                Log.e(ChatFragment.class.getName(), "Error getting current user.", e);
+                e.printStackTrace();
             }
         }
     }
@@ -93,6 +102,10 @@ public class ChatFragment extends Fragment {
 
         //Adapter init
         chatArrayAdapter = new ChatArrayAdapter(getActivity(), R.layout.right);
+
+        //load old messages
+        chatArrayAdapter.addAll(historyManager.getMessagesFrom(chatPartner));
+
         chatArrayAdapter.setNotifyOnChange(true);
         vMessagesListView.setAdapter(chatArrayAdapter);
 
@@ -128,15 +141,17 @@ public class ChatFragment extends Fragment {
                 Log.e(ChatFragment.class.getName(), "Error getting current user info", e);
                 e.printStackTrace();
             }
+            ChatMessage chatMessage = ChatMessage.ToBeSendMessage(message);
             try {
                 chat.sendMessage(message);
+                historyManager.saveMessage(chatMessage);
 
             } catch (SmackException.NotConnectedException e) {
                 Log.e(ChatFragment.class.getName(), "Connection lost during sending of a message", e);
                 Toast.makeText(getActivity(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
-            chatArrayAdapter.add(ChatMessage.ToBeSendMessage(message));
+            chatArrayAdapter.add(chatMessage);
             vChatMessageBox.setText("");
         }
     }

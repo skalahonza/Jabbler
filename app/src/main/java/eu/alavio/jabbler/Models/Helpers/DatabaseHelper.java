@@ -9,6 +9,10 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import eu.alavio.jabbler.Models.API.ChatMessage;
 
 /**
@@ -19,12 +23,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "DatabaseHelper";
 
-    private static final String TABLE_NAME = "messages_table";
-    private static final String ID = "ID"; //ID
-    private static final String HOST = "host"; //current logged in user JID
-    private static final String PARTNER = "partner"; //partner jid
-    private static final String DATE = "date"; // automatic filed, day of insert
-    private static final String MESSAGE = "message"; //json of message object
+    public static final String TABLE_NAME = "messages_table";
+    public static final String ID = "ID"; //ID
+    public static final String HOST = "host"; //current logged in user JID
+    public static final String PARTNER = "partner"; //partner jid
+    public static final String DATE = "date"; // automatic filed, day of insert
+    public static final String MESSAGE = "message"; //json of message object
 
 
     public DatabaseHelper(Context context) {
@@ -34,10 +38,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                HOST + "  TEXT, " +
-                HOST + "  TEXT, " +
-                PARTNER + "DEFAULT CURRENT_DATE, " +
-                MESSAGE + "TEXT, " +
+                HOST + " TEXT, " +
+                HOST + " TEXT, " +
+                PARTNER + " DATETIME DEFAULT CURRENT_DATE, " +
+                MESSAGE + " TEXT, " +
                 ")";
         db.execSQL(createTable);
     }
@@ -88,8 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Retrieve all communication that happend between urrent user and
-     *
+     * Retrieve all communication that happened between current user and chat partner
      * @param partner Chat partner JID
      * @param host    Current logged in user JID
      * @return
@@ -97,6 +100,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getMessagesFrom(String partner, String host) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + HOST + " = '" + host + "' AND " + PARTNER + " ='" + partner + "'";
+        return db.rawQuery(query, null);
+    }
+
+    public Cursor getDays() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + DATE + " FROM " + TABLE_NAME + " GROUP BY " + DATE + " ORDER BY " + DATE + " ASC";
+        return db.rawQuery(query, null);
+    }
+
+    public Cursor getMessagesFromDay(Date date) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + DATE + " ='" + dateFormat.format(date) + "'";
         return db.rawQuery(query, null);
     }
 }
