@@ -45,6 +45,7 @@ public class ChatFragment extends Fragment {
     private static final String ARG_PARAM = "jid";
 
     private Friend chatPartner;
+    private String chatPartnerJid;
     private View view;
 
     EditText vChatMessageBox;
@@ -75,7 +76,8 @@ public class ChatFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             try {
-                chatPartner = ApiHandler.getContact(getArguments().getString(ARG_PARAM));
+                chatPartnerJid = getArguments().getString(ARG_PARAM);
+                chatPartner = ApiHandler.getContact(chatPartnerJid);
 
             } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
                 Log.e(ChatFragment.class.getName(), "Error getting contact by jid", e);
@@ -91,7 +93,12 @@ public class ChatFragment extends Fragment {
         vMessagesListView = ButterKnife.findById(view, R.id.msgview);
         vChatHeader = ButterKnife.findById(view, R.id.chat_partner_name);
 
-        vChatHeader.setText(chatPartner.getName());
+        if (chatPartner != null)
+            vChatHeader.setText(chatPartner.getName());
+
+            //partner not in contacts
+        else
+            vChatHeader.setText(chatPartnerJid);
 
         vChatMessageBox.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -108,11 +115,11 @@ public class ChatFragment extends Fragment {
         vMessagesListView.setAdapter(chatArrayAdapter);
 
         //load old messages
-        List<ChatMessage> messages = historyManager.getMessagesWith(chatPartner);
+        List<ChatMessage> messages = historyManager.getMessagesWith(chatPartnerJid);
         messages.forEach(message -> chatArrayAdapter.add(message));
 
         //INIT CHAT
-        chat = ApiHandler.initChat(chatPartner);
+        chat = ApiHandler.initChat(chatPartnerJid);
         Handler handler = new Handler();
         if (chat != null)
             chat.addMessageListener((chat1, message) -> {
@@ -135,7 +142,7 @@ public class ChatFragment extends Fragment {
 
     void sendMessage() {
         if (!String.valueOf(vChatMessageBox.getText()).isEmpty()) {
-            Message message = new Message(chatPartner.getJid());
+            Message message = new Message(chatPartnerJid);
             message.setBody(String.valueOf(vChatMessageBox.getText()));
             try {
                 message.setFrom(ApiHandler.getCurrentUser().getJid());
@@ -162,9 +169,6 @@ public class ChatFragment extends Fragment {
         chatArrayAdapter.add(message);
         chatArrayAdapter.notifyDataSetChanged();
         historyManager.saveMessage(message);
-
-        //TODO REMOVE THIS
-        List<ChatMessage> test = historyManager.getMessagesWith(chatPartner);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String ringtonePreference = prefs.getString("notificationSound", "DEFAULT_NOTIFICATION_URI ");
