@@ -19,7 +19,6 @@ public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
 
     private TextView chatText;
     private List<ChatMessage> chatMessageList = new ArrayList<ChatMessage>();
-    private Context context;
     private TextView timeBox;
 
     @Override
@@ -30,7 +29,6 @@ public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
 
     public ChatArrayAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
-        this.context = context;
     }
 
     public int getCount() {
@@ -43,7 +41,7 @@ public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ChatMessage chatMessageObj = getItem(position);
-        View row = convertView;
+        View row;
         LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (chatMessageObj.isReceived()) {
             row = inflater.inflate(R.layout.right, parent, false);
