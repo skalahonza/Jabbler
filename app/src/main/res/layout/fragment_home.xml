@@ -20,6 +20,7 @@
         </ListView>
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/more_history"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
