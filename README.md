@@ -4,10 +4,12 @@ Android client for jabber communication protocol.
 
 
 ## Features (planned)
-* log in, remember log in
-* encryption
-* history saving locally
-* chat
+* Log in
+* Registration
+* Contact managment
+* Encryption
+* History saving locally
+* Chat
 * user logout
 
 ## Used libraries/frameworks
