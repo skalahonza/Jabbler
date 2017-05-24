@@ -23,6 +23,10 @@ public class ChatMessage {
 
     public static ChatMessage ReceivedMessage(Message message) {
         String partner_JID = message.getFrom();
+        //split redundant info
+        if (partner_JID.contains("/")) {
+            partner_JID = partner_JID.split("/")[0];
+        }
         return new ChatMessage(message, false, partner_JID);
     }
 

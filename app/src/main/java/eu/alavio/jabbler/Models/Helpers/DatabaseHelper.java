@@ -39,7 +39,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 HOST + " TEXT, " +
-                PARTNER + " DATETIME DEFAULT CURRENT_DATE, " +
+                PARTNER + " TEXT, " +
+                DATE + " DATETIME DEFAULT CURRENT_DATE, " +
                 MESSAGE + " TEXT" +
                 ")";
         db.execSQL(createTable);
@@ -99,22 +100,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public Cursor getMessagesFrom(String partner, String host) {
         SQLiteDatabase db = this.getWritableDatabase();
-        //String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + HOST + " = '" + host + "' AND " + PARTNER + " ='" + partner + "'";
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + HOST + " = '" + host + "' AND " + PARTNER + " LIKE '%" + partner + "%'";
         return db.rawQuery(query, null);
     }
 
     public Cursor getDays() {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " + DATE + " FROM " + TABLE_NAME + " GROUP BY " + DATE + " ORDER BY " + DATE + " ASC";
+        String query = "SELECT " + DATE + " FROM " + TABLE_NAME + " GROUP BY " + DATE + " ORDER BY " + DATE + " DESC";
         return db.rawQuery(query, null);
     }
 
     public Cursor getMessagesFromDay(Date date) {
         SQLiteDatabase db = this.getWritableDatabase();
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                "yyyy-MM-dd", Locale.getDefault());
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + DATE + " ='" + dateFormat.format(date) + "'";
+        return db.rawQuery(query, null);
+    }
+
+    public Cursor getLatestMessages(int count) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        //String query = "SELECT * FROM " + TABLE_NAME + " GROUP BY " + PARTNER + " ORDER BY " + DATE + " DESC LIMIT " + count;
+        String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + DATE + " DESC LIMIT " + count;
         return db.rawQuery(query, null);
     }
 }

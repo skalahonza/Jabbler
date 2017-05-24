@@ -10,21 +10,22 @@
         android:orientation="vertical">
 
         <TextView
-            style="@style/BlockHeader"
-            android:text="Chat feed" />
+            style="@style/ChatHeader"
+            android:text="@string/chat_feed" />
 
         <ListView
+            android:id="@+id/chat_feed"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/sports_array">
+            android:layout_height="wrap_content">
         </ListView>
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/more_history"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginTop="-40dp"
+            android:layout_marginTop="-10dp"
             android:layout_marginBottom="10dp"
             android:src="@drawable/ic_expand_more_black_24dp" />
 

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Picture coming soon-->
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="5dp"
+        android:src="@color/colorAccent" />
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/sender_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Headline"
+            android:text="Sender" />
+
+        <TextView
+            android:id="@+id/message_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="30dp"
+            android:text="Text of the messa dsafffffffffffffffffffffffffadfsadsffffge asdfasdf dsf asdf asdf asdf asdf asdf asdf ads fasdf asdf adsfds" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/date_box"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_gravity="right|center_vertical"
+        android:text="1.1. 2010 \n 19:30" />
+</LinearLayout>

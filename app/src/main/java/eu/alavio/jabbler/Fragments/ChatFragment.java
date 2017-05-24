@@ -59,9 +59,13 @@ public class ChatFragment extends Fragment {
     }
 
     public static ChatFragment newInstance(Friend chatPartner) {
+        return newInstance(chatPartner.getJid());
+    }
+
+    public static ChatFragment newInstance(String partnerJID) {
         ChatFragment fragment = new ChatFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM, chatPartner.getJid());
+        args.putString(ARG_PARAM, partnerJID);
         fragment.setArguments(args);
         return fragment;
     }
