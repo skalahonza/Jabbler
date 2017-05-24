@@ -24,6 +24,10 @@ public class ChatItem implements HistoryItem {
         this.message = message;
     }
 
+    public ChatMessage getMessage() {
+        return message;
+    }
+
     @Override
     public View getView(Context context, ViewGroup container) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
