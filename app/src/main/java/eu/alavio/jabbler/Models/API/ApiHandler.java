@@ -42,7 +42,6 @@ public final class ApiHandler {
     private static XMPPTCPConnection connect(String source) {
         XMPPTCPConnectionConfiguration.Builder configBuilder = XMPPTCPConnectionConfiguration.builder();
         configBuilder.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
-        //configBuilder.setResource("Android");
         configBuilder.setServiceName(source);
         configBuilder.setHost(source);
         configBuilder.setPort(PORT);
@@ -190,18 +189,16 @@ public final class ApiHandler {
      * @throws SmackException.NoResponseException
      */
     public static List<Friend> getMyContacts() throws SmackException.NotLoggedInException, SmackException.NotConnectedException, XMPPException.XMPPErrorException, SmackException.NoResponseException {
-        if (connection == null) throw new SmackException.NotConnectedException();
-
-        Roster roster = Roster.getInstanceFor(connection);
-        if (!roster.isLoaded())
-            roster.reloadAndWait();
+        Roster roster = getCurrentRoster();
 
         List<Friend> contacts = new ArrayList<>();
         VCardManager vCardManager = VCardManager.getInstanceFor(connection);
 
         for (RosterEntry entry : roster.getEntries()) {
-            VCard vCard = vCardManager.loadVCard(entry.getUser());
-            contacts.add(new Friend(entry.getUser(), entry.getName(), entry.getGroups(), vCard));
+            if (entry.getName() != null) {
+                VCard vCard = vCardManager.loadVCard(entry.getUser());
+                contacts.add(new Friend(entry.getUser(), entry.getName(), entry.getGroups(), vCard));
+            }
         }
 
         return contacts;
@@ -216,9 +213,8 @@ public final class ApiHandler {
      * @throws XMPPException.XMPPErrorException
      * @throws SmackException.NoResponseException
      */
-    public static Friend getContact(String jid) throws SmackException.NotConnectedException, XMPPException.XMPPErrorException, SmackException.NoResponseException {
-        if (connection == null) throw new SmackException.NotConnectedException();
-        Roster roster = Roster.getInstanceFor(connection);
+    public static Friend getContact(String jid) throws SmackException.NotConnectedException, XMPPException.XMPPErrorException, SmackException.NoResponseException, SmackException.NotLoggedInException {
+        Roster roster = getCurrentRoster();
         RosterEntry entry = roster.getEntry(jid);
         if (entry == null) return null;
 
@@ -239,7 +235,7 @@ public final class ApiHandler {
      * @throws SmackException.NoResponseException
      */
     public static boolean addContact(String jid, String nickname, String[] groups) throws Exception {
-        Roster roster = Roster.getInstanceFor(connection);
+        Roster roster = getCurrentRoster();
         if (!Helper.validateEmail(jid))
             throw new Exception("Invalid username given");
         RosterEntry tmp = roster.getEntry(jid);
@@ -262,8 +258,7 @@ public final class ApiHandler {
      * @throws SmackException.NoResponseException
      */
     public static void removeContact(Friend contact) throws SmackException.NotLoggedInException, XMPPException.XMPPErrorException, SmackException.NotConnectedException, SmackException.NoResponseException {
-        if (connection == null) return;
-        Roster roster = Roster.getInstanceFor(connection);
+        Roster roster = getCurrentRoster();
         RosterEntry tmp = roster.getEntry(contact.getJid());
         if (tmp != null)
             roster.removeEntry(tmp);
