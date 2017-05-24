@@ -14,12 +14,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnItemClick;
 import eu.alavio.jabbler.Models.API.ChatHistoryManager;
 import eu.alavio.jabbler.Models.API.ChatMessage;
 import eu.alavio.jabbler.Models.Adapters.HistoryItemsAdapter;
+import eu.alavio.jabbler.Models.Helpers.NavigationService;
 import eu.alavio.jabbler.R;
 import eu.alavio.jabbler.ViewModels.ChatItem;
 import eu.alavio.jabbler.ViewModels.DayLine;
+import eu.alavio.jabbler.ViewModels.HistoryItem;
 
 
 /**
@@ -29,6 +32,7 @@ public class HistoryFragment extends Fragment {
 
     @BindView(R.id.history_list)
     ListView vHistoryList;
+    HistoryItemsAdapter adapter;
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -52,7 +56,7 @@ public class HistoryFragment extends Fragment {
         List<Date> dates = manager.getDays();
 
         //Adapter init
-        HistoryItemsAdapter adapter = new HistoryItemsAdapter(getActivity(), R.layout.item_chat);
+        adapter = new HistoryItemsAdapter(getActivity(), R.layout.item_chat);
         adapter.setNotifyOnChange(true);
 
         vHistoryList.setAdapter(adapter);
@@ -63,5 +67,15 @@ public class HistoryFragment extends Fragment {
             List<ChatMessage> messages = manager.getMessagesFromDay(date);
             adapter.add(new ChatItem(messages.get(messages.size() - 1)));
         });
+    }
+
+    @OnItemClick(R.id.history_list)
+    void onItemClick(int position) {
+        HistoryItem item = adapter.getItem(position);
+        if (item instanceof ChatItem) {
+            ChatItem tmp = (ChatItem) item;
+            Fragment chatFragment = ChatFragment.newInstance(tmp.getMessage().getPartner_JID());
+            NavigationService.getInstance().Navigate(chatFragment, true, getFragmentManager());
+        }
     }
 }
