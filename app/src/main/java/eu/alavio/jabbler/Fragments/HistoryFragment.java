@@ -29,7 +29,6 @@ public class HistoryFragment extends Fragment {
 
     @BindView(R.id.history_list)
     ListView vHistoryList;
-    private ViewGroup container;
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -39,7 +38,6 @@ public class HistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.container = container;
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_history, container, false);
         ButterKnife.bind(this, view);
