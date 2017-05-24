@@ -295,5 +295,19 @@ public final class ApiHandler {
             return null;
         }
     }
+
+    /**
+     * Get roster for current user
+     *
+     * @return Null if not logged in
+     */
+    public static Roster getCurrentRoster() throws SmackException.NotConnectedException, SmackException.NotLoggedInException {
+        if (connection == null) throw new SmackException.NotConnectedException();
+
+        Roster roster = Roster.getInstanceFor(connection);
+        if (!roster.isLoaded())
+            roster.reloadAndWait();
+        return roster;
+    }
 }
 
