@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
 
+        //Hamburger menu button
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -51,7 +52,6 @@ public class MainActivity extends AppCompatActivity
             User user = ApiHandler.getCurrentUser();
 
             View headerLayout = navigationView.getHeaderView(0);
-            //navigationView.inflateHeaderView(R.layout.nav_header_main);
             TextView vFullName = ButterKnife.findById(headerLayout, R.id.full_name);
             TextView vUserName = ButterKnife.findById(headerLayout, R.id.userName);
 
@@ -63,14 +63,15 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-
+        //Hamburger menu item selected listener
         navigationView.setNavigationItemSelectedListener(this);
-        //Select first - home item
-        navigationView.getMenu().getItem(0).setChecked(true);
 
+        //Navigation initialization
         NavigationService.getInstance().setMainNavigationFrameId(R.id.content_frame);
         NavigationService.getInstance().setMainNavigationView(navigationView);
         NavigationService.getInstance().Navigate(NavigationService.MainPages.HOME, false, getFragmentManager());
+
+
     }
 
     @Override
