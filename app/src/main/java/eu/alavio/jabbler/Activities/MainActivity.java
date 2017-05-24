@@ -1,6 +1,5 @@
 package eu.alavio.jabbler.Activities;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -19,7 +18,6 @@ import org.jivesoftware.smack.XMPPException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import eu.alavio.jabbler.Fragments.HomeFragment;
 import eu.alavio.jabbler.Models.API.ApiHandler;
 import eu.alavio.jabbler.Models.API.User;
 import eu.alavio.jabbler.Models.Helpers.Dialogs;
@@ -72,7 +70,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationService.getInstance().setMainNavigationFrameId(R.id.content_frame);
         NavigationService.getInstance().setMainNavigationView(navigationView);
-        navigate(new HomeFragment());
+        NavigationService.getInstance().Navigate(NavigationService.MainPages.HOME, false, getFragmentManager());
     }
 
     @Override
@@ -153,25 +151,5 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    /**
-     * Performs navigation to a fragment, without saving him to backstack
-     *
-     * @param fragment Fragment to be navigated to
-     */
-    private void navigate(Fragment fragment) {
-        navigate(fragment, false);
-    }
-
-    /**
-     * Performs navigation to a frame.
-     *
-     * @param fragment        Fragment to be navigated to
-     * @param saveInBackStack True - saves current fragment in backstack; false - current fragment won't be saved
-     */
-    private void navigate(Fragment fragment, boolean saveInBackStack) {
-        // Insert the fragment by replacing any existing fragment
-        NavigationService.getInstance().Navigate(fragment, saveInBackStack, getFragmentManager());
     }
 }
