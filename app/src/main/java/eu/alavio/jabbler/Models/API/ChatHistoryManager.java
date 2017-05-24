@@ -80,7 +80,7 @@ public class ChatHistoryManager {
         while (data.moveToNext()) {
             String date = data.getString(data.getColumnIndex(DatabaseHelper.DATE));
             SimpleDateFormat format = new SimpleDateFormat(
-                    "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                    "yyyy-MM-dd", Locale.getDefault());
             try {
                 dates.add(format.parse(date));
             } catch (ParseException e) {
