@@ -7,6 +7,16 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/history_list" />
+
+    <TextView
+        android:id="@+id/no_messages"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:textAlignment="center"
+        style="@style/Base.TextAppearance.AppCompat.Headline"
+        android:visibility="gone"
+        android:text="@string/no_messages_here_n_why_don_t_you_talk_to_anyone" />
 </LinearLayout>

@@ -28,7 +28,11 @@ public class ChatHistoryManager {
 
     public ChatHistoryManager(Context context) {
         this.context = context;
-        db = new DatabaseHelper(context);
+        try {
+            db = new DatabaseHelper(context, ApiHandler.getCurrentUser().getJid());
+        } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
+            Log.e(ChatHistoryManager.class.getName(), "init DB connection:", e);
+        }
     }
 
     /**
@@ -39,8 +43,8 @@ public class ChatHistoryManager {
      */
     public boolean saveMessage(ChatMessage message) {
         try {
-            return db.addData(message, ApiHandler.getCurrentUser().getJid());
-        } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
+            return db.addData(message);
+        } catch (Exception e) {
             Log.e(ChatHistoryManager.class.getName(), "save message: " + message.toString(), e);
             return false;
         }

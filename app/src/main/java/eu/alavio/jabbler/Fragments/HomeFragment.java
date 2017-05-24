@@ -4,16 +4,21 @@ package eu.alavio.jabbler.Fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 import eu.alavio.jabbler.Models.API.ChatHistoryManager;
+import eu.alavio.jabbler.Models.API.ChatMessage;
 import eu.alavio.jabbler.Models.Adapters.HistoryItemsAdapter;
 import eu.alavio.jabbler.Models.Helpers.NavigationService;
 import eu.alavio.jabbler.R;
@@ -28,6 +33,11 @@ public class HomeFragment extends Fragment {
 
     @BindView(R.id.chat_feed)
     ListView vChatFeed;
+    @BindView(R.id.no_messages)
+    TextView vNoMessagesBox;
+    @BindView(R.id.more_history)
+    FloatingActionButton vMoreHistory;
+
     HistoryItemsAdapter adapter;
 
     public HomeFragment() {
@@ -50,7 +60,13 @@ public class HomeFragment extends Fragment {
         adapter.setNotifyOnChange(true);
         vChatFeed.setAdapter(adapter);
         ChatHistoryManager manager = new ChatHistoryManager(getActivity());
-        manager.getLatestMessages(2).forEach(message -> adapter.add(new ChatItem(message)));
+        List<ChatMessage> messages = manager.getLatestMessages(2);
+        if (messages.isEmpty()) {
+            //No messages
+            vNoMessagesBox.setVisibility(View.VISIBLE);
+            vMoreHistory.setVisibility(View.GONE);
+        } else
+            messages.forEach(message -> adapter.add(new ChatItem(message)));
     }
 
     @OnClick(R.id.more_history)
