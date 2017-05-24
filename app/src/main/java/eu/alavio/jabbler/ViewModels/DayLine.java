@@ -29,7 +29,7 @@ public class DayLine implements HistoryItem {
         View row = inflater.inflate(R.layout.item_dayline, container, false);
 
         TextView vDayBox = ButterKnife.findById(row, R.id.day_box);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("DD-MM-yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         vDayBox.setText(simpleDateFormat.format(day));
         return row;
     }

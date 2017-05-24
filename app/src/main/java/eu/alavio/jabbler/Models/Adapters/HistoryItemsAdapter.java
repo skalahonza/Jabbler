@@ -1,6 +1,8 @@
 package eu.alavio.jabbler.Models.Adapters;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -15,12 +17,10 @@ import eu.alavio.jabbler.ViewModels.HistoryItem;
  */
 
 public class HistoryItemsAdapter extends ArrayAdapter<HistoryItem> {
-    private List<HistoryItem> contacts = new ArrayList<>();
     private List<HistoryItem> historyItems = new ArrayList<>();
 
-    public HistoryItemsAdapter(Context context, List<HistoryItem> contacts) {
-        super(context, 0, contacts);
-        this.contacts = contacts;
+    public HistoryItemsAdapter(@NonNull Context context, @LayoutRes int resource) {
+        super(context, resource);
     }
 
     @Override
