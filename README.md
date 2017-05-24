@@ -5,10 +5,8 @@ Android client for jabber communication protocol.
 
 ## Features (planned)
 * log in, remember log in
-* support for groups and rooms
 * encryption
-* history saving, locally and remotely
-* calls
+* history saving locally
 * chat
 * user logout
 
