@@ -99,14 +99,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public Cursor getMessagesFrom(String partner, String host) {
         SQLiteDatabase db = this.getWritableDatabase();
-        //String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + HOST + " = '" + host + "' AND " + PARTNER + " ='" + partner + "'";
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + HOST + " = '" + host + "' AND " + PARTNER + " LIKE '%" + partner + "%'";
         return db.rawQuery(query, null);
     }
 
     public Cursor getDays() {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " + DATE + " FROM " + TABLE_NAME + " GROUP BY " + DATE + " ORDER BY " + DATE + " ASC";
+        String query = "SELECT " + DATE + " FROM " + TABLE_NAME + " GROUP BY " + DATE;//+ " ORDER BY " + DATE + " ASC";
         return db.rawQuery(query, null);
     }
 
