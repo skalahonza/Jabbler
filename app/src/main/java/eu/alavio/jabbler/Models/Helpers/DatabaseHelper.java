@@ -113,7 +113,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getMessagesFromDay(Date date) {
         SQLiteDatabase db = this.getWritableDatabase();
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                "yyyy-MM-dd", Locale.getDefault());
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + DATE + " ='" + dateFormat.format(date) + "'";
         return db.rawQuery(query, null);
     }
