@@ -15,6 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eu.alavio.jabbler.Models.API.ChatHistoryManager;
+import eu.alavio.jabbler.Models.API.ChatMessage;
 import eu.alavio.jabbler.Models.Adapters.HistoryItemsAdapter;
 import eu.alavio.jabbler.R;
 import eu.alavio.jabbler.ViewModels.ChatItem;
@@ -28,6 +29,7 @@ public class HistoryFragment extends Fragment {
 
     @BindView(R.id.history_list)
     ListView vHistoryList;
+    private ViewGroup container;
 
     public HistoryFragment() {
         // Required empty public constructor
@@ -37,6 +39,7 @@ public class HistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        this.container = container;
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_history, container, false);
         ButterKnife.bind(this, view);
@@ -59,12 +62,8 @@ public class HistoryFragment extends Fragment {
         //load old messages
         dates.forEach(date -> {
             adapter.add(new DayLine(date));
-            manager.getMessagesFromDay(date).forEach(message -> {
-                adapter.add(new ChatItem(message));
-            });
+            List<ChatMessage> messages = manager.getMessagesFromDay(date);
+            adapter.add(new ChatItem(messages.get(messages.size() - 1)));
         });
-
-        int test = adapter.getCount();
-        return;
     }
 }

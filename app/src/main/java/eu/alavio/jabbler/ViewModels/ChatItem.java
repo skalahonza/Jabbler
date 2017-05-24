@@ -34,7 +34,7 @@ public class ChatItem implements HistoryItem {
         TextView vDateBox = ButterKnife.findById(row, R.id.date_box);
 
         vSenderBox.setText(message.getPartner_JID());
-        vMessageBox.setError(message.getMessage().getBody());
+        vMessageBox.setText(message.getMessage().getBody());
         SimpleDateFormat sdf = new SimpleDateFormat("HH:MM");
         vDateBox.setText(sdf.format(message.getTimestamp()));
         return row;
