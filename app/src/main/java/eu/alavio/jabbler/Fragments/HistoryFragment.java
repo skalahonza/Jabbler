@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.Date;
 import java.util.List;
@@ -32,6 +33,8 @@ public class HistoryFragment extends Fragment {
 
     @BindView(R.id.history_list)
     ListView vHistoryList;
+    @BindView(R.id.no_messages)
+    TextView vNoMessagesBox;
     HistoryItemsAdapter adapter;
 
     public HistoryFragment() {
@@ -62,11 +65,18 @@ public class HistoryFragment extends Fragment {
         vHistoryList.setAdapter(adapter);
 
         //load old messages
-        dates.forEach(date -> {
-            adapter.add(new DayLine(date));
-            List<ChatMessage> messages = manager.getMessagesFromDay(date);
-            adapter.add(new ChatItem(messages.get(messages.size() - 1)));
-        });
+        if (!dates.isEmpty())
+            dates.forEach(date -> {
+                adapter.add(new DayLine(date));
+                List<ChatMessage> messages = manager.getMessagesFromDay(date);
+                if (!messages.isEmpty())
+                    adapter.add(new ChatItem(messages.get(messages.size() - 1)));
+            });
+
+        else {
+            //No messages
+            vNoMessagesBox.setVisibility(View.VISIBLE);
+        }
     }
 
     @OnItemClick(R.id.history_list)

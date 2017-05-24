@@ -19,6 +19,16 @@
             android:layout_height="wrap_content">
         </ListView>
 
+        <TextView
+            android:id="@+id/no_messages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textAlignment="center"
+            style="@style/Base.TextAppearance.AppCompat.Headline"
+            android:visibility="gone"
+            android:text="@string/no_messages_here_n_why_don_t_you_talk_to_anyone" />
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/more_history"
             style="@style/Widget.AppCompat.Button.Colored"
