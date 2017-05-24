@@ -91,8 +91,33 @@ public class ChatHistoryManager {
         return dates;
     }
 
+    /**
+     * Get messages that happened in a given day
+     *
+     * @param day Day used for filter
+     * @return Empty list if no message happened that day
+     */
     public List<ChatMessage> getMessagesFromDay(Date day) {
         Cursor data = db.getMessagesFromDay(day);
+        Gson gson = new Gson();
+        List<ChatMessage> messages = new ArrayList<>();
+
+        while (data.moveToNext()) {
+            String json = data.getString(data.getColumnIndex(DatabaseHelper.MESSAGE));
+            messages.add(gson.fromJson(json, ChatMessage.class));
+        }
+        return messages;
+    }
+
+
+    /**
+     * Get latest messages, reduce the amount of items by count parameter
+     *
+     * @param count Maximum amount of returned messages
+     * @return List that will have <= count of objects
+     */
+    public List<ChatMessage> getLatestMessages(int count) {
+        Cursor data = db.getLatestMessages(count);
         Gson gson = new Gson();
         List<ChatMessage> messages = new ArrayList<>();
 

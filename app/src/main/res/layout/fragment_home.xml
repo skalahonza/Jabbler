@@ -10,13 +10,13 @@
         android:orientation="vertical">
 
         <TextView
-            style="@style/BlockHeader"
-            android:text="Chat feed" />
+            style="@style/ChatHeader"
+            android:text="@string/chat_feed" />
 
         <ListView
+            android:id="@+id/chat_feed"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/sports_array">
+            android:layout_height="wrap_content">
         </ListView>
 
         <android.support.design.widget.FloatingActionButton

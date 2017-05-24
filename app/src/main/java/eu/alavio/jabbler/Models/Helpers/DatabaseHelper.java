@@ -106,6 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getDays() {
         SQLiteDatabase db = this.getWritableDatabase();
+        //TODO resolve sql querry syntax
         String query = "SELECT " + DATE + " FROM " + TABLE_NAME + " GROUP BY " + DATE;//+ " ORDER BY " + DATE + " ASC";
         return db.rawQuery(query, null);
     }
@@ -115,6 +116,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd", Locale.getDefault());
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + DATE + " ='" + dateFormat.format(date) + "'";
+        return db.rawQuery(query, null);
+    }
+
+    public Cursor getLatestMessages(int count) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        //String query = "SELECT * FROM " + TABLE_NAME + " GROUP BY " + PARTNER + " ORDER BY " + DATE + " DESC LIMIT " + count;
+        String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + DATE + " DESC LIMIT " + count;
         return db.rawQuery(query, null);
     }
 }
