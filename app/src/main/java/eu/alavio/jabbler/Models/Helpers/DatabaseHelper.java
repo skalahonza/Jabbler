@@ -30,9 +30,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATE = "date"; // automatic filed, day of insert
     public static final String MESSAGE = "message"; //json of message object
 
+    private String host;
 
-    public DatabaseHelper(Context context) {
+
+    public DatabaseHelper(Context context, String host) {
         super(context, TABLE_NAME, null, 1);
+        this.host = host;
     }
 
     @Override
@@ -58,7 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param message Received or sent message
      * @return True if successfully added
      */
-    public boolean addData(ChatMessage message, String host) {
+    public boolean addData(ChatMessage message) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -114,14 +117,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd", Locale.getDefault());
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + DATE + " ='" + dateFormat.format(date) + "'";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + DATE + " ='" + dateFormat.format(date) + "' AND " + HOST + " ='" + host + "'";
         return db.rawQuery(query, null);
     }
 
     public Cursor getLatestMessages(int count) {
         SQLiteDatabase db = this.getWritableDatabase();
         //String query = "SELECT * FROM " + TABLE_NAME + " GROUP BY " + PARTNER + " ORDER BY " + DATE + " DESC LIMIT " + count;
-        String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + DATE + " DESC LIMIT " + count;
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + HOST + " ='" + host + "'" + " ORDER BY " + DATE + " DESC LIMIT " + count;
         return db.rawQuery(query, null);
     }
 }
