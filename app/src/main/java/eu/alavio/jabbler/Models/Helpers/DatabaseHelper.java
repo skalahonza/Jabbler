@@ -106,8 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getDays() {
         SQLiteDatabase db = this.getWritableDatabase();
-        //TODO resolve sql querry syntax
-        String query = "SELECT " + DATE + " FROM " + TABLE_NAME + " GROUP BY " + DATE;//+ " ORDER BY " + DATE + " ASC";
+        String query = "SELECT " + DATE + " FROM " + TABLE_NAME + " GROUP BY " + DATE + " ORDER BY " + DATE + " DESC";
         return db.rawQuery(query, null);
     }
 
