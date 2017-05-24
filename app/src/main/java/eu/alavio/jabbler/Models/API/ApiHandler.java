@@ -211,7 +211,7 @@ public final class ApiHandler {
      * Searches roster for given jabber id and returns wrapped contact if found, used in android navigation
      *
      * @param jid Jabber id of the contact
-     * @return Wrapped roster contact in Frien class
+     * @return Wrapped roster contact in Friend class, null if not found in contact list
      * @throws SmackException.NotConnectedException
      * @throws XMPPException.XMPPErrorException
      * @throws SmackException.NoResponseException
@@ -220,6 +220,8 @@ public final class ApiHandler {
         if (connection == null) throw new SmackException.NotConnectedException();
         Roster roster = Roster.getInstanceFor(connection);
         RosterEntry entry = roster.getEntry(jid);
+        if (entry == null) return null;
+
         VCardManager vCardManager = VCardManager.getInstanceFor(connection);
         VCard vCard = vCardManager.loadVCard(entry.getUser());
         return new Friend(entry.getUser(), entry.getName(), entry.getGroups(), vCard);
@@ -274,10 +276,20 @@ public final class ApiHandler {
      * @return Chat wrapper object
      */
     public static Chat initChat(Friend partner) {
+        return initChat(partner.getJid());
+    }
+
+    /**
+     * Inits chat with a given contact
+     *
+     * @param jid Chat partner to begin chat with JID
+     * @return Chat wrapper object
+     */
+    public static Chat initChat(String jid) {
         if (connection.isAuthenticated()) {
-            Log.i("Chat init", "Authenticated, creating chat with: " + partner.getJid());
+            Log.i("Chat init", "Authenticated, creating chat with: " + jid);
             ChatManager chatManager = ChatManager.getInstanceFor(connection);
-            return chatManager.createChat(partner.getJid());
+            return chatManager.createChat(jid);
         } else {
             Log.e("Chat init", "Chat init failed due to missing authentication.");
             return null;

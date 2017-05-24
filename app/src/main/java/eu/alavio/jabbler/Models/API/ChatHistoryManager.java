@@ -57,8 +57,18 @@ public class ChatHistoryManager {
      * @return null, if error
      */
     public List<ChatMessage> getMessagesWith(Friend contact) {
+        return getMessagesWith(contact.getJid());
+    }
+
+    /**
+     * Retrieve communication between current user and given JID, used for anonymous chats and deleted contacts
+     *
+     * @param jid Chat partner JID
+     * @return null, if error
+     */
+    public List<ChatMessage> getMessagesWith(String jid) {
         try {
-            Cursor data = db.getMessagesFrom(contact.getJid(), ApiHandler.getCurrentUser().getJid());
+            Cursor data = db.getMessagesFrom(jid, ApiHandler.getCurrentUser().getJid());
             Gson gson = new Gson();
             List<ChatMessage> messages = new ArrayList<>();
 
