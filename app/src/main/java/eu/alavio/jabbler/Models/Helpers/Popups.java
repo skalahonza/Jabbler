@@ -7,9 +7,6 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.XMPPException;
-
 import eu.alavio.jabbler.Models.API.ApiHandler;
 import eu.alavio.jabbler.R;
 
@@ -33,13 +30,17 @@ public final class Popups {
         //Accept clicked
         accept.setOnClickListener(v -> {
             try {
-                ApiHandler.addContact(String.valueOf(jid.getText()), String.valueOf(nickname.getText()), null);
+                if (!ApiHandler.addContact(String.valueOf(jid.getText()), String.valueOf(nickname.getText()), null)) {
+                    Dialogs.userNotCreatedDialog(context, context.getString(R.string.contact_already_added));
+                }
                 dialog.dismiss();
                 onSuccess.run();
-            } catch (SmackException.NotLoggedInException | XMPPException.XMPPErrorException | SmackException.NotConnectedException | SmackException.NoResponseException e) {
+            } catch (Exception e) {
                 Log.e(context.getClass().getName(), "Add contact dialog failed.", e);
-                Toast.makeText(context, "Cannot add contact: " + e.getMessage(), Toast.LENGTH_LONG);
+                dialog.dismiss();
+                Toast.makeText(context, "Cannot add contact: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
+
         });
 
         //Cancel clicked

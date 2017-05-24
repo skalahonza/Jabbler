@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import eu.alavio.jabbler.Models.Helpers.Helper;
+
 /**
  * Secures the communication with the server
  */
@@ -234,11 +236,18 @@ public final class ApiHandler {
      * @throws SmackException.NotConnectedException
      * @throws SmackException.NoResponseException
      */
-    public static void addContact(String jid, String nickname, String[] groups) throws SmackException.NotLoggedInException, XMPPException.XMPPErrorException, SmackException.NotConnectedException, SmackException.NoResponseException {
-        if (connection == null) return;
+    public static boolean addContact(String jid, String nickname, String[] groups) throws Exception {
         Roster roster = Roster.getInstanceFor(connection);
-        roster.createEntry(jid, nickname, groups);
-        //TODO Resolve contact already added
+        if (!Helper.validateEmail(jid))
+            throw new Exception("Invalid username given");
+        RosterEntry tmp = roster.getEntry(jid);
+        if (tmp == null) {
+            roster.createEntry(jid, nickname, groups);
+            return true;
+        } else {
+            Log.e("ApiHandler", "Cannot add: " + jid + " Contact already added");
+            return false;
+        }
     }
 
     /**
