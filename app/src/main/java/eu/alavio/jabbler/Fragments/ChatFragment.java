@@ -59,10 +59,21 @@ public class ChatFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * Creates new chat fragment with given chat partner
+     *
+     * @param chatPartner Friend you want to chat with
+     * @return ChatFragment instance used for navigation
+     */
     public static ChatFragment newInstance(Friend chatPartner) {
         return newInstance(chatPartner.getJid());
     }
 
+    /**
+     * Creates new chat fragment with given chat partner
+     * @param partnerJID JID of a friend you want to chat with
+     * @return ChatFragment instance used for navigation
+     */
     public static ChatFragment newInstance(String partnerJID) {
         ChatFragment fragment = new ChatFragment();
         Bundle args = new Bundle();
@@ -172,8 +183,8 @@ public class ChatFragment extends Fragment {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String ringtonePreference = prefs.getString("notificationSound", "DEFAULT_NOTIFICATION_URI ");
-        Uri ringtoneuri = Uri.parse(ringtonePreference);
-        Ringtone r = RingtoneManager.getRingtone(getActivity(), ringtoneuri);
+        Uri ringtone = Uri.parse(ringtonePreference);
+        Ringtone r = RingtoneManager.getRingtone(getActivity(), ringtone);
         r.play();
     }
 }

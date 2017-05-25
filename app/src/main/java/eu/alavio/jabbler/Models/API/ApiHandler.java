@@ -277,7 +277,17 @@ public final class ApiHandler {
             roster.removeEntry(tmp);
     }
 
-    public static void updateContact(String jid, String nickname) throws SmackException.NotConnectedException, SmackException.NotLoggedInException, XMPPException.XMPPErrorException, SmackException.NoResponseException {
+    /**
+     * Change contact nickname
+     *
+     * @param jid      Jid of the contact, that should by edited
+     * @param nickname New nickname for the contact
+     * @throws SmackException.NotConnectedException
+     * @throws SmackException.NotLoggedInException
+     * @throws XMPPException.XMPPErrorException
+     * @throws SmackException.NoResponseException
+     */
+    public static void updateContactNickname(String jid, String nickname) throws SmackException.NotConnectedException, SmackException.NotLoggedInException, XMPPException.XMPPErrorException, SmackException.NoResponseException {
         Roster roster = getCurrentRoster();
         roster.createEntry(jid, nickname, null);
     }
@@ -325,8 +335,7 @@ public final class ApiHandler {
 
     /**
      * Search roster for contact requests
-     *
-     * @return Collection of requests
+     * @return Collection of users that wants to subscribe to current user
      * @throws SmackException.NotConnectedException
      * @throws SmackException.NotLoggedInException
      * @throws XMPPException.XMPPErrorException

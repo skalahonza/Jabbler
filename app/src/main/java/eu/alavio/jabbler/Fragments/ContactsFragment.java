@@ -94,7 +94,7 @@ public class ContactsFragment extends Fragment {
             //Nickname filled in callback
             Consumer<String> setNickname = nickname -> {
                 try {
-                    ApiHandler.updateContact(jid, nickname);
+                    ApiHandler.updateContactNickname(jid, nickname);
                     loadContacts();
                 } catch (SmackException.NotConnectedException | SmackException.NotLoggedInException | SmackException.NoResponseException | XMPPException.XMPPErrorException e) {
                     Log.e(ContactsFragment.class.getName(), "Error accepting contact: " + jid, e);
