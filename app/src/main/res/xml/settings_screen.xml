@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <SwitchPreference
+        android:enabled="false"
         android:key="convertEmoticons"
         android:summary="Convert emoticons in chat messages"
         android:textOff="Off"
@@ -9,13 +10,14 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:key="backgroundNotifications"
-        android:summary="Turn on, if you want to be notified about even when the app runs in abckground."
+        android:key="notifications"
+        android:summary="Turn on, if you want to be notified outside direct chat window."
         android:textOff="Off"
         android:textOn="On"
         android:title="Background notifications" />
 
     <SwitchPreference
+        android:enabled="false"
         android:defaultValue="true"
         android:key="notificationVibrations"
         android:textOff="Off"
@@ -32,6 +34,7 @@
         android:ringtoneType="notification"/>
 
     <SwitchPreference
+        android:enabled="false"
         android:defaultValue="true"
         android:key="logInAutomatically"
         android:textOff="Off"
