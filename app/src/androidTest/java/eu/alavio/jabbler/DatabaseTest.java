@@ -4,8 +4,14 @@ import android.database.Cursor;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
+import com.google.gson.Gson;
+
 import org.jivesoftware.smack.packet.Message;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import eu.alavio.jabbler.Models.API.ChatMessage;
 import eu.alavio.jabbler.Models.Helpers.DatabaseHelper;
@@ -19,6 +25,7 @@ public class DatabaseTest extends AndroidTestCase {
     private DatabaseHelper db;
     private final String ALICE = "alice@alavio.eu";
     private final String BOB = "bob@alavio.eu";
+    private String EVE = "eve@alavio.eu";
 
     @Override
     public void setUp() throws Exception {
@@ -34,7 +41,7 @@ public class DatabaseTest extends AndroidTestCase {
 
         db.addData(ChatMessage.ToBeSendMessage(mockMessage(ALICE, BOB, "Me too, thanks.")));
         db.addData(ChatMessage.ReceivedMessage(mockMessage(BOB, ALICE, "Bye.")));
-        db.addData(ChatMessage.ToBeSendMessage(mockMessage(ALICE, BOB, "By bye.")));
+        db.addData(ChatMessage.ToBeSendMessage(mockMessage(ALICE, BOB, "Bye bye.")));
     }
 
     @Override
@@ -64,6 +71,48 @@ public class DatabaseTest extends AndroidTestCase {
         }
         assertEquals(1, count);
         assertEquals(BOB, favourite);
+    }
+
+    @Test
+    public void testGetLatestMessages() {
+        Cursor data = db.getLatestMessages();
+        String[] expected = {
+                "Bye bye.",
+                "Bye.",
+                "Me too, thanks.",
+                "Fine, and you ?",
+                "How are you ?",
+                "Hello",
+                "Hi",
+        };
+        int i = 0;
+        while (data.moveToNext()) {
+            Gson gson = new Gson();
+            ChatMessage message = gson.fromJson(data.getString(data.getColumnIndex(DatabaseHelper.MESSAGE)), ChatMessage.class);
+            assertEquals(expected[i], message.getMessage().getBody());
+            i++;
+        }
+    }
+
+    @Test
+    public void testGetMessageFrom() {
+        String[] expected = {
+                "Bye bye.",
+                "Bye.",
+                "Me too, thanks.",
+                "Fine, and you ?",
+                "How are you ?",
+                "Hello",
+                "Hi",
+        };
+        List<String> expectedList = new ArrayList<>();
+        Collections.addAll(expectedList, expected);
+        Cursor data = db.getMessagesFrom(BOB, ALICE);
+        while (data.moveToNext()) {
+            Gson gson = new Gson();
+            ChatMessage message = gson.fromJson(data.getString(data.getColumnIndex(DatabaseHelper.MESSAGE)), ChatMessage.class);
+            assertEquals(true, expectedList.contains(message.getMessage().getBody()));
+        }
     }
 
     private Message mockMessage(String from, String to, String body) {
