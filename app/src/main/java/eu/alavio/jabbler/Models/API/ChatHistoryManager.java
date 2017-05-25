@@ -131,8 +131,7 @@ public class ChatHistoryManager {
      * @return List that will have <= count of objects
      */
     public List<ChatMessage> getLatestMessages(int count) {
-        Cursor data = null;
-        data = db.getLatestMessages();
+        Cursor data = db.getLatestMessages();
 
         Gson gson = new Gson();
         List<ChatMessage> messages = new ArrayList<>();
@@ -143,7 +142,30 @@ public class ChatHistoryManager {
         }
         messages.sort((o1, o2) -> -1 * o1.getTimestamp().compareTo(o2.getTimestamp()));
 
+        //Reduce on desired count
         messages = messages.subList(0, Math.min(count, messages.size()));
         return messages;
+    }
+
+    /**
+     * Determines most favourite contacts
+     *
+     * @param count Limit of entries returned
+     * @return List of favourite contacts of size (count)
+     */
+    public List<Friend> determineFavouriteContacts(int count) {
+        List<Friend> favourites = new ArrayList<>();
+        try {
+            Cursor data = db.computeFavouriteContacts(count);
+
+            while (data.moveToNext()) {
+                String partner = data.getString(0);
+                favourites.add(ApiHandler.getContact(partner));
+            }
+            return favourites;
+        } catch (Exception e) {
+            Log.e(this.getClass().getName(), "determineFavouriteContacts", e);
+        }
+        return favourites;
     }
 }

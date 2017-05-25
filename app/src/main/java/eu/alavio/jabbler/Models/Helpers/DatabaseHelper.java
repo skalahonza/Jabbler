@@ -140,4 +140,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + HOST + " ='" + host + "' GROUP BY " + PARTNER + " ORDER BY " + DATE + " DESC";
         return db.rawQuery(query, null);
     }
+
+    /**
+     * Compute messages sent for each contact
+     *
+     * @param limit Limit of entries returned
+     * @return Two columns  PPARTNER|Count of messages - sorted by Count of Messages DESC
+     */
+    public Cursor computeFavouriteContacts(int limit) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + PARTNER + ", " + "COUNT(" + PARTNER + ") AS FAVORITY FROM " + TABLE_NAME + " GROUP BY " + PARTNER + " ORDER BY FAVORITY DESC LIMIT " + limit;
+        return db.rawQuery(query, null);
+    }
 }

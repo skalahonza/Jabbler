@@ -39,6 +39,12 @@ public class ContactDetailFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * Build ContactDetailFragment for given JID
+     *
+     * @param jid JID of a contact that is meant to be displayed
+     * @return ContactDetailFragment instance used in navigation service
+     */
     public static ContactDetailFragment getInstance(String jid) {
         ContactDetailFragment fragment = new ContactDetailFragment();
         Bundle args = new Bundle();

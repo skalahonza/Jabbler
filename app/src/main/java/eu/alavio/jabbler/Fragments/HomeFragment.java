@@ -19,6 +19,8 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 import eu.alavio.jabbler.Models.API.ChatHistoryManager;
 import eu.alavio.jabbler.Models.API.ChatMessage;
+import eu.alavio.jabbler.Models.API.Friend;
+import eu.alavio.jabbler.Models.Adapters.ContactAdapter;
 import eu.alavio.jabbler.Models.Adapters.HistoryItemsAdapter;
 import eu.alavio.jabbler.Models.Helpers.NavigationService;
 import eu.alavio.jabbler.R;
@@ -33,12 +35,15 @@ public class HomeFragment extends Fragment {
 
     @BindView(R.id.chat_feed)
     ListView vChatFeed;
+    @BindView(R.id.favourite_contacts)
+    ListView vFavouriteListView;
     @BindView(R.id.no_messages)
     TextView vNoMessagesBox;
     @BindView(R.id.more_history)
     FloatingActionButton vMoreHistory;
 
-    HistoryItemsAdapter adapter;
+    HistoryItemsAdapter historyItemsAdapter;
+    ContactAdapter favContactAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -56,17 +61,24 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        adapter = new HistoryItemsAdapter(getActivity(), R.layout.item_chat);
-        adapter.setNotifyOnChange(true);
-        vChatFeed.setAdapter(adapter);
+        historyItemsAdapter = new HistoryItemsAdapter(getActivity(), R.layout.item_chat);
+        historyItemsAdapter.setNotifyOnChange(true);
+        vChatFeed.setAdapter(historyItemsAdapter);
         ChatHistoryManager manager = new ChatHistoryManager(getActivity());
-        List<ChatMessage> messages = manager.getLatestMessages(5);
+        List<ChatMessage> messages = manager.getLatestMessages(3);
         if (messages.isEmpty()) {
             //No messages
             vNoMessagesBox.setVisibility(View.VISIBLE);
             vMoreHistory.setVisibility(View.GONE);
         } else
-            messages.forEach(message -> adapter.add(new ChatItem(message)));
+            messages.forEach(message -> historyItemsAdapter.add(new ChatItem(message)));
+
+        //Favourite contacts
+        List<Friend> favourites = manager.determineFavouriteContacts(5);
+        favContactAdapter = new ContactAdapter(getActivity(), favourites);
+
+        //Init favourite contacts list
+        vFavouriteListView.setAdapter(favContactAdapter);
     }
 
     @OnClick(R.id.more_history)
@@ -76,11 +88,19 @@ public class HomeFragment extends Fragment {
 
     @OnItemClick(R.id.chat_feed)
     void onChatFeedClick(int position) {
-        HistoryItem item = adapter.getItem(position);
+        HistoryItem item = historyItemsAdapter.getItem(position);
         if (item instanceof ChatItem) {
             ChatItem tmp = (ChatItem) item;
             Fragment chatFragment = ChatFragment.newInstance(tmp.getMessage().getPartner_JID());
             NavigationService.getInstance().Navigate(chatFragment, true, getFragmentManager());
+        }
+    }
+
+    @OnItemClick(R.id.favourite_contacts)
+    void onFavouriteClick(int position) {
+        Friend contact = favContactAdapter.getItem(position);
+        if (contact != null) {
+            NavigationService.getInstance().Navigate(ContactDetailFragment.getInstance(contact.getJid()), true, getFragmentManager());
         }
     }
 }
