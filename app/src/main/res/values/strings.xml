@@ -82,4 +82,6 @@
     <string name="chat_feed">Chat feed</string>
     <string name="contact_already_added">Contact already added.</string>
     <string name="no_messages_here_n_why_don_t_you_talk_to_anyone">No messages here ?   Why don\'t you talk to anyone ?</string>
+    <string name="deny">Deny</string>
+    <string name="accept">Accept</string>
 </resources>

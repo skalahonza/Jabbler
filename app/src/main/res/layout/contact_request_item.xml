@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:id="@+id/jid_contact_box"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="There will be JID of the contact" />
+
+    <Button
+        android:id="@+id/accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/accept"
+        android:textColor="@color/colorAccent"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored" />
+
+    <Button
+        android:id="@+id/deny"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/deny"
+        android:textColor="@color/colorNegative"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored" />
+</LinearLayout>

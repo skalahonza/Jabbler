@@ -21,6 +21,7 @@ import org.jivesoftware.smack.XMPPException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,10 +30,12 @@ import butterknife.OnItemClick;
 import eu.alavio.jabbler.Models.API.ApiHandler;
 import eu.alavio.jabbler.Models.API.Friend;
 import eu.alavio.jabbler.Models.Adapters.ContactAdapter;
+import eu.alavio.jabbler.Models.Adapters.ContactRequestArrayAdapter;
 import eu.alavio.jabbler.Models.Helpers.Dialogs;
 import eu.alavio.jabbler.Models.Helpers.NavigationService;
 import eu.alavio.jabbler.Models.Helpers.Popups;
 import eu.alavio.jabbler.R;
+import eu.alavio.jabbler.ViewModels.ContactRequest;
 
 
 /**
@@ -46,10 +49,13 @@ public class ContactsFragment extends Fragment {
     FloatingActionButton vAddContact;
     @BindView(R.id.all_contacts)
     ListView vAllContacts;
+    @BindView(R.id.requests_list)
+    ListView vRequests;
 
     //used as a base for filtering
     List<Friend> allContacts = new ArrayList<>();
     ContactAdapter allContactsAdapter;
+    ContactRequestArrayAdapter contactRequestArrayAdapter;
 
     public ContactsFragment() {
         // Required empty public constructor
@@ -63,11 +69,11 @@ public class ContactsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
         ButterKnife.bind(this, view);
 
-        //Tabs on top menu (Favourite,All)
+        //Tabs on top menu (Requests,All)
         tabHost.setup();
-        TabHost.TabSpec spec1 = tabHost.newTabSpec("Favourite");
+        TabHost.TabSpec spec1 = tabHost.newTabSpec("Requests");
         spec1.setContent(R.id.tab1);
-        spec1.setIndicator("Favourite");
+        spec1.setIndicator("Requests");
         TabHost.TabSpec spec2 = tabHost.newTabSpec("All");
         spec2.setIndicator("All");
         spec2.setContent(R.id.tab2);
@@ -81,8 +87,30 @@ public class ContactsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         allContactsAdapter = new ContactAdapter(getActivity(), allContacts);
+
+        Consumer<String> acceptContact = s -> {
+            try {
+                ApiHandler.updateContact(s, s.split("@")[0]);
+                loadContacts();
+            } catch (SmackException.NotConnectedException | SmackException.NotLoggedInException | SmackException.NoResponseException | XMPPException.XMPPErrorException e) {
+                Log.e(ContactsFragment.class.getName(), "Error accepting contact: " + s, e);
+            }
+        };
+
+        Consumer<String> rejectContact = s -> {
+            try {
+                ApiHandler.removeContact(s);
+                loadContacts();
+            } catch (SmackException.NotConnectedException | SmackException.NotLoggedInException | SmackException.NoResponseException | XMPPException.XMPPErrorException e) {
+                Log.e(ContactsFragment.class.getName(), "Error rejecting contact: " + s, e);
+            }
+        };
+
+        contactRequestArrayAdapter = new ContactRequestArrayAdapter(getActivity(), R.layout.contact_request_item, acceptContact, rejectContact);
         registerForContextMenu(vAllContacts);
+
         vAllContacts.setAdapter(allContactsAdapter);
+        vRequests.setAdapter(contactRequestArrayAdapter);
         loadContacts();
     }
 
@@ -93,8 +121,6 @@ public class ContactsFragment extends Fragment {
             MenuInflater inflater = getActivity().getMenuInflater();
             inflater.inflate(R.menu.all_contacts_menu, menu);
         }
-
-        //Favourite contacts menu
     }
 
     @Override
@@ -138,8 +164,13 @@ public class ContactsFragment extends Fragment {
     private void loadContacts() {
         try {
             allContactsAdapter.clear();
+            contactRequestArrayAdapter.clear();
             allContacts = ApiHandler.getMyContacts();
             allContactsAdapter.addAll(allContacts);
+
+            ApiHandler.getContactRequests().forEach(friend -> {
+                contactRequestArrayAdapter.add(new ContactRequest(friend));
+            });
         } catch (SmackException.NotLoggedInException | SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
             Log.e(getActivity().getClass().getName(), "Error loading contacts", e);
         }
