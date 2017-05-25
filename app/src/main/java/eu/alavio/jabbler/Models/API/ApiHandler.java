@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import eu.alavio.jabbler.Models.Helpers.Helper;
 
@@ -281,8 +280,6 @@ public final class ApiHandler {
     public static void updateContact(String jid, String nickname) throws SmackException.NotConnectedException, SmackException.NotLoggedInException, XMPPException.XMPPErrorException, SmackException.NoResponseException {
         Roster roster = getCurrentRoster();
         roster.createEntry(jid, nickname, null);
-        Set<RosterEntry> a = roster.getEntries();
-        return;
     }
 
     /**
@@ -324,6 +321,31 @@ public final class ApiHandler {
         if (!roster.isLoaded())
             roster.reloadAndWait();
         return roster;
+    }
+
+    /**
+     * Search roster for contact requests
+     *
+     * @return Collection of requests
+     * @throws SmackException.NotConnectedException
+     * @throws SmackException.NotLoggedInException
+     * @throws XMPPException.XMPPErrorException
+     * @throws SmackException.NoResponseException
+     */
+    public static List<Friend> getContactRequests() throws SmackException.NotConnectedException, SmackException.NotLoggedInException, XMPPException.XMPPErrorException, SmackException.NoResponseException {
+        Roster roster = getCurrentRoster();
+
+        List<Friend> contacts = new ArrayList<>();
+        VCardManager vCardManager = VCardManager.getInstanceFor(connection);
+
+        for (RosterEntry entry : roster.getEntries()) {
+            if (entry.getName() == null) {
+                VCard vCard = vCardManager.loadVCard(entry.getUser());
+                contacts.add(new Friend(entry.getUser(), entry.getName(), entry.getGroups(), vCard));
+            }
+        }
+
+        return contacts;
     }
 }
 
