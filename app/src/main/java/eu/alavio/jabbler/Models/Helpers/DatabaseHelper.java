@@ -86,7 +86,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Returns all the data from database
      *
-     * @return
+     * @return Table rows with all columns
      */
     public Cursor getAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -99,7 +99,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      *
      * @param partner Chat partner JID
      * @param host    Current logged in user JID
-     * @return
+     * @return Table rows with all columns
      */
     public Cursor getMessagesFrom(String partner, String host) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -107,12 +107,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, null);
     }
 
+    /**
+     * Get unique days from conversation history
+     *
+     * @return Table rows with DATE column
+     */
     public Cursor getDays() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + DATE + " FROM " + TABLE_NAME + " WHERE " + HOST + " ='" + host + "'" + " GROUP BY " + DATE + " ORDER BY " + DATE + " DESC";
         return db.rawQuery(query, null);
     }
 
+    /**
+     * Get messages that occurred in teh given day between host and some partner
+     * @param date Examined day
+     * @return Table rows with all columns
+     */
     public Cursor getMessagesFromDay(Date date) {
         SQLiteDatabase db = this.getWritableDatabase();
         SimpleDateFormat dateFormat = new SimpleDateFormat(
@@ -121,9 +131,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, null);
     }
 
+    /**
+     * Get latest (count) messages
+     * @param count Limitation of the amount of messages
+     * @return Table rows with all columns
+     */
     public Cursor getLatestMessages(int count) {
         SQLiteDatabase db = this.getWritableDatabase();
-        //String query = "SELECT * FROM " + TABLE_NAME + " GROUP BY " + PARTNER + " ORDER BY " + DATE + " DESC LIMIT " + count;
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + HOST + " ='" + host + "'" + " ORDER BY " + DATE + " DESC LIMIT " + count;
         return db.rawQuery(query, null);
     }
