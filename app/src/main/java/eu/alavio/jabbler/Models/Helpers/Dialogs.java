@@ -34,6 +34,12 @@ public final class Dialogs {
         builder.show();
     }
 
+    /**
+     * Shows when user successfully created
+     *
+     * @param context   Obtain by getActivity()
+     * @param okPressed Launch when the ok is pressed
+     */
     public static void userCreatedDialog(Context context, Runnable okPressed) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(R.string.user_registered);
@@ -45,6 +51,13 @@ public final class Dialogs {
         builder.show();
     }
 
+    /**
+     * Error occurred during some server request
+     * @param context Obtain by getActivity()
+     * @param title Heder of the dialog
+     * @param reason Reason of failure
+     * @param okPressed Launch when the ok is pressed
+     */
     private static void operationErrorDialog(Context context, String title, String reason, Runnable okPressed) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
@@ -57,16 +70,31 @@ public final class Dialogs {
         builder.show();
     }
 
+    /**
+     * When the user registration failed
+     * @param context Obtain by getActivity()
+     * @param reason Reason of failure
+     */
     public static void userNotCreatedDialog(Context context, String reason) {
         operationErrorDialog(context, context.getString(R.string.user_reg_failed), reason, () -> {
         });
     }
 
+    /**
+     * Login failed dialog - shows when the login with right credentials failed
+     * @param context Obtain by getActivity()
+     * @param reason Reason of failure
+     */
     public static void loginFailed(Context context, String reason) {
         operationErrorDialog(context, context.getString(R.string.login_failed), reason, () -> {
         });
     }
 
+    /**
+     * Deleting contact failed dialog - shows when deleting fails
+     * @param context Obtain by getActivity()
+     * @param reason Reason of failure
+     */
     public static void deletingContactFailed(Context context, String reason) {
         operationErrorDialog(context, context.getString(R.string.error_contact_delete), reason, () -> {
         });
@@ -96,6 +124,11 @@ public final class Dialogs {
         }
     }
 
+    /**
+     * Really delete Contact dialog - yes no option
+     * @param context Obtain by getActivity()
+     * @param confirmed Launch runnable when confirmed
+     */
     public static void reallyDeleteContact(Context context, Runnable confirmed) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(R.string.are_you_sure_delete_contact);

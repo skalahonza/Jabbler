@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment {
         adapter.setNotifyOnChange(true);
         vChatFeed.setAdapter(adapter);
         ChatHistoryManager manager = new ChatHistoryManager(getActivity());
-        List<ChatMessage> messages = manager.getLatestMessages(2);
+        List<ChatMessage> messages = manager.getLatestMessages(5);
         if (messages.isEmpty()) {
             //No messages
             vNoMessagesBox.setVisibility(View.VISIBLE);
@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment {
 
     @OnClick(R.id.more_history)
     void moreHistory() {
-        NavigationService.getInstance().Navigate(NavigationService.MainPages.HISTORY, false, getFragmentManager());
+        NavigationService.getInstance().Navigate(NavigationService.MainPages.HISTORY, true, getFragmentManager());
     }
 
     @OnItemClick(R.id.chat_feed)
