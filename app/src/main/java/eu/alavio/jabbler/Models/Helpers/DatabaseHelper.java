@@ -133,12 +133,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Get latest (count) messages
-     * @param count Limitation of the amount of messages
      * @return Table rows with all columns
      */
-    public Cursor getLatestMessages(int count) {
+    public Cursor getLatestMessages() {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + HOST + " ='" + host + "'" + " ORDER BY " + DATE + " DESC LIMIT " + count;
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + HOST + " ='" + host + "' GROUP BY " + PARTNER + " ORDER BY " + DATE + " DESC";
         return db.rawQuery(query, null);
     }
 }

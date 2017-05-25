@@ -131,7 +131,9 @@ public class ChatHistoryManager {
      * @return List that will have <= count of objects
      */
     public List<ChatMessage> getLatestMessages(int count) {
-        Cursor data = db.getLatestMessages(count);
+        Cursor data = null;
+        data = db.getLatestMessages();
+
         Gson gson = new Gson();
         List<ChatMessage> messages = new ArrayList<>();
 
@@ -140,6 +142,8 @@ public class ChatHistoryManager {
             messages.add(gson.fromJson(json, ChatMessage.class));
         }
         messages.sort((o1, o2) -> -1 * o1.getTimestamp().compareTo(o2.getTimestamp()));
+
+        messages = messages.subList(0, Math.min(count, messages.size()));
         return messages;
     }
 }
