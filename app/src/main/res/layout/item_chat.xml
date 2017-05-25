@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
+    android:layout_margin="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <!-- Picture coming soon-->
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical"
-        android:layout_margin="5dp"
-        android:src="@color/colorAccent" />
 
     <LinearLayout
         android:layout_weight="1"
@@ -25,6 +20,12 @@
             android:layout_height="wrap_content"
             style="@style/TextAppearance.AppCompat.Headline"
             android:text="Sender" />
+
+        <TextView
+            android:id="@+id/sender_jid_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sender Jid" />
 
         <TextView
             android:id="@+id/message_box"

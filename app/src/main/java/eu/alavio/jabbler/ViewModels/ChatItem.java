@@ -1,14 +1,19 @@
 package eu.alavio.jabbler.ViewModels;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPException;
+
 import java.text.SimpleDateFormat;
 
 import butterknife.ButterKnife;
+import eu.alavio.jabbler.Models.API.ApiHandler;
 import eu.alavio.jabbler.Models.API.ChatMessage;
 import eu.alavio.jabbler.R;
 
@@ -34,10 +39,18 @@ public class ChatItem implements HistoryItem {
         View row = inflater.inflate(R.layout.item_chat, container, false);
 
         TextView vSenderBox = ButterKnife.findById(row, R.id.sender_box);
+        TextView vSenderJidBox = ButterKnife.findById(row, R.id.sender_jid_box);
         TextView vMessageBox = ButterKnife.findById(row, R.id.message_box);
         TextView vDateBox = ButterKnife.findById(row, R.id.date_box);
 
-        vSenderBox.setText(message.getPartner_JID());
+        try {
+            vSenderBox.setText(ApiHandler.getContact(message.getPartner_JID()).getName());
+        } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException | SmackException.NotLoggedInException e) {
+            Log.e(this.getClass().getName(), "Error getting contact", e);
+            vSenderBox.setText("Error");
+        }
+
+        vSenderJidBox.setText(message.getPartner_JID());
         vMessageBox.setText(message.getMessage().getBody());
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy \n HH:MM");
         vDateBox.setText(sdf.format(message.getTimestamp()));
