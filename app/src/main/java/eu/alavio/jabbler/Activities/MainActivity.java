@@ -1,8 +1,14 @@
 package eu.alavio.jabbler.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +23,7 @@ import android.widget.Toast;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.chat.ChatManager;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.roster.RosterListener;
 
@@ -25,6 +32,8 @@ import java.util.Collection;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eu.alavio.jabbler.Models.API.ApiHandler;
+import eu.alavio.jabbler.Models.API.ChatHistoryManager;
+import eu.alavio.jabbler.Models.API.ChatMessage;
 import eu.alavio.jabbler.Models.API.User;
 import eu.alavio.jabbler.Models.Helpers.Dialogs;
 import eu.alavio.jabbler.Models.Helpers.NavigationService;
@@ -86,7 +95,6 @@ public class MainActivity extends AppCompatActivity
         rosterListener = new RosterListener() {
             @Override
             public void entriesAdded(Collection<String> addresses) {
-                //TODO request received
                 if (addresses.size() == 1) {
                     String jid = (String) addresses.toArray()[0];
                     handler.post(() -> Toast.makeText(getApplicationContext(), jid + " wants to add you as a contact.", Toast.LENGTH_LONG).show());
@@ -103,8 +111,6 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void presenceChanged(Presence presence) {
-                //TODO Someone became online/ofline
-                return;
             }
         };
 
@@ -112,6 +118,32 @@ public class MainActivity extends AppCompatActivity
             ApiHandler.getCurrentRoster().addRosterListener(rosterListener);
         } catch (SmackException.NotConnectedException | SmackException.NotLoggedInException e) {
             e.printStackTrace();
+        }
+
+        //Activate background listener for chat
+        ChatManager manager = ApiHandler.backgroundChatManager();
+        Context context = this;
+        ChatHistoryManager historyManager = new ChatHistoryManager(this);
+        if (manager != null) {
+            manager.addChatListener((chat, createdLocally) -> chat.addMessageListener((chat1, message) -> {
+                //Save message to history
+                ChatMessage chatMessage = ChatMessage.ReceivedMessage(message);
+                historyManager.saveMessage(chatMessage);
+
+                //Notify user
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                String ringtonePreference = prefs.getString("notificationSound", "DEFAULT_NOTIFICATION_URI ");
+                Uri ringtone = Uri.parse(ringtonePreference);
+                Ringtone r = RingtoneManager.getRingtone(context, ringtone);
+                r.play();
+
+                if (!ApiHandler.isChatInProgress(chatMessage.getPartner_JID())) {
+                    //Show popup if not current chat partner - delegate t UI thread
+                    handler.post(() -> {
+                        Toast.makeText(context, chatMessage.getPartner_JID() + ": " + message.getBody(), Toast.LENGTH_LONG).show();
+                    });
+                }
+            }));
         }
     }
 

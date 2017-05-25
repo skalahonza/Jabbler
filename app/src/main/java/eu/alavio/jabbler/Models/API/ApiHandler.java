@@ -33,6 +33,7 @@ public final class ApiHandler {
     private static final int PORT = 5222;
 
     private static XMPPTCPConnection connection;
+    private static String currentChatPartner = null;
 
     /**
      * Creates and instance of a connection to a given hostname on port 5222
@@ -312,9 +313,32 @@ public final class ApiHandler {
         if (connection.isAuthenticated()) {
             Log.i("Chat init", "Authenticated, creating chat with: " + jid);
             ChatManager chatManager = ChatManager.getInstanceFor(connection);
+            currentChatPartner = jid;
             return chatManager.createChat(jid);
         } else {
             Log.e("Chat init", "Chat init failed due to missing authentication.");
+            return null;
+        }
+    }
+
+    /**
+     * Ends current chat that happens in ChatFragment
+     */
+    public static void endCurrentChat() {
+        currentChatPartner = null;
+    }
+
+    /**
+     * Get chat manager for current user
+     *
+     * @return Null if error
+     */
+    public static ChatManager backgroundChatManager() {
+        if (connection.isAuthenticated()) {
+            Log.i(ApiHandler.class.getName(), "Creating chat manager");
+            return ChatManager.getInstanceFor(connection);
+        } else {
+            Log.e(ApiHandler.class.getName(), "Chat init failed due to missing authentication.");
             return null;
         }
     }
@@ -335,6 +359,7 @@ public final class ApiHandler {
 
     /**
      * Search roster for contact requests
+     *
      * @return Collection of users that wants to subscribe to current user
      * @throws SmackException.NotConnectedException
      * @throws SmackException.NotLoggedInException
@@ -355,6 +380,16 @@ public final class ApiHandler {
         }
 
         return contacts;
+    }
+
+    /**
+     * Check if the user is now chatting with the given JID
+     *
+     * @param jid Examined JID, obtain it from incoming message
+     * @return True if the user is having a chat with the given JID in a chat window
+     */
+    public static boolean isChatInProgress(String jid) {
+        return jid.equals(currentChatPartner);
     }
 }
 

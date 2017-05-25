@@ -2,13 +2,8 @@ package eu.alavio.jabbler.Fragments;
 
 
 import android.app.Fragment;
-import android.content.SharedPreferences;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -131,10 +126,11 @@ public class ChatFragment extends Fragment {
 
         //INIT CHAT
         chat = ApiHandler.initChat(chatPartnerJid);
+
         Handler handler = new Handler();
+
         if (chat != null)
             chat.addMessageListener((chat1, message) -> {
-
                 //Call on UI thread
                 handler.post(() -> {
                     receivedMessage(ChatMessage.ReceivedMessage(message));
@@ -179,12 +175,5 @@ public class ChatFragment extends Fragment {
     private void receivedMessage(ChatMessage message) {
         chatArrayAdapter.add(message);
         chatArrayAdapter.notifyDataSetChanged();
-        historyManager.saveMessage(message);
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String ringtonePreference = prefs.getString("notificationSound", "DEFAULT_NOTIFICATION_URI ");
-        Uri ringtone = Uri.parse(ringtonePreference);
-        Ringtone r = RingtoneManager.getRingtone(getActivity(), ringtone);
-        r.play();
     }
 }
