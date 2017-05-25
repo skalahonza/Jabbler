@@ -132,23 +132,26 @@ public class MainActivity extends AppCompatActivity
                 ChatMessage chatMessage = ChatMessage.ReceivedMessage(message);
                 historyManager.saveMessage(chatMessage);
 
-                //Notify user
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                String ringtonePreference = prefs.getString("notificationSound", "DEFAULT_NOTIFICATION_URI ");
-                Uri ringtone = Uri.parse(ringtonePreference);
-                Ringtone r = RingtoneManager.getRingtone(context, ringtone);
-                r.play();
+                //Notifications turned on
+                if (prefs.getBoolean("notifications", false)) {
+                    //Notify user
+                    String ringtonePreference = prefs.getString("notificationSound", "DEFAULT_NOTIFICATION_URI ");
+                    Uri ringtone = Uri.parse(ringtonePreference);
+                    Ringtone r = RingtoneManager.getRingtone(context, ringtone);
+                    r.play();
 
-                if (!ApiHandler.isChatInProgress(chatMessage.getPartner_JID())) {
-                    //Show popup if not current chat partner - delegate t UI thread
-                    handler.post(() -> {
-                        try {
-                            Friend contact = ApiHandler.getContact(chatMessage.getPartner_JID());
-                            Toast.makeText(context, contact.getName() + ": " + message.getBody(), Toast.LENGTH_LONG).show();
-                        } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NotLoggedInException | SmackException.NoResponseException e) {
-                            Log.e(ApiHandler.class.getName(), "Error getting contact by JID.", e);
-                        }
-                    });
+                    if (!ApiHandler.isChatInProgress(chatMessage.getPartner_JID())) {
+                        //Show popup if not current chat partner - delegate t UI thread
+                        handler.post(() -> {
+                            try {
+                                Friend contact = ApiHandler.getContact(chatMessage.getPartner_JID());
+                                Toast.makeText(context, contact.getName() + ": " + message.getBody(), Toast.LENGTH_LONG).show();
+                            } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NotLoggedInException | SmackException.NoResponseException e) {
+                                Log.e(ApiHandler.class.getName(), "Error getting contact by JID.", e);
+                            }
+                        });
+                    }
                 }
             }));
         }
