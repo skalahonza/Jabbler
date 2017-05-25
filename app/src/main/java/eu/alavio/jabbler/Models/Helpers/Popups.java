@@ -14,11 +14,17 @@ import eu.alavio.jabbler.Models.API.ApiHandler;
 import eu.alavio.jabbler.R;
 
 /**
- * Wrapper (async) for common in app popups
+ * Wrapper for common in app popups
  */
 
 public final class Popups {
 
+    /**
+     * Add new contact dialog
+     *
+     * @param context   Obtain by getActivity()
+     * @param onSuccess Launch this callback when clicks OK button
+     */
     public static void addContactDialog(Context context, Runnable onSuccess) {
         final Dialog dialog = new Dialog(context);
 
@@ -52,6 +58,12 @@ public final class Popups {
         dialog.show();
     }
 
+    /**
+     * Pick nickname for contact and return it in a callback
+     * @param context Obtain by getActivity()
+     * @param jid Jid of the contact that requested subsription
+     * @param confirm Launches when dialog confirmed
+     */
     public static void contactRequestReceived(Context context, String jid, Consumer<String> confirm) {
         final Dialog dialog = new Dialog(context);
 
