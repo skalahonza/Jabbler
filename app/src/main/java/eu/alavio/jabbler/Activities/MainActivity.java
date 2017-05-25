@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,7 @@ import butterknife.ButterKnife;
 import eu.alavio.jabbler.Models.API.ApiHandler;
 import eu.alavio.jabbler.Models.API.ChatHistoryManager;
 import eu.alavio.jabbler.Models.API.ChatMessage;
+import eu.alavio.jabbler.Models.API.Friend;
 import eu.alavio.jabbler.Models.API.User;
 import eu.alavio.jabbler.Models.Helpers.Dialogs;
 import eu.alavio.jabbler.Models.Helpers.NavigationService;
@@ -140,7 +142,12 @@ public class MainActivity extends AppCompatActivity
                 if (!ApiHandler.isChatInProgress(chatMessage.getPartner_JID())) {
                     //Show popup if not current chat partner - delegate t UI thread
                     handler.post(() -> {
-                        Toast.makeText(context, chatMessage.getPartner_JID() + ": " + message.getBody(), Toast.LENGTH_LONG).show();
+                        try {
+                            Friend contact = ApiHandler.getContact(chatMessage.getPartner_JID());
+                            Toast.makeText(context, contact.getName() + ": " + message.getBody(), Toast.LENGTH_LONG).show();
+                        } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NotLoggedInException | SmackException.NoResponseException e) {
+                            Log.e(ApiHandler.class.getName(), "Error getting contact by JID.", e);
+                        }
                     });
                 }
             }));

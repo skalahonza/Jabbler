@@ -39,7 +39,7 @@ public class ChatItem implements HistoryItem {
 
         vSenderBox.setText(message.getPartner_JID());
         vMessageBox.setText(message.getMessage().getBody());
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:MM");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy \n HH:MM");
         vDateBox.setText(sdf.format(message.getTimestamp()));
         return row;
     }

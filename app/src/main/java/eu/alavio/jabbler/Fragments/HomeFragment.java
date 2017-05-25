@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment {
         adapter.setNotifyOnChange(true);
         vChatFeed.setAdapter(adapter);
         ChatHistoryManager manager = new ChatHistoryManager(getActivity());
-        List<ChatMessage> messages = manager.getLatestMessages(50);
+        List<ChatMessage> messages = manager.getLatestMessages(5);
         if (messages.isEmpty()) {
             //No messages
             vNoMessagesBox.setVisibility(View.VISIBLE);

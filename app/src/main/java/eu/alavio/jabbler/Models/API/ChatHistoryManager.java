@@ -139,6 +139,7 @@ public class ChatHistoryManager {
             String json = data.getString(data.getColumnIndex(DatabaseHelper.MESSAGE));
             messages.add(gson.fromJson(json, ChatMessage.class));
         }
+        messages.sort((o1, o2) -> -1 * o1.getTimestamp().compareTo(o2.getTimestamp()));
         return messages;
     }
 }

@@ -38,9 +38,5 @@
             android:layout_marginTop="-10dp"
             android:layout_marginBottom="10dp"
             android:src="@drawable/ic_expand_more_black_24dp" />
-
-        <TextView
-            style="@style/BlockHeader"
-            android:text="Favourite contacts" />
     </LinearLayout>
 </FrameLayout>
