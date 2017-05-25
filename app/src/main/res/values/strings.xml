@@ -85,4 +85,6 @@
     <string name="deny">Deny</string>
     <string name="accept">Accept</string>
     <string name="favourite_contacts">Favourite contacts</string>
+    <string name="about_text">Jabber client implementing basic functions of the protocol. App is able to communicate with special Jabber server hosted on Alavio.eu that adds additional features such as video-calls.</string>
+    <string name="app_state">App is currently in an ALPHA state.</string>
 </resources>

@@ -9,14 +9,18 @@
         android:fillViewport="true">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
             style="@style/PageHeader"
             android:text="About the app" />
         <TextView
             style="@style/PageContent"
-            android:text="Lorem ipsum dolor sit amet, nihil novus sub sole, inter arma silne musae." />
+            android:text="@string/about_text" />
+        <TextView
+            style="@style/PageContent"
+            android:text="@string/app_state" />
+
         <TextView
             style="@style/PageHeader"
             android:text="Features" />
@@ -30,6 +34,14 @@
             android:checked="true"/>
         <CheckBox
             style="@style/FeatureCheck"
+            android:text="Encryption"
+            android:checked="true" />
+        <CheckBox
+            style="@style/FeatureCheck"
+            android:text="Chat"
+            android:checked="true" />
+        <CheckBox
+            style="@style/FeatureCheck"
             android:text="Groups"
             android:checked="false"/>
         <CheckBox
@@ -38,15 +50,7 @@
             android:checked="false"/>
         <CheckBox
             style="@style/FeatureCheck"
-            android:text="Encryption"
-            android:checked="false"/>
-        <CheckBox
-            style="@style/FeatureCheck"
             android:text="Calls"
-            android:checked="false"/>
-        <CheckBox
-            style="@style/FeatureCheck"
-            android:text="Chat"
             android:checked="false"/>
         <TextView
             style="@style/PageHeader"
