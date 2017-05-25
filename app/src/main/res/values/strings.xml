@@ -84,4 +84,5 @@
     <string name="no_messages_here_n_why_don_t_you_talk_to_anyone">No messages here ?   Why don\'t you talk to anyone ?</string>
     <string name="deny">Deny</string>
     <string name="accept">Accept</string>
+    <string name="favourite_contacts">Favourite contacts</string>
 </resources>
