@@ -52,7 +52,7 @@ public final class Popups {
         dialog.show();
     }
 
-    public static void contactRequestReceived(Context context, String jid, Consumer<String> deny, Consumer<String> confirm) {
+    public static void contactRequestReceived(Context context, String jid, Consumer<String> confirm) {
         final Dialog dialog = new Dialog(context);
 
         dialog.setContentView(R.layout.contact_request);
@@ -74,7 +74,6 @@ public final class Popups {
         //Cancel clicked
         cancel.setOnClickListener(v -> {
             dialog.dismiss();
-            deny.accept(jid);
         });
         dialog.show();
     }

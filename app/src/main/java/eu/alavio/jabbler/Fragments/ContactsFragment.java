@@ -88,13 +88,21 @@ public class ContactsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         allContactsAdapter = new ContactAdapter(getActivity(), allContacts);
 
-        Consumer<String> acceptContact = s -> {
-            try {
-                ApiHandler.updateContact(s, s.split("@")[0]);
-                loadContacts();
-            } catch (SmackException.NotConnectedException | SmackException.NotLoggedInException | SmackException.NoResponseException | XMPPException.XMPPErrorException e) {
-                Log.e(ContactsFragment.class.getName(), "Error accepting contact: " + s, e);
-            }
+        //Contact accepted callback
+        Consumer<String> acceptContact = jid -> {
+
+            //Nickname filled in callback
+            Consumer<String> setNickname = nickname -> {
+                try {
+                    ApiHandler.updateContact(jid, nickname);
+                    loadContacts();
+                } catch (SmackException.NotConnectedException | SmackException.NotLoggedInException | SmackException.NoResponseException | XMPPException.XMPPErrorException e) {
+                    Log.e(ContactsFragment.class.getName(), "Error accepting contact: " + jid, e);
+                }
+            };
+
+            //Set nickname for new contact
+            Popups.contactRequestReceived(getActivity(), jid, setNickname);
         };
 
         Consumer<String> rejectContact = s -> {
