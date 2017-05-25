@@ -6,7 +6,7 @@
     android:gravity="center|fill_horizontal"
     android:orientation="vertical">
 
-    <EditText
+    <TextView
         android:id="@+id/jid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,12 +30,13 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorNegative"
             android:src="@drawable/ic_cancel_black_24dp" />
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/accept"
             android:layout_margin="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_done_black_24dp"/>
+            android:src="@drawable/ic_done_black_24dp" />
 
     </LinearLayout>
 </LinearLayout>

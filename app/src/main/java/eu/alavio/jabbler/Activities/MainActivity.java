@@ -1,8 +1,8 @@
 package eu.alavio.jabbler.Activities;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,13 +13,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.roster.RosterListener;
+
+import java.util.Collection;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import eu.alavio.jabbler.Fragments.HomeFragment;
 import eu.alavio.jabbler.Models.API.ApiHandler;
 import eu.alavio.jabbler.Models.API.User;
 import eu.alavio.jabbler.Models.Helpers.Dialogs;
@@ -35,6 +39,9 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
+    RosterListener rosterListener;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +50,7 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
 
+        //Hamburger menu button
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -53,7 +61,6 @@ public class MainActivity extends AppCompatActivity
             User user = ApiHandler.getCurrentUser();
 
             View headerLayout = navigationView.getHeaderView(0);
-            //navigationView.inflateHeaderView(R.layout.nav_header_main);
             TextView vFullName = ButterKnife.findById(headerLayout, R.id.full_name);
             TextView vUserName = ButterKnife.findById(headerLayout, R.id.userName);
 
@@ -65,14 +72,47 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-
+        //Hamburger menu item selected listener
         navigationView.setNavigationItemSelectedListener(this);
-        //Select first - home item
-        navigationView.getMenu().getItem(0).setChecked(true);
 
+        //Navigation initialization
         NavigationService.getInstance().setMainNavigationFrameId(R.id.content_frame);
         NavigationService.getInstance().setMainNavigationView(navigationView);
-        navigate(new HomeFragment());
+        NavigationService.getInstance().Navigate(NavigationService.MainPages.HOME, false, getFragmentManager());
+
+        //Delegates Runnables on UI thread
+        Handler handler = new Handler();
+
+        rosterListener = new RosterListener() {
+            @Override
+            public void entriesAdded(Collection<String> addresses) {
+                //TODO request received
+                if (addresses.size() == 1) {
+                    String jid = (String) addresses.toArray()[0];
+                    handler.post(() -> Toast.makeText(getApplicationContext(), jid + " wants to add you as a contact.", Toast.LENGTH_LONG).show());
+                }
+            }
+
+            @Override
+            public void entriesUpdated(Collection<String> addresses) {
+            }
+
+            @Override
+            public void entriesDeleted(Collection<String> addresses) {
+            }
+
+            @Override
+            public void presenceChanged(Presence presence) {
+                //TODO Someone became online/ofline
+                return;
+            }
+        };
+
+        try {
+            ApiHandler.getCurrentRoster().addRosterListener(rosterListener);
+        } catch (SmackException.NotConnectedException | SmackException.NotLoggedInException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -153,25 +193,5 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    /**
-     * Performs navigation to a fragment, without saving him to backstack
-     *
-     * @param fragment Fragment to be navigated to
-     */
-    private void navigate(Fragment fragment) {
-        navigate(fragment, false);
-    }
-
-    /**
-     * Performs navigation to a frame.
-     *
-     * @param fragment        Fragment to be navigated to
-     * @param saveInBackStack True - saves current fragment in backstack; false - current fragment won't be saved
-     */
-    private void navigate(Fragment fragment, boolean saveInBackStack) {
-        // Insert the fragment by replacing any existing fragment
-        NavigationService.getInstance().Navigate(fragment, saveInBackStack, getFragmentManager());
     }
 }

@@ -24,6 +24,7 @@
             android:paddingTop="60px">
 
             <ListView
+                android:id="@+id/requests_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:entries="@array/sample_contacts" />

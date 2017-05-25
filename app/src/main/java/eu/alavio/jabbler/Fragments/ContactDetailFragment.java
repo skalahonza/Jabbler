@@ -68,7 +68,7 @@ public class ContactDetailFragment extends Fragment {
         Bundle bundle = getArguments();
         try {
             contact = ApiHandler.getContact(bundle.getString("jid"));
-        } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
+        } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException | SmackException.NotLoggedInException e) {
             Log.e(getActivity().getClass().getName(), "Displaying contact error", e);
         }
 
