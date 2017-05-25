@@ -7,7 +7,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import eu.alavio.jabbler.Models.API.ApiHandler;
-import eu.alavio.jabbler.Models.API.ChatMessage;
 import eu.alavio.jabbler.R;
 
 /**
@@ -138,12 +137,6 @@ public final class Dialogs {
             dialog.dismiss();
         });
         builder.setNegativeButton(R.string.no, (dialog, which) -> dialog.dismiss());
-        builder.show();
-    }
-
-    public static void messageReceived(Context context, ChatMessage message, int timeout) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
         builder.show();
     }
 }
