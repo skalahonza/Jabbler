@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import eu.alavio.jabbler.Models.Helpers.Helper;
 
@@ -258,10 +259,30 @@ public final class ApiHandler {
      * @throws SmackException.NoResponseException
      */
     public static void removeContact(Friend contact) throws SmackException.NotLoggedInException, XMPPException.XMPPErrorException, SmackException.NotConnectedException, SmackException.NoResponseException {
+        removeContact(contact.getJid());
+    }
+
+    /**
+     * Remove contact rom roster by given JID
+     *
+     * @param jid JID of contact to be deleted
+     * @throws SmackException.NotConnectedException
+     * @throws SmackException.NotLoggedInException
+     * @throws XMPPException.XMPPErrorException
+     * @throws SmackException.NoResponseException
+     */
+    public static void removeContact(String jid) throws SmackException.NotConnectedException, SmackException.NotLoggedInException, XMPPException.XMPPErrorException, SmackException.NoResponseException {
         Roster roster = getCurrentRoster();
-        RosterEntry tmp = roster.getEntry(contact.getJid());
+        RosterEntry tmp = roster.getEntry(jid);
         if (tmp != null)
             roster.removeEntry(tmp);
+    }
+
+    public static void updateContact(String jid, String nickname) throws SmackException.NotConnectedException, SmackException.NotLoggedInException, XMPPException.XMPPErrorException, SmackException.NoResponseException {
+        Roster roster = getCurrentRoster();
+        roster.createEntry(jid, nickname, null);
+        Set<RosterEntry> a = roster.getEntries();
+        return;
     }
 
     /**

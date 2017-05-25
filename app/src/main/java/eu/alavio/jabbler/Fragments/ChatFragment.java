@@ -79,7 +79,7 @@ public class ChatFragment extends Fragment {
                 chatPartnerJid = getArguments().getString(ARG_PARAM);
                 chatPartner = ApiHandler.getContact(chatPartnerJid);
 
-            } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException e) {
+            } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException | SmackException.NotLoggedInException e) {
                 Log.e(ChatFragment.class.getName(), "Error getting contact by jid", e);
             }
             historyManager = new ChatHistoryManager(getActivity());

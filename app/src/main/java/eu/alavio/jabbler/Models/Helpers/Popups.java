@@ -8,13 +8,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.XMPPException;
-
 import java.util.function.Consumer;
 
 import eu.alavio.jabbler.Models.API.ApiHandler;
-import eu.alavio.jabbler.Models.API.Friend;
 import eu.alavio.jabbler.R;
 
 /**
@@ -47,7 +43,6 @@ public final class Popups {
                 dialog.dismiss();
                 Toast.makeText(context, "Cannot add contact: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
-
         });
 
         //Cancel clicked
@@ -57,10 +52,10 @@ public final class Popups {
         dialog.show();
     }
 
-    public static void contactRequestReceived(Context context, String jid, Consumer<String> deny, Consumer<Friend> confirm) {
+    public static void contactRequestReceived(Context context, String jid, Consumer<String> deny, Consumer<String> confirm) {
         final Dialog dialog = new Dialog(context);
 
-        dialog.setContentView(R.layout.add_contat_dialog);
+        dialog.setContentView(R.layout.contact_request);
         dialog.setTitle("Custom Alert Dialog");
 
         TextView jidTb = (TextView) dialog.findViewById(R.id.jid);
@@ -68,18 +63,11 @@ public final class Popups {
         FloatingActionButton accept = (FloatingActionButton) dialog.findViewById(R.id.accept);
         FloatingActionButton cancel = (FloatingActionButton) dialog.findViewById(R.id.cancel);
 
+        jidTb.setText(jid);
+
         //Accept clicked
         accept.setOnClickListener(v -> {
-            try {
-                Friend contact = ApiHandler.getContact(jid);
-                if (contact != null) {
-                    contact.setName(String.valueOf(nickname.getText()));
-                }
-                confirm.accept(contact);
-
-            } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NotLoggedInException | SmackException.NoResponseException e) {
-                confirm.accept(null);
-            }
+            confirm.accept(String.valueOf(nickname.getText()));
             dialog.dismiss();
         });
 

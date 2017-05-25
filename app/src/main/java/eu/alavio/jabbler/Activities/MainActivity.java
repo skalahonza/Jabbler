@@ -2,6 +2,7 @@ package eu.alavio.jabbler.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,9 +13,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.roster.RosterListener;
+
+import java.util.Collection;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +38,9 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+
+    RosterListener rosterListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +80,39 @@ public class MainActivity extends AppCompatActivity
         NavigationService.getInstance().setMainNavigationView(navigationView);
         NavigationService.getInstance().Navigate(NavigationService.MainPages.HOME, false, getFragmentManager());
 
+        //Delegates Runnables on UI thread
+        Handler handler = new Handler();
 
+        rosterListener = new RosterListener() {
+            @Override
+            public void entriesAdded(Collection<String> addresses) {
+                //TODO request received
+                if (addresses.size() == 1) {
+                    String jid = (String) addresses.toArray()[0];
+                    handler.post(() -> Toast.makeText(getApplicationContext(), jid + " wants to add you as a contact.", Toast.LENGTH_LONG).show());
+                }
+            }
+
+            @Override
+            public void entriesUpdated(Collection<String> addresses) {
+            }
+
+            @Override
+            public void entriesDeleted(Collection<String> addresses) {
+            }
+
+            @Override
+            public void presenceChanged(Presence presence) {
+                //TODO Someone became online/ofline
+                return;
+            }
+        };
+
+        try {
+            ApiHandler.getCurrentRoster().addRosterListener(rosterListener);
+        } catch (SmackException.NotConnectedException | SmackException.NotLoggedInException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
