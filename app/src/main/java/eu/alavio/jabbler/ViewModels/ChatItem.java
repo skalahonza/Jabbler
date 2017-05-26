@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import butterknife.ButterKnife;
 import eu.alavio.jabbler.Models.API.ApiHandler;
 import eu.alavio.jabbler.Models.API.ChatMessage;
+import eu.alavio.jabbler.Models.API.Friend;
 import eu.alavio.jabbler.R;
 
 /**
@@ -44,7 +45,12 @@ public class ChatItem implements HistoryItem {
         TextView vDateBox = ButterKnife.findById(row, R.id.date_box);
 
         try {
-            vSenderBox.setText(ApiHandler.getContact(message.getPartner_JID()).getName());
+            Friend contact = ApiHandler.getContact(message.getPartner_JID());
+            if (contact != null) {
+                vSenderBox.setText(contact.getName());
+            } else {
+                vSenderBox.setText("Unknown");
+            }
         } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NoResponseException | SmackException.NotLoggedInException e) {
             Log.e(this.getClass().getName(), "Error getting contact", e);
             vSenderBox.setText("Error");
