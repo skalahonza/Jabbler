@@ -160,9 +160,10 @@ public class ChatHistoryManager {
 
             while (data.moveToNext()) {
                 String partner = data.getString(0);
-                favourites.add(ApiHandler.getContact(partner));
+                Friend favourite = ApiHandler.getContact(partner);
+                if (favourite != null)
+                    favourites.add(favourite);
             }
-            return favourites;
         } catch (Exception e) {
             Log.e(this.getClass().getName(), "determineFavouriteContacts", e);
         }

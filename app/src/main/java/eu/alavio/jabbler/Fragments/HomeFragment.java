@@ -75,10 +75,12 @@ public class HomeFragment extends Fragment {
 
         //Favourite contacts
         List<Friend> favourites = manager.determineFavouriteContacts(5);
-        favContactAdapter = new ContactAdapter(getActivity(), favourites);
-
-        //Init favourite contacts list
-        vFavouriteListView.setAdapter(favContactAdapter);
+        favContactAdapter = new ContactAdapter(getActivity());
+        if (favourites.size() > 0) {
+            favContactAdapter.addAll(favourites);
+            //Init favourite contacts list
+            vFavouriteListView.setAdapter(favContactAdapter);
+        }
     }
 
     @OnClick(R.id.more_history)

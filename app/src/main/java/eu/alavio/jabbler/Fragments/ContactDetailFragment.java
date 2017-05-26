@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import org.jivesoftware.smack.SmackException;
@@ -29,6 +30,7 @@ public class ContactDetailFragment extends Fragment {
 
     EditText vFullName, vJid;
     View view;
+    Button vDelButton;
 
     Friend contact;
 
@@ -69,6 +71,8 @@ public class ContactDetailFragment extends Fragment {
 
         vFullName = ButterKnife.findById(view, R.id.full_name);
         vJid = ButterKnife.findById(view, R.id.jid_box);
+        vDelButton = ButterKnife.findById(view, R.id.delete_button);
+
 
         //Get contact to be displayed
         Bundle bundle = getArguments();
@@ -81,6 +85,10 @@ public class ContactDetailFragment extends Fragment {
         //Fill in UI
         vFullName.setText(contact.getName());
         vJid.setText(contact.getJid());
+
+        //only a request
+        if (contact.getName() == null)
+            vDelButton.setEnabled(false);
     }
 
     @OnClick(R.id.delete_button)

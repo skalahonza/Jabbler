@@ -72,14 +72,6 @@
             android:text="@string/remove"
             android:textColor="@color/colorNegative" />
 
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/favourite_button"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="@string/favourite"
-            android:textColor="@color/colorInfo"
-            android:padding="20dp" />
-
         <Button
             android:id="@+id/chat_button"
             style="@style/Widget.AppCompat.Button.Borderless"

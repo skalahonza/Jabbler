@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity
 
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 //Notifications turned on
-                if (prefs.getBoolean("notifications", false)) {
+                if (prefs.getBoolean("notifications", true)) {
                     //Notify user
                     String ringtonePreference = prefs.getString("notificationSound", "DEFAULT_NOTIFICATION_URI ");
                     Uri ringtone = Uri.parse(ringtonePreference);
@@ -146,7 +146,10 @@ public class MainActivity extends AppCompatActivity
                         handler.post(() -> {
                             try {
                                 Friend contact = ApiHandler.getContact(chatMessage.getPartner_JID());
+                                if (contact != null)
                                 Toast.makeText(context, contact.getName() + ": " + message.getBody(), Toast.LENGTH_LONG).show();
+                                else
+                                    Toast.makeText(context, chatMessage.getPartner_JID() + ": " + message.getBody(), Toast.LENGTH_LONG).show();
                             } catch (SmackException.NotConnectedException | XMPPException.XMPPErrorException | SmackException.NotLoggedInException | SmackException.NoResponseException e) {
                                 Log.e(ApiHandler.class.getName(), "Error getting contact by JID.", e);
                             }
