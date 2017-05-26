@@ -24,6 +24,10 @@ public class ContactAdapter extends ArrayAdapter<Friend> {
         super(context, 0, contacts);
     }
 
+    public ContactAdapter(Context context) {
+        super(context, R.layout.item_contact);
+    }
+
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
