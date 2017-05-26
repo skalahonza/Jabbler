@@ -37,6 +37,14 @@ public class HistoryItemsAdapter extends ArrayAdapter<HistoryItem> {
         return this.historyItems.get(index);
     }
 
+    /**
+     * Build view for item
+     *
+     * @param position    Position of item
+     * @param convertView Default view
+     * @param parent      Parent ViewGroup
+     * @return Built view
+     */
     public View getView(int position, View convertView, ViewGroup parent) {
         HistoryItem chatMessageObj = getItem(position);
         return chatMessageObj.getView(this.getContext(), parent);

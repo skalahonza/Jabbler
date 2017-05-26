@@ -30,6 +30,12 @@ public class ContactAdapter extends ArrayAdapter<Friend> {
 
     @NonNull
     @Override
+    /** Build view for item
+     * @param position Position of item
+     * @param convertView Default view
+     * @param parent Parent ViewGroup
+     * @return Built view
+     */
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         Friend contact = getItem(position);
 

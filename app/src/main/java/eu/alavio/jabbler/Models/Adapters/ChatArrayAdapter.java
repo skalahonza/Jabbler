@@ -1,6 +1,7 @@
 package eu.alavio.jabbler.Models.Adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,10 +36,25 @@ public class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
         return this.chatMessageList.size();
     }
 
+    /**
+     * Get item from collection
+     *
+     * @param index Index of item
+     * @return Item at index
+     */
     public ChatMessage getItem(int index) {
         return this.chatMessageList.get(index);
     }
 
+    /**
+     * Build view for item
+     *
+     * @param position    Position of item
+     * @param convertView Default view
+     * @param parent      Parent ViewGroup
+     * @return Built view
+     */
+    @NonNull
     public View getView(int position, View convertView, ViewGroup parent) {
         ChatMessage chatMessageObj = getItem(position);
         View row;

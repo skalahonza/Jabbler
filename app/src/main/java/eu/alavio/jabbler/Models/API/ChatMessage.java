@@ -21,6 +21,12 @@ public class ChatMessage {
         timestamp = new Date();
     }
 
+    /**
+     * Build new message that was received by ChatManager
+     *
+     * @param message Message received by the manager
+     * @return New instance of ChatMessage, used in HistoryChatManager and ListViews
+     */
     public static ChatMessage ReceivedMessage(Message message) {
         String partner_JID = message.getFrom();
         //split redundant info
@@ -30,6 +36,11 @@ public class ChatMessage {
         return new ChatMessage(message, false, partner_JID);
     }
 
+    /**
+     * Build new message that is meant to be send by ChatManager from Message object
+     * @param message Message object used for building
+     * @return New instance of ChatMessage, used in HistoryChatManager and ListViews
+     */
     public static ChatMessage ToBeSendMessage(Message message) {
         String partner_JID = message.getTo();
         return new ChatMessage(message, true, partner_JID);
