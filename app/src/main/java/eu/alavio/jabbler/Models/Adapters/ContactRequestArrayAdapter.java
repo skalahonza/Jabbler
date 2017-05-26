@@ -34,6 +34,12 @@ public class ContactRequestArrayAdapter extends ArrayAdapter<ContactRequest> {
 
     @NonNull
     @Override
+    /** Build view for item
+     * @param position Position of item
+     * @param convertView Default view
+     * @param parent Parent ViewGroup
+     * @return Built view
+     */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ContactRequest contact = getItem(position);
 

@@ -73,6 +73,11 @@ public final class NavigationService {
         public abstract Class<? extends Activity> getActivityClass();
     }
 
+    /**
+     * Singleton control method
+     *
+     * @return Returns singleton isntance
+     */
     public static NavigationService getInstance() {
         return INSTANCE;
     }
@@ -138,7 +143,7 @@ public final class NavigationService {
      * Checks if the fragment is displayed on a given navigation view
      *
      * @param fragment        Fragment to be checked
-     * @param fragmentManager Provide current fragment manager, calling getFragmentManager()
+     * @param fragmentManager Provide current fragment manager, call getFragmentManager()
      * @param frameId         Navigation view id that will be observed
      * @return True fi the fragment is displayed
      */
@@ -147,12 +152,27 @@ public final class NavigationService {
         return f.getClass() == fragment.getClass();
     }
 
+    /**
+     * Navigates to known MainPage and displays it on a requested Frame
+     * @param page MainPage where to navigate
+     * @param saveInBackstack Pass true(recommended) if you want to save it in backstack
+     * @param fragmentManager Provide current fragment manager, call getFragmentManager()
+     * @param frameId Frame id to present the fragment on
+     * @return True if successful
+     */
     public boolean Navigate(MainPages page, boolean saveInBackstack, FragmentManager fragmentManager, int frameId) {
         //Select item in a menu
         mainNavigationView.getMenu().getItem(page.ordinal()).setChecked(true);
         return Navigate(page.getFragment(), saveInBackstack, fragmentManager, frameId);
     }
 
+    /**
+     * Navigates to known MainPage
+     * @param page MainPage where to navigate
+     * @param saveInBackstack Pass true(recommended) if you want to save it in backstack
+     * @param fragmentManager Provide current fragment manager, call getFragmentManager()
+     * @return True if successful
+     */
     public boolean Navigate(MainPages page, boolean saveInBackstack, FragmentManager fragmentManager) {
         return Navigate(page, saveInBackstack, fragmentManager, mainNavigationFrameId);
     }

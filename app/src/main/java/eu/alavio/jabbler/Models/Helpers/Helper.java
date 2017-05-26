@@ -23,18 +23,31 @@ public final class Helper {
             Pattern.compile("^[a-zA-Z0-9._-]{3,}$", Pattern.CASE_INSENSITIVE);
 
     /**
-     * Validates email using regex
-     * */
+     * Validates email using special regex
+     * @param emailStr Email to be validated
+     * @return True if email is valid
+     */
     public static boolean validateEmail(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
         return matcher.find();
     }
 
+    /**
+     * Validates username using special regex
+     *
+     * @param username Username to be validated
+     * @return True if valid
+     */
     public static boolean validateUsername(String username){
         Matcher matcher = VALID_USERNAME.matcher(username);
         return matcher.find();
     }
 
+    /**
+     * Checks if the network is available
+     * @param context Obtain by getActivity();
+     * @return True if the network is available
+     */
     private static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -42,6 +55,11 @@ public final class Helper {
         return activeNetworkInfo != null;
     }
 
+    /**
+     * Check if the app can connect to the internet
+     * @param context Obtain by getActivity();
+     * @return True if the internet is reachable
+     */
     public static boolean isInternetAccessible(Context context) {
         if (isNetworkAvailable(context)) {
             try {
